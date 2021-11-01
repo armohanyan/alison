@@ -30,7 +30,7 @@ class FacebookController extends Controller
         try {
 
             $user = Socialite::driver('facebook')
-                ->fields([ 'id', 'first_name', 'last_name', 'email'])->user();
+                ->fields([ 'social_id', 'first_name', 'last_name', 'email'])->user();
 
             $finduser = User::where('social_id', $user->id)->first();
 
@@ -46,7 +46,7 @@ class FacebookController extends Controller
                     'first_name' =>$user->offsetGet('first_name'),
                     'surname' =>$user->offsetGet('last_name'),
                     'email' =>$user->offsetGet('email'),
-                    'facebook_id'=> $user->offsetGet('id'),
+                    'facebook_id'=> $user->offsetGet('social_id'),
                     'password' => encrypt('my-facebook')
                 ]);
 
