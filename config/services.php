@@ -39,7 +39,7 @@ return [
     'facebook' => [
         'client_id' => '1203357340173808',
         'client_secret' => '666e226fcf5c47362ac29f19b71718b9',
-        'redirect' => 'http://127.0.0.1:8000/callback/facebook',
+        'redirect' => 'https://alison-app-main.herokuapp.com/callback/facebook',
     ],
 ];
 
