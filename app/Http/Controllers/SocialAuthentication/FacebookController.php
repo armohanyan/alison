@@ -31,7 +31,7 @@ class FacebookController extends Controller
 
             $user = Socialite::driver('facebook')
                 ->fields([ 'id', 'first_name', 'last_name', 'email'])->user();
-            dd($user);
+
             $finduser = User::where('social_id', $user->id)->first();
 
             if( $finduser ){
@@ -43,10 +43,10 @@ class FacebookController extends Controller
             }
             else{
                 $newUser = User::create([
-                    'name' => $user->name,
-
-                    'email' => $user->email,
-                    'facebook_id'=> $user->id,
+                    'first_name' =>$user->offsetGet('first_name'),
+                    'surname' =>$user->offsetGet('last_name'),
+                    'email' =>$user->offsetGet('email'),
+                    'facebook_id'=> $user->offsetGet('id'),
                     'password' => encrypt('my-facebook')
                 ]);
 
