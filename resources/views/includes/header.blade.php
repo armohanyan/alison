@@ -119,8 +119,8 @@
                                         <div class="input-field-password">
                                             <input type="password" name="password" class="password {{ $errors->has('password') ? 'is-invalid' : '' }}" id="password"  placeholder="Password" >
                                             <span class="password-visible-icon" >
-                                                <i class="fa fa-eye" aria-hidden="true"></i>
-                                                <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                                                <i class="fa fa-eye signUp-eye" aria-hidden="true"></i>
+                                                <i class="fa fa-eye-slash signUp-eye-slash" aria-hidden="true"></i>
                                             </span>
                                         </div>
                                         <span class="is-invalid error-message-password error-signUp"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></span>
@@ -194,8 +194,8 @@
                                         <div class="input-field-password">
                                          <input type="password" name="password" class="password" id="login-password" required  placeholder="Password" >
                                           <span class="password-visible-icon" >
-                                            <i class="fa fa-eye" aria-hidden="true"></i>
-                                            <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                                            <i class="fa fa-eye signIn-eye" aria-hidden="true"></i>
+                                            <i class="fa fa-eye-slash signIn-eye-slash" aria-hidden="true"></i>
                                           </span>
                                         </div>
                                              <span class="is-invalid error-message-login-password error-login"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></span>                                        <div class="login-form-bottom  margin-top">

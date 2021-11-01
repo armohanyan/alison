@@ -127,16 +127,28 @@ $(document).ready(function(){
     });
 
 
-    $('.fa-eye').on('click', function (e){
+    $('.signIn-eye').on('click', function (e){
         $(this).parent().prev().attr('type', 'text')
         $(this).css("display", 'none')
-        $('.fa-eye-slash').css('display', 'block')
+        $('.signIn-eye-slash').css('display', 'block')
     })
 
-    $('.fa-eye-slash').on('click', function () {
+    $('.signIn-eye-slash').on('click', function () {
         $(this).parent().prev().attr('type', 'password')
         $(this).css("display", 'none')
-        $('.fa-eye').css('display', 'block')
+        $('.signIn-eye').css('display', 'block')
+    })
+
+    $('.signUp-eye').on('click', function (e){
+        $(this).parent().prev().attr('type', 'text')
+        $(this).css("display", 'none')
+        $('.signUp-eye-slash').css('display', 'block')
+    })
+
+    $('.signUp-eye-slash').on('click', function () {
+        $(this).parent().prev().attr('type', 'password')
+        $(this).css("display", 'none')
+        $('.signUp-eye').css('display', 'block')
     })
 
     $('.modal-sign-in').on('click', function (e){
