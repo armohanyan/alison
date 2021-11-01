@@ -46,7 +46,7 @@ dd($user);
                     'first_name' =>$user->offsetGet('first_name'),
                     'surname' =>$user->offsetGet('last_name'),
                     'email' =>$user->offsetGet('email'),
-                    'facebook_id'=> $user->offsetGet('social_id'),
+                    'facebook_id'=> $user->id,
                     'password' => encrypt('my-facebook')
                 ]);
 
