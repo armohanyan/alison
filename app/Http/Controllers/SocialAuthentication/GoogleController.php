@@ -17,7 +17,6 @@ class GoogleController extends Controller
      */
     public function redirect()
     {
-        dd(1);
          return  Socialite::driver('google')->redirect();
     }
 
@@ -33,7 +32,7 @@ class GoogleController extends Controller
 
 
             $user = Socialite::driver('google')->user();
-            dd($user);
+
             $finduser = User::where('google_id', $user->id)->first();
 
             if( $finduser ){
