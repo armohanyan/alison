@@ -33,7 +33,7 @@ return [
     'google' => [
         'client_id' => '450986371291-gg0tn2ma941id9d9ud3duehcimjmuhis.apps.googleusercontent.com',
         'client_secret' => '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',
-        'redirect' => 'http://127.0.0.1:8001/callback/google',
+        'redirect' => 'https://alison-app-main.herokuapp.com/redirect/google',
     ],
 
     'facebook' => [

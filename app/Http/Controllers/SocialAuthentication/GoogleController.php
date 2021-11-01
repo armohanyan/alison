@@ -17,7 +17,7 @@ class GoogleController extends Controller
      */
     public function redirect()
     {
-
+        dd(1);
          return  Socialite::driver('google')->redirect();
     }
 
