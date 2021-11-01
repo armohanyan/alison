@@ -33,12 +33,12 @@ return [
     'google' => [
         'client_id' => '450986371291-gg0tn2ma941id9d9ud3duehcimjmuhis.apps.googleusercontent.com',
         'client_secret' => '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',
-        'redirect' => 'http://127.0.0.1:8000/callback/google',
+        'redirect' => 'http://127.0.0.1:8001/callback/google',
     ],
 
     'facebook' => [
-        'client_id' => '437523821142506',
-        'client_secret' => '60ab97d0eac809dce92f2adfca9ca597',
+        'client_id' => '1203357340173808',
+        'client_secret' => '666e226fcf5c47362ac29f19b71718b9',
         'redirect' => 'http://127.0.0.1:8000/callback/facebook',
     ],
 ];

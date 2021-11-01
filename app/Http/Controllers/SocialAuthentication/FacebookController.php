@@ -33,7 +33,7 @@ class FacebookController extends Controller
             dd($user);
             $finduser = User::where('social_id', $user->id)->first();
 
-            if($finduser){
+            if( $finduser ){
 
                 Auth::login($finduser);
 

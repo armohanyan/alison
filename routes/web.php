@@ -22,8 +22,9 @@ use App\Http\Controllers\SocialAuthentication\FacebookController;
     Route::post('/sign-in', [\App\Http\Controllers\Auth\AuthController::class, 'signIn']);
     Route::get('/sign-out', [\App\Http\Controllers\Auth\AuthController::class, 'signOut'])->name('signout');
 
-    Route::get('redirect/google', [GoogleController::class, 'redirect']);
-    Route::get('callback/google', [GoogleController::class, 'callback']);
+    Route::get('/redirect/', [GoogleController::class, 'redirect'])->name('redirect.google');
+
+    Route::get('/callback/google', [GoogleController::class, 'callback'])->name('callback.google');;
 
     Route::get('redirect/facebook', [FacebookController::class, 'redirectToFB']);
     Route::get('callback/facebook', [FacebookController::class, 'handleCallback']);

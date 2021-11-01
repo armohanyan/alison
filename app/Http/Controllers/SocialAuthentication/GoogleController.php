@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\SocialAuthentication;
-
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Exception;
@@ -17,7 +17,8 @@ class GoogleController extends Controller
      */
     public function redirect()
     {
-        return Socialite::driver('google')->redirect();
+
+         return  Socialite::driver('google')->redirect();
     }
 
     /**
@@ -25,17 +26,19 @@ class GoogleController extends Controller
      *
      * @return void
      */
+
     public function callback()
     {
         try {
-            $user = Socialite::driver('google')->user();
 
+
+            $user = Socialite::driver('google')->user();
+            dd($user);
             $finduser = User::where('google_id', $user->id)->first();
 
             if( $finduser ){
 
                 Auth::login( $finduser );
-
                 return redirect()->route('home');
 
             }
@@ -55,8 +58,7 @@ class GoogleController extends Controller
 
         }
         catch ( Exception $e ) {
-            dd($e) ;
-            dd($e->getMessage());
+                dd($e->getMessage());
         }
     }
 }

@@ -86,7 +86,7 @@
                                 </div>
                                 <div class="social-login">
                                     <img src="https://cdn01.alison-static.net/public/html/site/img/login/google.svg" alt="">
-                                    <a href="{{ url('/redirect/google') }}">Countinue with Google</a>
+                                    <a href="{{ route('redirect.google') }}">Countinue with Google</a>
                                 </div>
                                 <div class="social-login">
                                     <img src="https://cdn01.alison-static.net/public/html/site/img/login/microsoft.svg" alt="">
@@ -167,7 +167,7 @@
                                 </div>
                                 <div class="social-login">
                                     <img src="https://cdn01.alison-static.net/public/html/site/img/login/google.svg" alt="">
-                                    <a href="{{ url('/redirect') }}">Countinue with Google</a>
+                                    <a href="{{ url('redirect/google') }}">Countinue with Google</a>
                                 </div>
                                 <div class="social-login">
                                     <img src="https://cdn01.alison-static.net/public/html/site/img/login/microsoft.svg" alt="">
