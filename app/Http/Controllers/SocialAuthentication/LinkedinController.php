@@ -23,7 +23,7 @@ class LinkedinController extends Controller
         try{
 
             $user = Socialite::driver('linkedin')->user();
-            dd($user->user['firstName'][0][0]);
+            dd($user->user['firstName']);
             $existUser = User::where('linkedin_id', $user->id)->first();
 
             if ( $existUser ) {
