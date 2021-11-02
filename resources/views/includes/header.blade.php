@@ -94,7 +94,7 @@
                                 </div>
                                 <div class="social-login">
                                     <img src="https://cdn01.alison-static.net/public/html/site/img/login/linkedin.svg" alt="">
-                                    <a href="">Countinue with Linkedin</a>
+                                    <a href="{{ route('redirect.linkedin') }}">Countinue with Linkedin</a>
                                 </div>
                             </div>
                             <div class="login-center-line"><span>or</span></div>
@@ -163,11 +163,11 @@
                             <div class="login-withSocial">
                                 <div class="social-login">
                                     <img src="https://cdn01.alison-static.net/public/html/site/img/login/facebook.svg" alt="">
-                                    <a href="{{ url('/redirect/facebook') }}">Countinue with Facebook</a>
+                                    <a href="{{ route('redirect.facebook') }}">Countinue with Facebook</a>
                                 </div>
                                 <div class="social-login">
                                     <img src="https://cdn01.alison-static.net/public/html/site/img/login/google.svg" alt="">
-                                    <a href="{{ url('redirect/google') }}">Countinue with Google</a>
+                                    <a href="{{ route('redirect.google') }}">Countinue with Google</a>
                                 </div>
                                 <div class="social-login">
                                     <img src="https://cdn01.alison-static.net/public/html/site/img/login/microsoft.svg" alt="">
@@ -175,7 +175,7 @@
                                 </div>
                                 <div class="social-login">
                                     <img src="https://cdn01.alison-static.net/public/html/site/img/login/linkedin.svg" alt="">
-                                    <a href="">Countinue with Linkedin</a>
+                                    <a href="{{ route('redirect.linkedin') }}">Countinue with Linkedin</a>
                                     </div>
                                     <div class="social-login">
                                     <img src="https://cdn01.alison-static.net/public/html/site/img/login/yahoo.svg" alt="">

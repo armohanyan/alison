@@ -41,5 +41,11 @@ return [
         'client_secret' => '666e226fcf5c47362ac29f19b71718b9',
         'redirect' => 'https://alison-app-main.herokuapp.com/callback/facebook',
     ],
+
+    'linkedin' => [
+        'client_id' => '77q9k92xpgmu64',
+        'client_secret' => 'J7xgpyX09Z53qotj',
+        'redirect' => 'https://alison-app-main.herokuapp.com/callback/linkedin'
+    ],
 ];
 
