@@ -48,7 +48,7 @@ class LinkedinController extends Controller
         }
 
         catch ( Exception $e ){
-                return 'error' ;
+                return   dd($e->getMessage());
         }
 
     }
