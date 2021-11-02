@@ -22,7 +22,8 @@ class LinkedinController extends Controller
 
         try{
 
-            $user = Socialite::driver('linkedin')->user();
+            $user = Socialite::driver('linkedin')->user();.
+            $user->user['firstName'];
             $existUser = User::where('linkedin_id', $user->id)->first();
 
             if ( $existUser ) {
@@ -32,14 +33,13 @@ class LinkedinController extends Controller
             }
 
             else{
-                dd(1);
-                User::create([
+//                dd(1);
+                $user = User::create([
+                    'name' => $user->name,
+                    'email' => $user->email,
                     'linkedin_id' => $user->id,
-                    'first_name' => $user->user['firstName'],
-                    'surname' => $user->user['lastName'],
-                    'email' => $user->email ,
-                    'password' => encrypt('123456dummy')
-                ]) ;
+                    'password' => encrypt('admin12345')
+                ]);
 
                 Auth::login( $user );
             }
