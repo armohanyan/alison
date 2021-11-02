@@ -31,7 +31,7 @@ class FacebookController extends Controller
 
             $user = Socialite::driver('facebook')
                 ->fields([ 'first_name', 'last_name', 'email'])->user();
-            $finduser = User::where('id', $user->id)->first();
+            $finduser = User::where('facebook_id', $user->id)->first();
 
             if( $finduser ){
 
