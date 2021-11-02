@@ -32,7 +32,7 @@ class LinkedinController extends Controller
             }
 
             else{
-
+                dd(1);
                 User::create([
                     'linkedin_id' => $user->id,
                     'first_name' => $user->user['firstName'],
