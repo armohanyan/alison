@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SocialAuthentication\GoogleController;
 use App\Http\Controllers\SocialAuthentication\FacebookController;
 use App\Http\Controllers\SocialAuthentication\LinkedinController;
-
+use App\Http\Controllers\Course\CategoryController;
+use App\Http\Controllers\HomeController ;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,6 +20,7 @@ use App\Http\Controllers\SocialAuthentication\LinkedinController;
 
     Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home') ;
     Route::get('/user/profile', 'App\Http\Controllers\Profile\ProfileController@index')->name('profile') ;
+
     Route::post('/sign-up', [\App\Http\Controllers\Auth\AuthController::class, 'signUp']);
     Route::post('/sign-in', [\App\Http\Controllers\Auth\AuthController::class, 'signIn']);
     Route::get('/sign-out', [\App\Http\Controllers\Auth\AuthController::class, 'signOut'])->name('signout');
@@ -28,8 +30,11 @@ use App\Http\Controllers\SocialAuthentication\LinkedinController;
     Route::get('/redirect/google', [GoogleController::class, 'redirect'])->name('redirect.google');
     Route::get('/callback/google', [GoogleController::class, 'callback'])->name('callback.google');;
 
-    Route::get('redirect/facebook', [FacebookController::class, 'redirectToFB'])->name('redirect.facebook');
-    Route::get('callback/facebook', [FacebookController::class, 'handleCallback'])->name('callback.facebook');;
+    Route::get('redirect/facebook', [FacebookController::class, 'redirect'])->name('redirect.facebook');
+    Route::get('callback/facebook', [FacebookController::class, 'callback'])->name('callback.facebook');;
 
     Route::get('/redirect/linkedin', [LinkedinController::class, 'redirect'])->name('redirect.linkedin');
     Route::get('/callback/linkedin', [LinkedinController::class, 'callback'])->name('callback.linkedin');
+
+
+

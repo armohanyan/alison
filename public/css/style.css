@@ -165,7 +165,7 @@ body{
 /* Sub Menu */
 
 .category-list{
-    height: 130px;
+    height: 250px;
     position: absolute;
     display: none;
     width: 100%;
@@ -191,13 +191,16 @@ body{
 
 
 .ul-category-list, .ul-course-type{
+    max-width: 95%;
     justify-content: center;
     list-style-type: disc;
     display: flex;
+    flex-wrap:wrap;
 }
 
 .ul-category-list > li{
     margin-left:15px ;
+    max-width: 15%;
 }
 
 .ul-category-list > li :hover {

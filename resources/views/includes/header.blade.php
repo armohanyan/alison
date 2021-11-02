@@ -221,27 +221,13 @@
     <div class="category-list">
     <div class="color-change">
     <ul class="ul-category-list">
+        @foreach($categories as $category)
         <li>
             <a class="sm-link" href=""><i class="fa fa-desktop" aria-hidden="true"></i> <br>
-                <span class="category-name">IT</span>
+                <span class="category-name">{{ $category->name }}</span>
             </a>
         </li>
-        <li >
-            <a class="sm-link" href=""><i class="fa fa-medkit" aria-hidden="true"></i><br>
-                <span class="category-name">Health</span>
-            </a>
-        </li>
-        <li >
-            <a class="sm-link" href=""><i class="fa fa-language" aria-hidden="true"></i><br>
-                <span class="category-name">Language</span>
-            </a>
-        </li>
-        <li >
-            <a class="sm-link" href=""><i class="fa fa-briefcase" aria-hidden="true"></i><br>
-                <span class="category-name">Bussines</span>
-            </a>
-        </li>
-        <li >
+        @endforeach
             <a class="sm-link" href=""><i class="fa fa-bars" aria-hidden="true"></i> <br>
                 <span class="category-name">All Category</span>
             </a>
@@ -253,16 +239,13 @@
 <div class="course-type">
     <div class="color-change">
         <ul class="ul-course-type">
+            @foreach($course_types as $course_type)
             <li >
                 <a class="sm-link" href=""><i class="fa fa-desktop" aria-hidden="true"></i> <br>
-                    <span class="category-name">Certicate Courses</span>
+                    <span class="category-name">{{ $course_type->name }}</span>
                 </a>
             </li>
-            <li>
-                <a class="sm-link" href=""><i class="fa fa-bookmark" aria-hidden="true"></i> <br>
-                    <span class="category-name">Diploma Courses</span>
-                </a>
-            </li>
+            @endforeach
         </ul>
     </div>
 </div>

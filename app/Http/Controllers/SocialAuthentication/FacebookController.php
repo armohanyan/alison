@@ -15,7 +15,7 @@ class FacebookController extends Controller
      *
      * @return void
      */
-    public function redirectToFB()
+    public function redirect()
     {
         return Socialite::driver('facebook')->redirect();
     }
@@ -25,7 +25,7 @@ class FacebookController extends Controller
      *
      * @return void
      */
-    public function handleCallback()
+    public function callback()
     {
         try {
 

@@ -32,7 +32,7 @@ class LinkedinController extends Controller
             }
 
             else{
-//                dd(1);
+
                 $user = User::create([
                     'first_name' => $user->user['firstName']['localized']['en_US'],
                     'surname' => $user->user['lastName']['localized']['en_US'],
@@ -49,7 +49,7 @@ class LinkedinController extends Controller
         }
 
         catch ( Exception $e ){
-                return   dd($e->getMessage());
+            return  dd($e->getMessage());
         }
 
     }

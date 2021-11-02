@@ -1,7 +1,6 @@
 @extends('layout.main')
 
 @section('content')
-{{--    {{ dd(Auth::user())  }}--}}
    <section>
     <div class="general֊block">
         <div class="row-column-wrapper">
@@ -30,86 +29,17 @@
             </div>
             <div class="section-right-column">
                 <div class="row-column-category-list">
-                    <div class="section-category-item">
-                        <a href="">
-                            <div class="front">
-                                <span class=""><i class="fa fa-desktop" aria-hidden="true"></i> </span>
-                                <p class="">IT</p>
-                                <div class=""></div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="section-category-item">
-                        <a href="">
-                            <div class="front">
-                                <span class=""><i class="fa fa-medkit" aria-hidden="true"></i></span>
-                                <p class="">Health</p>
-                                <div class=""></div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="section-category-item">
-                        <a href="">
-                            <div class="front">
-                                <span class=""><i class="fa fa-language" aria-hidden="true"></i></span>
-                                <p class="">Language</p>
-                                <div class=""></div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="section-category-item">
-                        <a href="">
-                            <div class="front">
-                                <span class=""><i class="fa fa-briefcase" aria-hidden="true"> </i></span>
-                                <p class="">Bussines</p>
-                                <div class=""></div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="section-category-item">
-                        <a href="">
-                            <div class="front">
-                                <span class=""><i class="fa fa-desktop" aria-hidden="true"></i> </span>
-                                <p class="">IT</p>
-                                <div class=""></div>
-                            </div>
-                        </a>
-                    </div>  <div class="section-category-item">
-                        <a href="">
-                            <div class="front">
-                                <span class=""><i class="fa fa-medkit" aria-hidden="true"></i></span>
-                                <p class="">Health</p>
-                                <div class=""></div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="section-category-item">
-                        <a href="">
-                            <div class="front">
-                                <span class=""><i class="fa fa-language" aria-hidden="true"></i></span>
-                                <p class="">Language</p>
-                                <div class=""></div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="section-category-item">
-                        <a href="">
-                            <div class="front">
-                                <span class=""><i class="fa fa-briefcase" aria-hidden="true"> </i></span>
-                                <p class="">Bussines</p>
-                                <div class=""></div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="section-category-item">
-                        <a href="">
-                            <div class="front">
-                                <span class=""><i class="fa fa-language" aria-hidden="true"></i></span>
-                                <p class="">Language</p>
-                                <div class=""></div>
-                            </div>
-                        </a>
-                    </div>
+                    @foreach($categories as $category)
+                        <div class="section-category-item">
+                            <a href="">
+                                <div class="front">
+                                    <span class=""><i class="fa fa-desktop" aria-hidden="true"></i> </span>
+                                    <p class="">{{ $category->name }}</p>
+                                    <div class=""></div>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
