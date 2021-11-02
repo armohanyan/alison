@@ -31,5 +31,5 @@ use App\Http\Controllers\SocialAuthentication\LinkedinController;
     Route::get('redirect/facebook', [FacebookController::class, 'redirectToFB'])->name('redirect.facebook');
     Route::get('callback/facebook', [FacebookController::class, 'handleCallback'])->name('callback.facebook');;
 
-    Route::get('redirect/linkedin', [LinkedinController::class, 'redirect'])->name('redirect.linkedin');
-    Route::get('callback/linkedin', [LinkedinController::class, 'callback'])->name('callback.linkedin');
+    Route::get('/redirect/linkedin', [LinkedinController::class, 'redirect'])->name('redirect.linkedin');
+    Route::get('/callback/linkedin', [LinkedinController::class, 'callback'])->name('callback.linkedin');
