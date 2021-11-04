@@ -2,24 +2,19 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
-
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CategoryFactory extends Factory
+class CourseTypeFactory extends Factory
 {
     /**
      * Define the model's default state.
      *
      * @return array
      */
-
-    protected $model = Category::class;
-
     public function definition()
     {
         return [
-            'name' => $this->faker->text(10),
+            'name' => $this->faker->name(),
             'title' => $this->faker->title(),
             'description' => $this->faker->text(35),
         ];

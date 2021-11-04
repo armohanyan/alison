@@ -453,9 +453,10 @@ section {
 
 .course-block{
     position: relative;
-    height: 380px;
+    height: auto;
     margin: 25px 15px 0  0;
     max-width: 18%;
+    padding-bottom: 15px;
     background-color: #fff;
     min-height: 300px;
     width: 100%;
@@ -465,8 +466,8 @@ section {
 }
 
 .cl-image img{
-    max-width: 100%;
-    height: auto;
+    width: 100%;
+    height: 170px;
 }
 
 
@@ -492,6 +493,7 @@ section {
     background-color: deeppink;
 }
 .course-type-title{
+    color:#000;
     line-height: 18px;
     display: block;
 }
@@ -578,6 +580,10 @@ section {
 
 .div-course-title{
     padding-top: 10px;
+}
+
+.more-info{
+    padding-top: 50px;
 }
 
 .more-info a {

@@ -25,8 +25,6 @@ use App\Http\Controllers\HomeController ;
     Route::post('/sign-in', [\App\Http\Controllers\Auth\AuthController::class, 'signIn']);
     Route::get('/sign-out', [\App\Http\Controllers\Auth\AuthController::class, 'signOut'])->name('signout');
 
-
-
     Route::get('/redirect/google', [GoogleController::class, 'redirect'])->name('redirect.google');
     Route::get('/callback/google', [GoogleController::class, 'callback'])->name('callback.google');;
 
@@ -36,5 +34,6 @@ use App\Http\Controllers\HomeController ;
     Route::get('/redirect/linkedin', [LinkedinController::class, 'redirect'])->name('redirect.linkedin');
     Route::get('/callback/linkedin', [LinkedinController::class, 'callback'])->name('callback.linkedin');
 
+    Auth::routes();
 
-
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

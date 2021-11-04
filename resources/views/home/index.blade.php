@@ -56,314 +56,53 @@
         </div>
         <div class="main-cours-list">
             <div class="cours-list-row">
-                <div class="course-block">
-                    <div class="cl-image">
-                        <img src="https://cdn01.alison-static.net/courses/2006/alison_courseware_intro_2006.jpg" alt="">
-                    </div>
-                    <div class="course-block-content">
-                        <span class="block-content-type">Diploma</span>
-                        <span class="block-content-category">Bussines</span>
-                        <h3 class="course-type-title">
-                            <div title="title-inner-div">
-                                <span>Certified Associate in Project Management (CAPM)® Exam Prep</span>
+                @foreach($courses as $course)
+                    <a href="google.com" title="{{ $course->title }}">
+                        <div class="course-block">
+                            <div class="cl-image">
+                                <img src="{{ asset('images/'.$course->img) }}" alt="">
                             </div>
-                        </h3>
-                    </div>
-                    <div class="course-block-intro">
-                        <div class="social-links">
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/linkedin.png"/></a>
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/facebook-new.png"/></a>
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/twitter--v2.png"/></a>
-                        </div>
-                        <div class="div-course-title">
-                            <span class="course-title" > Food Safety and Hygiene in the Catering Industry</span>
-                        </div>
-                        <div class="publisher">
-                            <span> <i class="fa fa-university" aria-hidden="true"></i> New York</span>
-                        </div>
-                        <div class="course-intro">
-                            Learn about proper food preparation, storage, and hygiene practices with this food safety training course.
-                        </div>
-                        <div class="more-info">
-                            <a href=""class="" >More Information <i class="fa fa-question-circle" aria-hidden="true"></i> </a>
-                        </div>
-                    </div>
-                    <div class="parent-div-startnow">
-                        <div class="child-div-startnow">
-                            <a title="" class="btn-start-now ">Start Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="course-block">
-                    <div class="cl-image">
-                        <img src="https://cdn01.alison-static.net/courses/2006/alison_courseware_intro_2006.jpg" alt="">
-                    </div>
-                    <div class="course-block-content">
-                        <span class="block-content-type">Diploma</span>
-                        <span class="block-content-category">Bussines</span>
-                        <h3 class="course-type-title">
-                            <div title="title-inner-div">
-                                <span>Certified Associate in Project Management (CAPM)® Exam Prep</span>
+                            <div class="course-block-content">
+                                <span class="block-content-type">{{  $course->category->name }}</span>
+                                <span class="block-content-category">{{  $course->courseType->name }}</span>
+                                <h3 class="course-type-title">
+                                    <div title="title-inner-div">
+                                        <span>{{ $course->title }}</span>
+                                    </div>
+                                </h3>
                             </div>
-                        </h3>
-                    </div>
-                    <div class="course-block-intro">
-                        <div class="social-links">
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/linkedin.png"/></a>
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/facebook-new.png"/></a>
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/twitter--v2.png"/></a>
-                        </div>
-                        <div class="div-course-title">
-                            <span class="course-title" > Food Safety and Hygiene in the Catering Industry</span>
-                        </div>
-                        <div class="publisher">
-                            <span> <i class="fa fa-university" aria-hidden="true"></i> New York</span>
-                        </div>
-                        <div class="course-intro">
-                            Learn about proper food preparation, storage, and hygiene practices with this food safety training course.
-                        </div>
-                        <div class="more-info">
-                            <a href=""class="" >More Information <i class="fa fa-question-circle" aria-hidden="true"></i> </a>
-                        </div>
-                    </div>
-                    <div class="parent-div-startnow">
-                        <div class="child-div-startnow">
-                            <a title="" class="btn-start-now ">Start Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="course-block">
-                    <div class="cl-image">
-                        <img src="https://cdn01.alison-static.net/courses/2006/alison_courseware_intro_2006.jpg" alt="">
-                    </div>
-                    <div class="course-block-content">
-                        <span class="block-content-type">Diploma</span>
-                        <span class="block-content-category">Bussines</span>
-                        <h3 class="course-type-title">
-                            <div title="title-inner-div">
-                                <span>Certified Associate in Project Management (CAPM)® Exam Prep</span>
+
+                            <div class="course-block-intro">
+                                <div class="social-links">
+                                    <a href=""><img src="https://img.icons8.com/color/48/000000/linkedin.png"/></a>
+                                    <a href=""><img src="https://img.icons8.com/color/48/000000/facebook-new.png"/></a>
+                                    <a href=""><img src="https://img.icons8.com/color/48/000000/twitter--v2.png"/></a>
+                                </div>
+                                <div class="div-course-title">
+                                    <span class="course-title" > {{ $course->title }}</span>
+                                </div>
+                                <div class="publisher">
+                                    <span><i class="fa fa-university" aria-hidden="true"></i>{{ $course->publisher }}</span>
+                                </div>
+                                <div class="course-intro">
+                                    <span>{{ $course->description  }}</span>
+                                </div>
+                                <div class="more-info">
+                                    <a href=""class="" >More Information <i class="fa fa-question-circle" aria-hidden="true"></i> </a>
+                                </div>
                             </div>
-                        </h3>
-                    </div>
-                    <div class="course-block-intro">
-                        <div class="social-links">
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/linkedin.png"/></a>
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/facebook-new.png"/></a>
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/twitter--v2.png"/></a>
-                        </div>
-                        <div class="div-course-title">
-                            <span class="course-title" > Food Safety and Hygiene in the Catering Industry</span>
-                        </div>
-                        <div class="publisher">
-                            <span> <i class="fa fa-university" aria-hidden="true"></i> New York</span>
-                        </div>
-                        <div class="course-intro">
-                            Learn about proper food preparation, storage, and hygiene practices with this food safety training course.
-                        </div>
-                        <div class="more-info">
-                            <a href=""class="" >More Information <i class="fa fa-question-circle" aria-hidden="true"></i> </a>
-                        </div>
-                    </div>
-                    <div class="parent-div-startnow">
-                        <div class="child-div-startnow">
-                            <a title="" class="btn-start-now ">Start Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="course-block">
-                    <div class="cl-image">
-                        <img src="https://cdn01.alison-static.net/courses/2006/alison_courseware_intro_2006.jpg" alt="">
-                    </div>
-                    <div class="course-block-content">
-                        <span class="block-content-type">Diploma</span>
-                        <span class="block-content-category">Bussines</span>
-                        <h3 class="course-type-title">
-                            <div title="title-inner-div">
-                                <span>Certified Associate in Project Management (CAPM)® Exam Prep</span>
+                            <div class="parent-div-startnow">
+                                <div class="child-div-startnow">
+                                    <a title="" class="btn-start-now ">Start Now</a>
+                                </div>
                             </div>
-                        </h3>
-                    </div>
-                    <div class="course-block-intro">
-                        <div class="social-links">
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/linkedin.png"/></a>
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/facebook-new.png"/></a>
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/twitter--v2.png"/></a>
                         </div>
-                        <div class="div-course-title">
-                            <span class="course-title" > Food Safety and Hygiene in the Catering Industry</span>
-                        </div>
-                        <div class="publisher">
-                            <span> <i class="fa fa-university" aria-hidden="true"></i> New York</span>
-                        </div>
-                        <div class="course-intro">
-                            Learn about proper food preparation, storage, and hygiene practices with this food safety training course.
-                        </div>
-                        <div class="more-info">
-                            <a href=""class="" >More Information <i class="fa fa-question-circle" aria-hidden="true"></i> </a>
-                        </div>
-                    </div>
-                    <div class="parent-div-startnow">
-                        <div class="child-div-startnow">
-                            <a title="" class="btn-start-now ">Start Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="course-block">
-                    <div class="cl-image">
-                        <img src="https://cdn01.alison-static.net/courses/2006/alison_courseware_intro_2006.jpg" alt="">
-                    </div>
-                    <div class="course-block-content">
-                        <span class="block-content-type">Diploma</span>
-                        <span class="block-content-category">Bussines</span>
-                        <h3 class="course-type-title">
-                            <div title="title-inner-div">
-                                <span>Certified Associate in Project Management (CAPM)® Exam Prep</span>
-                            </div>
-                        </h3>
-                    </div>
-                    <div class="course-block-intro">
-                        <div class="social-links">
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/linkedin.png"/></a>
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/facebook-new.png"/></a>
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/twitter--v2.png"/></a>
-                        </div>
-                        <div class="div-course-title">
-                            <span class="course-title" > Food Safety and Hygiene in the Catering Industry</span>
-                        </div>
-                        <div class="publisher">
-                            <span> <i class="fa fa-university" aria-hidden="true"></i> New York</span>
-                        </div>
-                        <div class="course-intro">
-                            Learn about proper food preparation, storage, and hygiene practices with this food safety training course.
-                        </div>
-                        <div class="more-info">
-                            <a href=""class="" >More Information <i class="fa fa-question-circle" aria-hidden="true"></i> </a>
-                        </div>
-                    </div>
-                    <div class="parent-div-startnow">
-                        <div class="child-div-startnow">
-                            <a title="" class="btn-start-now ">Start Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="course-block">
-                    <div class="cl-image">
-                        <img src="https://cdn01.alison-static.net/courses/2006/alison_courseware_intro_2006.jpg" alt="">
-                    </div>
-                    <div class="course-block-content">
-                        <span class="block-content-type">Diploma</span>
-                        <span class="block-content-category">Bussines</span>
-                        <h3 class="course-type-title">
-                            <div title="title-inner-div">
-                                <span>Certified Associate in Project Management (CAPM)® Exam Prep</span>
-                            </div>
-                        </h3>
-                    </div>
-                    <div class="course-block-intro">
-                        <div class="social-links">
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/linkedin.png"/></a>
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/facebook-new.png"/></a>
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/twitter--v2.png"/></a>
-                        </div>
-                        <div class="div-course-title">
-                            <span class="course-title" > Food Safety and Hygiene in the Catering Industry</span>
-                        </div>
-                        <div class="publisher">
-                            <span> <i class="fa fa-university" aria-hidden="true"></i> New York</span>
-                        </div>
-                        <div class="course-intro">
-                            Learn about proper food preparation, storage, and hygiene practices with this food safety training course.
-                        </div>
-                        <div class="more-info">
-                            <a href=""class="" >More Information <i class="fa fa-question-circle" aria-hidden="true"></i> </a>
-                        </div>
-                    </div>
-                    <div class="parent-div-startnow">
-                        <div class="child-div-startnow">
-                            <a title="" class="btn-start-now ">Start Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="course-block">
-                    <div class="cl-image">
-                        <img src="https://cdn01.alison-static.net/courses/2006/alison_courseware_intro_2006.jpg" alt="">
-                    </div>
-                    <div class="course-block-content">
-                        <span class="block-content-type">Diploma</span>
-                        <span class="block-content-category">Bussines</span>
-                        <h3 class="course-type-title">
-                            <div title="title-inner-div">
-                                <span>Certified Associate in Project Management (CAPM)® Exam Prep</span>
-                            </div>
-                        </h3>
-                    </div>
-                    <div class="course-block-intro">
-                        <div class="social-links">
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/linkedin.png"/></a>
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/facebook-new.png"/></a>
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/twitter--v2.png"/></a>
-                        </div>
-                        <div class="div-course-title">
-                            <span class="course-title" > Food Safety and Hygiene in the Catering Industry</span>
-                        </div>
-                        <div class="publisher">
-                            <span> <i class="fa fa-university" aria-hidden="true"></i> New York</span>
-                        </div>
-                        <div class="course-intro">
-                            Learn about proper food preparation, storage, and hygiene practices with this food safety training course.
-                        </div>
-                        <div class="more-info">
-                            <a href=""class="" >More Information <i class="fa fa-question-circle" aria-hidden="true"></i> </a>
-                        </div>
-                    </div>
-                    <div class="parent-div-startnow">
-                        <div class="child-div-startnow">
-                            <a title="" class="btn-start-now ">Start Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="course-block">
-                    <div class="cl-image">
-                        <img src="https://cdn01.alison-static.net/courses/2006/alison_courseware_intro_2006.jpg" alt="">
-                    </div>
-                    <div class="course-block-content">
-                        <span class="block-content-type">Diploma</span>
-                        <span class="block-content-category">Bussines</span>
-                        <h3 class="course-type-title">
-                            <div title="title-inner-div">
-                                <span>Certified Associate in Project Management (CAPM)® Exam Prep</span>
-                            </div>
-                        </h3>
-                    </div>
-                    <div class="course-block-intro">
-                        <div class="social-links">
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/linkedin.png"/></a>
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/facebook-new.png"/></a>
-                            <a href=""><img src="https://img.icons8.com/color/48/000000/twitter--v2.png"/></a>
-                        </div>
-                        <div class="div-course-title">
-                            <span class="course-title" > Food Safety and Hygiene in the Catering Industry</span>
-                        </div>
-                        <div class="publisher">
-                            <span> <i class="fa fa-university" aria-hidden="true"></i> New York</span>
-                        </div>
-                        <div class="course-intro">
-                            Learn about proper food preparation, storage, and hygiene practices with this food safety training course.
-                        </div>
-                        <div class="more-info">
-                            <a href=""class="" >More Information <i class="fa fa-question-circle" aria-hidden="true"></i> </a>
-                        </div>
-                    </div>
-                    <div class="parent-div-startnow">
-                        <div class="child-div-startnow">
-                            <a title="" class="btn-start-now ">Start Now</a>
-                        </div>
-                    </div>
-                </div>
+                    </a>
+                @endforeach
             </div>
             <div class="btn-more-courses">
-                <a href=""  class="more-courses-link" title="More Courses">More Courses</a>
-            </div>
+                    <a href=""  class="more-courses-link" title="More Courses">More Courses</a>
+                </div>
         </div>
     </div>
 

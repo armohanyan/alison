@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Catagory;
+use App\Models\Category;
 use App\Models\Course;
 use App\Models\CourseType;
 
@@ -12,7 +12,7 @@ class HomeController extends Controller
 {
     public function index(){
 
-        $categories = Catagory::limit(9)->get();
+        $categories = Category::limit(9)->get();
         $courses = Course::all();
         $courses_types = CourseType::all();
 
