@@ -22,28 +22,27 @@
                 <div class="login-center-line"><span>or</span></div>
                 <div class="parent-login-form">
                     <div class="login-form-inner">
-                        <span class="is-invalid error-message-login-invalid error-login"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></span>
                         <div class="login-form">
                             <div class="input-field-email">
-                                <input type="text" name="email" class="email" id="login-email" required  autocomplete="off" placeholder="Email adress">
-                                <span class="is-invalid error-message-login-email error-login"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></span>
+                                <input v-model="userData.email" type="text" name="email" class="email" id="login-email" required  autocomplete="off" placeholder="Email adress">
+                                <span v-if="hasError.email" class="is-invalid error-message-login-email error-login"><i class="fa fa-exclamation-circle" aria-hidden="true">{{ errorTexts.email }}</i></span>
                             </div>
                             <div class="input-field-password">
-                                <input type="password" name="password" class="password" id="login-password" required  placeholder="Password" >
+                                <input v-model="userData.password" type="password" name="password" class="password" id="login-password" required  placeholder="Password" >
                                 <span class="password-visible-icon" >
                                     <i class="fa fa-eye signIn-eye" aria-hidden="true"></i>
                                     <i class="fa fa-eye-slash signIn-eye-slash" aria-hidden="true"></i>
                                 </span>
                             </div>
-                            <span class="is-invalid error-message-login-password error-login"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></span>
+                            <span v-if="hasError.password" class="is-invalid error-message-login-password error-login"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>{{ errorTexts.password }}</span>
                             <div class="login-form-bottom  margin-top">
                                 <p>
                                     <input type="checkbox" checked name="remember" id="remember">
                                     <label for="remember" class="label-remember" > <span> Keep me logged in </span> <a href=""  class="forgot-password" >Forgot Password</a></label>
                                 </p>
                                 <div class="btn-sign-in">
-                                    <button  @click="logInSubmit" class="btn-submit" id="signInSubmit">Log in</button>
-                                </div>
+                                    <button  @click="signInSubmit()" class="btn-submit" id="signInSubmit">Log in</button>
+                                    </div>
                                 <p class="login-account">Don't have an Alison account? <a href="" > Sign Up</a>  </p>
                             </div>
                         </div>
@@ -55,12 +54,48 @@
 </template>
 
 <script>
+import SocialiteComponent from "./SocialiteComponent";
+
 export default {
-        name:'SignUpComponent',
-        methods : {
-           logInSubmit:function(){
-                console.log(1)
-            }
-    }
+    components: { SocialiteComponent },
+    data() {
+        return {
+            userData: {
+                email : '',
+                password : '',
+            },
+            hasError: {
+                email : false,
+                password : false,
+            },
+            errorTexts : {}
+        }
+    },
+    methods : {
+
+        signInSubmit() {
+            var self = this;
+            $.each ((self.hasError), (key, value ) =>{
+                self.hasError[key] = false
+            })
+            this.axios
+                .post('/sign-in', this.userData)
+                .then(function (response){
+                    if ( response.data.success ){
+                        location.reload();
+                    }
+                    else{
+                        $.each(response.data.errors, (error, msg) => {
+                            self.errorTexts[error] = msg.join() ;
+                            self.hasError[error] =  true;
+                        })
+                    }
+                })
+                .catch(err => {
+                    console.log('error')
+                })
+                .finally(() => this.loading = false)
+        }
+    },
 }
 </script>

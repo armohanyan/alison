@@ -1,10 +1,10 @@
 <template>
-    <div class="custom-model-main">
+    <div v-if="hideModal" class="custom-model-main">
         <div class="custom-model-inner">
             <div class="close-btn">×</div>
             <div class="custom-model-wrap">
 <!--------------------------LogIn Component here------------------------>
-                            <login-component/>
+                            <login-component @registeredUser="getData($event)"/>
 <!----------------------------------------------------------------------->
 <!--------------------------SignUp Component here------------------------>
                             <sign-up-component/>
@@ -14,23 +14,30 @@
         <div class="bg-overlay"></div>
     </div>
 </template>
-
-
-// Here is started JS
-
 <script>
+
 import LoginComponent from "./LoginComponent";
 import SignUpComponent from "./SignUpComponent";
 
 export default {
     name:'ModalComponent',
-    components: {SignUpComponent, LoginComponent},
-
+    components: { SignUpComponent, LoginComponent },
+    data (){
+        return{
+            'hideModal' : true ,
+        }
+    },
+    methods: {
+        getData(data) {
+            this.hideModal = data;
+        }
+    },
+    mounted() {
+        console.log(this.hideModal)
+    }
 }
+
 </script>
-
-// Here is started CSS
-
 <style>
 .custom-model-main {
     display: none;
@@ -329,6 +336,10 @@ export default {
     padding: 0 38px 40px;
 }
 
+.parent-login-form{
+    width: 50%;
+}
+
 .parent-login-form p{
     color: #868d92;
     font-size: 13px;
@@ -523,7 +534,6 @@ export default {
     font-size: 11px;
     font-weight: 100;
     color: red;
-    /*border-bottom: solid red !important;*/
 }
 
 .is-invalid::placeholder{
@@ -531,20 +541,11 @@ export default {
 }
 
 .is-invalid i {
+    font-weight: 100;
     padding-right: 3px;
 }
 
-.error-message-firstname,
-.error-message-surname,
-.error-message-email,
-.error-message-error,
-.error-message-password,
-.error-message-login-email,
-.error-message-login-password,
-.error-message-login-invalid,
-.error-message-signUpCondition{
-    display: none;
-}
+
 
 
 .hide-item{

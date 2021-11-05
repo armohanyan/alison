@@ -29,19 +29,18 @@ class AuthController extends Controller
         }
 
         else{
-            User::create([
+            $newUser = User::create([
                 'first_name' => $request->input('firstname'),
                 'surname' => $request->input('surname'),
                 'email' => $request->input('email'),
                 'password' => bcrypt($request->input('password'))
             ]);
 
+            Auth::login($newUser);
+
             return response()->json(['success' => true], 200);
-
         }
-
     }
-
 
     public function SignIn(Request $request){
 
@@ -67,12 +66,10 @@ class AuthController extends Controller
                     'invalid' => 'Invalid Login or Password',
                 ], 200);
             }
-
             else{
                 return response()->json(['success' => true], 200);
             }
         }
-
     }
 
     public function signOut(){

@@ -2158,6 +2158,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _SocialiteComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SocialiteComponent */ "./resources/js/components/SocialiteComponent.vue");
 //
 //
 //
@@ -2225,8 +2226,64 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'LoginComponent'
+  components: {
+    SocialiteComponent: _SocialiteComponent__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      userData: {
+        firstname: '',
+        surname: '',
+        email: '',
+        password: '',
+        signUpCondition: ''
+      },
+      errorMessage: {
+        firstname: false,
+        surname: false,
+        email: false,
+        password: false,
+        signUpCondition: false
+      },
+      errorsArray: {}
+    };
+  },
+  methods: {
+    signUpSubmit: function signUpSubmit() {
+      var _this = this;
+
+      $.each(this.errorMessage, function (key, value) {
+        _this.errorMessage[key] = false;
+      });
+      this.axios.post('/sign-up', this.userData).then(function (response) {
+        if (response.data.success) {
+          _this.$emit('registeredUser', false);
+
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'You signed up successfully. Now You can sign in',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          location.reload();
+        } else {
+          $.each(response.data.errors, function (error, msg) {
+            _this.errorsArray[error] = msg.join();
+            _this.errorMessage[error] = true;
+          });
+        }
+      })["catch"](function (err) {
+        console.log('error');
+      })["finally"](function () {
+        return _this.loading = false;
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -2260,10 +2317,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2271,6 +2324,19 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     SignUpComponent: _SignUpComponent__WEBPACK_IMPORTED_MODULE_1__["default"],
     LoginComponent: _LoginComponent__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      'hideModal': true
+    };
+  },
+  methods: {
+    getData: function getData(data) {
+      this.hideModal = data;
+    }
+  },
+  mounted: function mounted() {
+    console.log(this.hideModal);
   }
 });
 
@@ -2287,6 +2353,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _SocialiteComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SocialiteComponent */ "./resources/js/components/SocialiteComponent.vue");
 //
 //
 //
@@ -2342,12 +2409,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'SignUpComponent',
+  components: {
+    SocialiteComponent: _SocialiteComponent__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      userData: {
+        email: '',
+        password: ''
+      },
+      hasError: {
+        email: false,
+        password: false
+      },
+      errorTexts: {}
+    };
+  },
   methods: {
-    logInSubmit: function logInSubmit() {
-      console.log(1);
+    signInSubmit: function signInSubmit() {
+      var _this = this;
+
+      var self = this;
+      $.each(self.hasError, function (key, value) {
+        self.hasError[key] = false;
+      });
+      this.axios.post('/sign-in', this.userData).then(function (response) {
+        if (response.data.success) {
+          location.reload();
+        } else {
+          $.each(response.data.errors, function (error, msg) {
+            self.errorTexts[error] = msg.join();
+            self.hasError[error] = true;
+          });
+        }
+      })["catch"](function (err) {
+        console.log('error');
+      })["finally"](function () {
+        return _this.loading = false;
+      });
     }
   }
 });
@@ -2396,8 +2497,16 @@ __webpack_require__.r(__webpack_exports__);
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-axios */ "./node_modules/vue-axios/dist/vue-axios.esm.min.js");
+/* harmony import */ var _components_LoginComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/LoginComponent */ "./resources/js/components/LoginComponent.vue");
+/* harmony import */ var _components_ModalComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/ModalComponent */ "./resources/js/components/ModalComponent.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -2413,28 +2522,26 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"
  *
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('LoginComponent', __webpack_require__(/*! ./components/LoginComponent.vue */ "./resources/js/components/LoginComponent.vue")["default"]);
-Vue.component('ModalComponent', __webpack_require__(/*! ./components/ModalComponent.vue */ "./resources/js/components/ModalComponent.vue")["default"]);
-Vue.component('SignUpComponent', __webpack_require__(/*! ./components/SignUpComponent.vue */ "./resources/js/components/SignUpComponent.vue")["default"]);
-Vue.component('SocialiteComponent', __webpack_require__(/*! ./components/SocialiteComponent.vue */ "./resources/js/components/SocialiteComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-var app = new Vue({
-  el: '#app',
-  components: {
-    LoginComponent: LoginComponent,
-    ModalComponent: ModalComponent,
-    SignUpComponent: SignUpComponent,
-    SocialiteComponent: SocialiteComponent
+
+
+
+
+
+vue__WEBPACK_IMPORTED_MODULE_4__["default"].config.productionTip = false;
+vue__WEBPACK_IMPORTED_MODULE_4__["default"].use(vue_axios__WEBPACK_IMPORTED_MODULE_1__["default"], (axios__WEBPACK_IMPORTED_MODULE_0___default()));
+vue__WEBPACK_IMPORTED_MODULE_4__["default"].component('my-component', _components_LoginComponent__WEBPACK_IMPORTED_MODULE_2__["default"]);
+new vue__WEBPACK_IMPORTED_MODULE_4__["default"]({
+  render: function render(h) {
+    return h(_components_ModalComponent__WEBPACK_IMPORTED_MODULE_3__["default"]);
   }
-});
+}).$mount("#app");
 
 /***/ }),
 
@@ -6865,7 +6972,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-model-main {\n    display: none;\n    text-align: center;\n    overflow: hidden;\n    position: fixed;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    left: 0; /* z-index: 1050; */\n    -webkit-overflow-scrolling: touch;\n    outline: 0;\n    opacity: 0;\n    z-index: -1000;\n}\n.model-open {\n    opacity: 1;\n    z-index: 99999;\n    display: block;\n    overflow: hidden;\n}\n.custom-model-inner {\n    transform: translate(0, -25%);\n    transition: transform 0.3s ease-out;\n    display: inline-block;\n    vertical-align: middle;\n    width: 800px;\n    margin: 30px auto;\n    max-width: 97%;\n}\n.custom-model-wrap {\n    display: block;\n    width: 100%;\n    /*height: 100vh;*/\n    position: relative;\n    background-color: #15212a;\n    border: 1px solid #999;\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 6px;\n    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);\n    background-clip: padding-box;\n    outline: 0;\n    text-align: left;\n    box-sizing: border-box;\n    max-height: calc(100vh - 70px);\n}\n.model-open .custom-model-inner {\n    transform: translate(0, 0);\n    position: relative;\n    z-index: 999;\n}\n.model-open .bg-overlay {\n    background: rgba(0, 0, 0, 0.6);\n    z-index: 99;\n}\n.bg-overlay {\n    background: rgba(0, 0, 0, 0);\n    /*height: 100vh;*/\n    width: 100%;\n    position: fixed;\n    left: 0;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    z-index: 0;\n    transition: background 0.15s linear;\n}\n.close-btn {\n    position: absolute;\n    right: 11px;\n    top: -2px;\n    cursor: pointer;\n    z-index: 99;\n    font-size: 30px;\n    color: #fff;\n}\n@media screen and (min-width:800px){\n.custom-model-main:before {\n        content: \"\";\n        display: inline-block;\n        height: auto;\n        vertical-align: middle;\n        margin-right: -0px;\n        height: 100%;\n}\n}\n@media screen and (max-width:799px){\n.custom-model-inner{margin-top: 45px;}\n}\n\n/* Sign In */\n.pop-up-content-wrap-signin{\n    display: none;\n}\n.login-top{\n    padding-top: 50px;\n    padding-bottom: 20px;\n    color: #fff;\n    text-align: center;\n}\n.login-top .sign-in-title{\n    font-size: 45px;\n    color: #fff;\n    font-weight: 700;\n    line-height: 50px;\n    margin-bottom: 10px;\n    display: block;\n}\n.sign-in-text{\n    color: #83c11f;\n    margin-bottom: 15px;\n    font-size: 18px\n}\n.tab{\n    position: relative;\n    display:flex;\n    width: 100%;\n}\n.tab > div {\n    width: 35%;\n    text-align: center;\n    cursor: pointer\n}\n.register-tab{\n    box-shadow: 0 0 11px 0 rgb(50 50 50 / 94%);\n    border-top-right-radius: 8px;\n    background: #909193;\n    text-align: center;\n}\n.register-tab a{\n    padding: 15px 0;\n    display: block;\n    transition: background .3s ease-in;\n    color: #fff;\n}\n.register-tab a:hover{\n    color: #FFF;\n}\n.register-tab:hover{\n    background-color: #ecf1f5;\n}\n.register-tab a:hover{\n    color: #83c11f;\n}\n.login-tab{\n    position: absolute;\n    left: 274px;\n    width: 35%;\n    text-align: center;\n    background: #909193;\n    box-shadow: inset 0 -1px 1px 0 rgb(255 255 255 / 20%);\n    cursor: pointer ;\n}\n.login-tab:hover{\n    background-color: #ecf1f5;\n}\n.login-tab a {\n    padding: 15px 0;\n    display: block;\n    color: #fff;\n    transition: background .3s ease-in;\n}\n.login-tab a:hover {\n    color: #83c11f;\n}\n.signup-inner{\n    height: 100%;\n    display: flex;\n    padding-left: 30px;\n    padding-top: 55px;\n}\n.login-bg{\n    background-color: #ecf1f5;\n    height: auto;\n}\n.login-withSocial{\n    width: 50%;\n    display: flex;\n    flex-direction: column;\n}\n.login-bottom{\n    overflow: hidden;\n}\n.social-login{\n    position: relative;\n}\n.social-login a{\n    display: block;\n    color: #2d3942;\n    width: 90%;\n    background: #fff;\n    margin: 0 auto 19px  ;\n    padding: 8px 40px  ;\n    font-size: 14px;\n    text-align: left;\n    transition: all .25s ease-in;\n}\n.social-login a:hover{\n    background: #0094c9;\n    color: #fff;\n}\n.social-login a:active{\n    background: #0094c9;\n    color: #fff;\n}\n.social-login img{\n    background-color: #ecf1f5;\n    top: 7px;\n    position: absolute;\n    left: 25px;\n    width: 23px;\n    aspect-ratio: auto 23 / 23;\n    height: 23px;\n}\n.login-center-line {\n    width: 2px;\n    position: relative;\n    text-align: center;\n    opacity: .8;\n    /*position: absolute;*/\n    /*right: 0;*/\n    top: -12px;\n    height: 230px;\n    background: #5d666d;\n}\n.login-center-line span{\n    display: block;\n    padding: 3px;\n    position: absolute;\n    color: #5d666d;\n    font-size: 16px;\n    background: #ecf1f5;\n    border-radius: 100%;\n    border: 1px\n    solid #5d666d;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%,-50%);\n    width: 32px;\n}\n.login-form{\n    width: 100%;\n    height: auto;\n    padding: 0 38px 40px;\n}\n.parent-login-form p{\n    color: #868d92;\n    font-size: 13px;\n    margin-bottom:0 !important;\n}\n.login-form > div{\n    margin-top: 11px;\n}\n.parent-login-form > div {\n    margin-top: 11px;\n    height: 100%;\n}\n.flex-firstname-surname{\n    display: flex;\n    justify-content: space-between;\n    width: 100%;\n}\n.parent-login-form > div  input{\n    /*background: #fff;*/\n    display: inline-block;\n    font: 400 1em Roboto,helvetica neue,Helvetica,Arial,sans-serif;\n    padding: 10px 20px;\n    width: 100%;\n    border: 0;\n    border-bottom:1px solid #d3dade;\n}\n::-moz-placeholder {\n    opacity: 1;\n    color: #000000;\n}\n:-ms-input-placeholder {\n    opacity: 1;\n    color: #000000;\n}\n::placeholder {\n    opacity: 1;\n    color: #000000;\n}\n.parent-login-form > div  input:focus{\n    outline: none;\n}\n.input-field-firstname {\n    width: 48%;\n}\n.firstname{\n    width: 100%;\n}\n.input-field-surname {\n    width: 48%;\n}\n.surname{\n    width: 100%;\n}\n.input-field-password{\n    position: relative;\n}\n.input-field-password span{\n    position: absolute;\n    top: 7px;\n    right:5px;\n    font-size: 20px;\n    font-weight: 700;\n    width: 40px;\n    height: 34px;\n    color: #83c11f;\n    cursor: pointer;\n}\n.label-remember,\n.label-signup-tc{\n    position: relative;\n    display: block;\n}\n.label-remember,\n.label-signup-tc span {\n    padding-left: 20px;\n}\n.label-remember,\n.label-signup-tc a{\n    color: #5d666d;\n    text-decoration: underline;\n}\n.label-remember,\n.label-signup-tc a:hover{\n    color: #5d666d;\n}\n#signup-tc,\n#remember{\n    position: absolute;\n    left: -1000px;\n}\n.label-signup-tc::before{\n    content: \" \";\n    position: absolute;\n    top: 3px;\n\n    width: 15px;\n    height: 15px;\n    border: 1px solid #aaa;\n    display: block;\n    vertical-align: text-top;\n}\n.label-remember::before{\n    content: \" \";\n    position: absolute;\n    top: 3px;\n    left: 0;\n    width: 15px;\n    height: 15px;\n    border: 1px solid #aaa;\n    display: block;\n    vertical-align: text-top;\n}\n[type=checkbox]:checked+label:after {\n    background: #83c11f;\n    position: absolute;\n    content: \" \";\n    display: inline-block;\n    height: 10px;\n    left: 2px;\n    top: 5px;\n    width: 10px;\n}\n.btn-sign-in  {\n    background-color: #83c11f;\n    border-radius:3px;\n    text-align: center;\n    cursor: pointer;\n}\n.btn-sign-in  .btn-submit{\n    padding: 10px;\n    color: #fff;\n    background-color: #83c11f;\n    width: 100%;\n}\n.login-account {\n    font-size: 14px;\n    padding-top: 20px;\n    color: #15212a !important;\n}\n.login-account a{\n    color: #83c11f;\n}\n.login-account a:hover{\n    color: #83c11f;\n}\n.tab > .active {\n    border-top-left-radius: 8px;\n    border-top-right-radius: 8px;\n    transform: scale(1.07);\n    box-shadow: 0 0 11px 0 rgb(50 50 50 / 94%);\n    background: #ecf1f5;\n}\n.tab >  .active a{\n    color: #83c11f;\n}\n.margin-top{\n    padding-top: 78px;\n}\n.forgot-password{\n    color: #83c11f !important;\n}\n.label-remember > a {\n    padding-left: 50px;\n}\n.password-visible-icon > .fa-eye-slash{\n    display: none;\n}\n.is-invalid {\n    font-size: 11px;\n    font-weight: 100;\n    color: red;\n    /*border-bottom: solid red !important;*/\n}\n.is-invalid::-moz-placeholder{\n    color: red;\n}\n.is-invalid:-ms-input-placeholder{\n    color: red;\n}\n.is-invalid::placeholder{\n    color: red;\n}\n.is-invalid i {\n    padding-right: 3px;\n}\n.error-message-firstname,\n.error-message-surname,\n.error-message-email,\n.error-message-error,\n.error-message-password,\n.error-message-login-email,\n.error-message-login-password,\n.error-message-login-invalid,\n.error-message-signUpCondition{\n    display: none;\n}\n.hide-item{\n    display: none;\n}\n.active-item{\n    display: block;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-model-main {\n    display: none;\n    text-align: center;\n    overflow: hidden;\n    position: fixed;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    left: 0; /* z-index: 1050; */\n    -webkit-overflow-scrolling: touch;\n    outline: 0;\n    opacity: 0;\n    z-index: -1000;\n}\n.model-open {\n    opacity: 1;\n    z-index: 99999;\n    display: block;\n    overflow: hidden;\n}\n.custom-model-inner {\n    transform: translate(0, -25%);\n    transition: transform 0.3s ease-out;\n    display: inline-block;\n    vertical-align: middle;\n    width: 800px;\n    margin: 30px auto;\n    max-width: 97%;\n}\n.custom-model-wrap {\n    display: block;\n    width: 100%;\n    /*height: 100vh;*/\n    position: relative;\n    background-color: #15212a;\n    border: 1px solid #999;\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 6px;\n    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);\n    background-clip: padding-box;\n    outline: 0;\n    text-align: left;\n    box-sizing: border-box;\n    max-height: calc(100vh - 70px);\n}\n.model-open .custom-model-inner {\n    transform: translate(0, 0);\n    position: relative;\n    z-index: 999;\n}\n.model-open .bg-overlay {\n    background: rgba(0, 0, 0, 0.6);\n    z-index: 99;\n}\n.bg-overlay {\n    background: rgba(0, 0, 0, 0);\n    /*height: 100vh;*/\n    width: 100%;\n    position: fixed;\n    left: 0;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    z-index: 0;\n    transition: background 0.15s linear;\n}\n.close-btn {\n    position: absolute;\n    right: 11px;\n    top: -2px;\n    cursor: pointer;\n    z-index: 99;\n    font-size: 30px;\n    color: #fff;\n}\n@media screen and (min-width:800px){\n.custom-model-main:before {\n        content: \"\";\n        display: inline-block;\n        height: auto;\n        vertical-align: middle;\n        margin-right: -0px;\n        height: 100%;\n}\n}\n@media screen and (max-width:799px){\n.custom-model-inner{margin-top: 45px;}\n}\n\n/* Sign In */\n.pop-up-content-wrap-signin{\n    display: none;\n}\n.login-top{\n    padding-top: 50px;\n    padding-bottom: 20px;\n    color: #fff;\n    text-align: center;\n}\n.login-top .sign-in-title{\n    font-size: 45px;\n    color: #fff;\n    font-weight: 700;\n    line-height: 50px;\n    margin-bottom: 10px;\n    display: block;\n}\n.sign-in-text{\n    color: #83c11f;\n    margin-bottom: 15px;\n    font-size: 18px\n}\n.tab{\n    position: relative;\n    display:flex;\n    width: 100%;\n}\n.tab > div {\n    width: 35%;\n    text-align: center;\n    cursor: pointer\n}\n.register-tab{\n    box-shadow: 0 0 11px 0 rgb(50 50 50 / 94%);\n    border-top-right-radius: 8px;\n    background: #909193;\n    text-align: center;\n}\n.register-tab a{\n    padding: 15px 0;\n    display: block;\n    transition: background .3s ease-in;\n    color: #fff;\n}\n.register-tab a:hover{\n    color: #FFF;\n}\n.register-tab:hover{\n    background-color: #ecf1f5;\n}\n.register-tab a:hover{\n    color: #83c11f;\n}\n.login-tab{\n    position: absolute;\n    left: 274px;\n    width: 35%;\n    text-align: center;\n    background: #909193;\n    box-shadow: inset 0 -1px 1px 0 rgb(255 255 255 / 20%);\n    cursor: pointer ;\n}\n.login-tab:hover{\n    background-color: #ecf1f5;\n}\n.login-tab a {\n    padding: 15px 0;\n    display: block;\n    color: #fff;\n    transition: background .3s ease-in;\n}\n.login-tab a:hover {\n    color: #83c11f;\n}\n.signup-inner{\n    height: 100%;\n    display: flex;\n    padding-left: 30px;\n    padding-top: 55px;\n}\n.login-bg{\n    background-color: #ecf1f5;\n    height: auto;\n}\n.login-withSocial{\n    width: 50%;\n    display: flex;\n    flex-direction: column;\n}\n.login-bottom{\n    overflow: hidden;\n}\n.social-login{\n    position: relative;\n}\n.social-login a{\n    display: block;\n    color: #2d3942;\n    width: 90%;\n    background: #fff;\n    margin: 0 auto 19px  ;\n    padding: 8px 40px  ;\n    font-size: 14px;\n    text-align: left;\n    transition: all .25s ease-in;\n}\n.social-login a:hover{\n    background: #0094c9;\n    color: #fff;\n}\n.social-login a:active{\n    background: #0094c9;\n    color: #fff;\n}\n.social-login img{\n    background-color: #ecf1f5;\n    top: 7px;\n    position: absolute;\n    left: 25px;\n    width: 23px;\n    aspect-ratio: auto 23 / 23;\n    height: 23px;\n}\n.login-center-line {\n    width: 2px;\n    position: relative;\n    text-align: center;\n    opacity: .8;\n    /*position: absolute;*/\n    /*right: 0;*/\n    top: -12px;\n    height: 230px;\n    background: #5d666d;\n}\n.login-center-line span{\n    display: block;\n    padding: 3px;\n    position: absolute;\n    color: #5d666d;\n    font-size: 16px;\n    background: #ecf1f5;\n    border-radius: 100%;\n    border: 1px\n    solid #5d666d;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%,-50%);\n    width: 32px;\n}\n.login-form{\n    width: 100%;\n    height: auto;\n    padding: 0 38px 40px;\n}\n.parent-login-form{\n    width: 50%;\n}\n.parent-login-form p{\n    color: #868d92;\n    font-size: 13px;\n    margin-bottom:0 !important;\n}\n.login-form > div{\n    margin-top: 11px;\n}\n.parent-login-form > div {\n    margin-top: 11px;\n    height: 100%;\n}\n.flex-firstname-surname{\n    display: flex;\n    justify-content: space-between;\n    width: 100%;\n}\n.parent-login-form > div  input{\n    /*background: #fff;*/\n    display: inline-block;\n    font: 400 1em Roboto,helvetica neue,Helvetica,Arial,sans-serif;\n    padding: 10px 20px;\n    width: 100%;\n    border: 0;\n    border-bottom:1px solid #d3dade;\n}\n::-moz-placeholder {\n    opacity: 1;\n    color: #000000;\n}\n:-ms-input-placeholder {\n    opacity: 1;\n    color: #000000;\n}\n::placeholder {\n    opacity: 1;\n    color: #000000;\n}\n.parent-login-form > div  input:focus{\n    outline: none;\n}\n.input-field-firstname {\n    width: 48%;\n}\n.firstname{\n    width: 100%;\n}\n.input-field-surname {\n    width: 48%;\n}\n.surname{\n    width: 100%;\n}\n.input-field-password{\n    position: relative;\n}\n.input-field-password span{\n    position: absolute;\n    top: 7px;\n    right:5px;\n    font-size: 20px;\n    font-weight: 700;\n    width: 40px;\n    height: 34px;\n    color: #83c11f;\n    cursor: pointer;\n}\n.label-remember,\n.label-signup-tc{\n    position: relative;\n    display: block;\n}\n.label-remember,\n.label-signup-tc span {\n    padding-left: 20px;\n}\n.label-remember,\n.label-signup-tc a{\n    color: #5d666d;\n    text-decoration: underline;\n}\n.label-remember,\n.label-signup-tc a:hover{\n    color: #5d666d;\n}\n#signup-tc,\n#remember{\n    position: absolute;\n    left: -1000px;\n}\n.label-signup-tc::before{\n    content: \" \";\n    position: absolute;\n    top: 3px;\n\n    width: 15px;\n    height: 15px;\n    border: 1px solid #aaa;\n    display: block;\n    vertical-align: text-top;\n}\n.label-remember::before{\n    content: \" \";\n    position: absolute;\n    top: 3px;\n    left: 0;\n    width: 15px;\n    height: 15px;\n    border: 1px solid #aaa;\n    display: block;\n    vertical-align: text-top;\n}\n[type=checkbox]:checked+label:after {\n    background: #83c11f;\n    position: absolute;\n    content: \" \";\n    display: inline-block;\n    height: 10px;\n    left: 2px;\n    top: 5px;\n    width: 10px;\n}\n.btn-sign-in  {\n    background-color: #83c11f;\n    border-radius:3px;\n    text-align: center;\n    cursor: pointer;\n}\n.btn-sign-in  .btn-submit{\n    padding: 10px;\n    color: #fff;\n    background-color: #83c11f;\n    width: 100%;\n}\n.login-account {\n    font-size: 14px;\n    padding-top: 20px;\n    color: #15212a !important;\n}\n.login-account a{\n    color: #83c11f;\n}\n.login-account a:hover{\n    color: #83c11f;\n}\n.tab > .active {\n    border-top-left-radius: 8px;\n    border-top-right-radius: 8px;\n    transform: scale(1.07);\n    box-shadow: 0 0 11px 0 rgb(50 50 50 / 94%);\n    background: #ecf1f5;\n}\n.tab >  .active a{\n    color: #83c11f;\n}\n.margin-top{\n    padding-top: 78px;\n}\n.forgot-password{\n    color: #83c11f !important;\n}\n.label-remember > a {\n    padding-left: 50px;\n}\n.password-visible-icon > .fa-eye-slash{\n    display: none;\n}\n.is-invalid {\n    font-size: 11px;\n    font-weight: 100;\n    color: red;\n}\n.is-invalid::-moz-placeholder{\n    color: red;\n}\n.is-invalid:-ms-input-placeholder{\n    color: red;\n}\n.is-invalid::placeholder{\n    color: red;\n}\n.is-invalid i {\n    font-weight: 100;\n    padding-right: 3px;\n}\n.hide-item{\n    display: none;\n}\n.active-item{\n    display: block;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -38199,6 +38306,22 @@ module.exports = function (list, options) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-axios/dist/vue-axios.esm.min.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/vue-axios/dist/vue-axios.esm.min.js ***!
+  \**********************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ plugin)
+/* harmony export */ });
+/* module decorator */ module = __webpack_require__.hmd(module);
+function _typeof(o){return(_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(o){return typeof o}:function(o){return o&&"function"==typeof Symbol&&o.constructor===Symbol&&o!==Symbol.prototype?"symbol":typeof o})(o)}function plugin(o,e){if(!plugin.installed)if(e){if(plugin.installed=!0,o.version&&o.version.split(".")[0]<3)Object.defineProperties(o.prototype,{axios:{get:function(){return e}},$http:{get:function(){return e}}});else{if(!(o.version&&o.version.split(".")[0]>=3))return void console.error("Unknown Vue version");o.config.globalProperties.axios=e,o.config.globalProperties.$http=e}o.axios=e,o.$http=e}else console.error("You have to install axios")}"object"==("undefined"==typeof exports?"undefined":_typeof(exports))?module.exports=plugin:"function"==typeof define&&__webpack_require__.amdO?define([],(function(){return plugin})):window.Vue&&window.axios&&window.Vue.use&&Vue.use(plugin,window.axios);
+
+/***/ }),
+
 /***/ "./resources/js/components/LoginComponent.vue":
 /*!****************************************************!*\
   !*** ./resources/js/components/LoginComponent.vue ***!
@@ -38532,7 +38655,312 @@ var render = function () {
           _vm._v(" "),
           _vm._m(2),
           _vm._v(" "),
-          _vm._m(3),
+          _c("div", { staticClass: "parent-login-form" }, [
+            _c("div", { staticClass: "login-form-inner" }, [
+              _c("div", { staticClass: "login-form" }, [
+                _c("div", { staticClass: "flex-firstname-surname" }, [
+                  _c("div", { staticClass: "input-field-firstname" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.userData.firstname,
+                          expression: "userData.firstname",
+                        },
+                      ],
+                      staticClass: "firstname",
+                      attrs: {
+                        type: "text",
+                        name: "firstname",
+                        id: "firstname",
+                        placeholder: "First Name",
+                      },
+                      domProps: { value: _vm.userData.firstname },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.userData,
+                            "firstname",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _vm.errorMessage.firstname
+                      ? _c(
+                          "span",
+                          {
+                            staticClass:
+                              "is-invalid error-message-surname error-signUp",
+                          },
+                          [
+                            _c("i", {
+                              staticClass: "fa fa-exclamation-circle",
+                              attrs: { "aria-hidden": "true" },
+                            }),
+                            _vm._v(_vm._s(_vm.errorsArray.firstname)),
+                          ]
+                        )
+                      : _vm._e(),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-field-surname" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.userData.surname,
+                          expression: "userData.surname",
+                        },
+                      ],
+                      staticClass: "surname",
+                      attrs: {
+                        type: "text",
+                        name: "surname",
+                        id: "surname",
+                        placeholder: "Surname",
+                      },
+                      domProps: { value: _vm.userData.surname },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.userData, "surname", $event.target.value)
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _vm.errorMessage.surname
+                      ? _c(
+                          "span",
+                          {
+                            staticClass:
+                              "is-invalid error-message-surname error-signUp",
+                          },
+                          [
+                            _c(
+                              "i",
+                              {
+                                staticClass: "fa fa-exclamation-circle",
+                                attrs: { "aria-hidden": "true" },
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                         " +
+                                    _vm._s(_vm.errorsArray.surname)
+                                ),
+                              ]
+                            ),
+                          ]
+                        )
+                      : _vm._e(),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "input-field-email" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.userData.email,
+                        expression: "userData.email",
+                      },
+                    ],
+                    staticClass: "email",
+                    attrs: {
+                      type: "email",
+                      name: "email",
+                      autocomplete: "off",
+                      id: "email",
+                      placeholder: "E-mail",
+                    },
+                    domProps: { value: _vm.userData.email },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.userData, "email", $event.target.value)
+                      },
+                    },
+                  }),
+                  _vm._v(" "),
+                  _vm.errorMessage.email
+                    ? _c(
+                        "span",
+                        {
+                          staticClass:
+                            "is-invalid error-message-email error-signUp",
+                        },
+                        [
+                          _c(
+                            "i",
+                            {
+                              staticClass: "fa fa-exclamation-circle",
+                              attrs: { "aria-hidden": "true" },
+                            },
+                            [_vm._v(_vm._s(_vm.errorsArray.email))]
+                          ),
+                        ]
+                      )
+                    : _vm._e(),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "input-field-password" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.userData.password,
+                        expression: "userData.password",
+                      },
+                    ],
+                    staticClass: "password",
+                    attrs: {
+                      type: "password",
+                      name: "password",
+                      id: "password",
+                      placeholder: "Password",
+                    },
+                    domProps: { value: _vm.userData.password },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.userData, "password", $event.target.value)
+                      },
+                    },
+                  }),
+                  _vm._v(" "),
+                  _vm._m(3),
+                ]),
+                _vm._v(" "),
+                _vm.errorMessage.password
+                  ? _c(
+                      "span",
+                      {
+                        staticClass:
+                          "is-invalid error-message-password error-signUp",
+                      },
+                      [
+                        _c("i", {
+                          staticClass: "fa fa-exclamation-circle",
+                          attrs: { "aria-hidden": "true" },
+                        }),
+                        _vm._v(_vm._s(_vm.errorsArray.password)),
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "login-form-bottom" }, [
+                  _vm.errorMessage.signUpCondition
+                    ? _c(
+                        "span",
+                        {
+                          staticClass:
+                            "is-invalid error-message-signUpCondition error-signUp",
+                        },
+                        [
+                          _c(
+                            "i",
+                            {
+                              staticClass: "fa fa-exclamation-circle",
+                              attrs: { "aria-hidden": "true" },
+                            },
+                            [_vm._v(_vm._s(_vm.errorsArray.signUpCondition))]
+                          ),
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("p", [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.userData.signUpCondition,
+                          expression: "userData.signUpCondition",
+                        },
+                      ],
+                      attrs: {
+                        type: "checkbox",
+                        name: "signUpCondition",
+                        id: "signup-tc",
+                      },
+                      domProps: {
+                        checked: Array.isArray(_vm.userData.signUpCondition)
+                          ? _vm._i(_vm.userData.signUpCondition, null) > -1
+                          : _vm.userData.signUpCondition,
+                      },
+                      on: {
+                        change: function ($event) {
+                          var $$a = _vm.userData.signUpCondition,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 &&
+                                _vm.$set(
+                                  _vm.userData,
+                                  "signUpCondition",
+                                  $$a.concat([$$v])
+                                )
+                            } else {
+                              $$i > -1 &&
+                                _vm.$set(
+                                  _vm.userData,
+                                  "signUpCondition",
+                                  $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                )
+                            }
+                          } else {
+                            _vm.$set(_vm.userData, "signUpCondition", $$c)
+                          }
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _vm._m(4),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "btn-sign-in" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn-submit",
+                        attrs: {
+                          type: "button",
+                          name: "submit",
+                          id: "signUpSubmit",
+                        },
+                        on: {
+                          click: function ($event) {
+                            return _vm.signUpSubmit()
+                          },
+                        },
+                      },
+                      [_vm._v("Sign Up")]
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(5),
+                ]),
+              ]),
+            ]),
+          ]),
         ],
         1
       ),
@@ -38584,175 +39012,39 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "parent-login-form" }, [
-      _c("div", { staticClass: "login-form-inner" }, [
-        _c("div", { staticClass: "login-form" }, [
-          _c("div", { staticClass: "flex-firstname-surname" }, [
-            _c("div", { staticClass: "input-field-firstname" }, [
-              _c("input", {
-                staticClass: "firstname",
-                attrs: {
-                  type: "text",
-                  name: "firstname",
-                  id: "firstname",
-                  placeholder: "First Name",
-                },
-              }),
-              _vm._v(" "),
-              _c(
-                "span",
-                {
-                  staticClass: "is-invalid error-message-surname error-signUp",
-                },
-                [
-                  _c("i", {
-                    staticClass: "fa fa-exclamation-circle",
-                    attrs: { "aria-hidden": "true" },
-                  }),
-                ]
-              ),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "input-field-surname" }, [
-              _c("input", {
-                staticClass: "surname",
-                attrs: {
-                  type: "text",
-                  name: "surname",
-                  id: "surname",
-                  placeholder: "Surname",
-                },
-              }),
-              _vm._v(" "),
-              _c(
-                "span",
-                {
-                  staticClass: "is-invalid error-message-surname error-signUp",
-                },
-                [
-                  _c("i", {
-                    staticClass: "fa fa-exclamation-circle",
-                    attrs: { "aria-hidden": "true" },
-                  }),
-                ]
-              ),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "input-field-email" }, [
-            _c("input", {
-              staticClass: "email",
-              attrs: {
-                type: "email",
-                name: "email",
-                autocomplete: "off",
-                id: "email",
-                placeholder: "E-mail",
-              },
-            }),
-            _vm._v(" "),
-            _c(
-              "span",
-              { staticClass: "is-invalid error-message-email error-signUp" },
-              [
-                _c("i", {
-                  staticClass: "fa fa-exclamation-circle",
-                  attrs: { "aria-hidden": "true" },
-                }),
-              ]
-            ),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "input-field-password" }, [
-            _c("input", {
-              staticClass: "password",
-              attrs: {
-                type: "password",
-                name: "password",
-                id: "password",
-                placeholder: "Password",
-              },
-            }),
-            _vm._v(" "),
-            _c("span", { staticClass: "password-visible-icon" }, [
-              _c("i", {
-                staticClass: "fa fa-eye signUp-eye",
-                attrs: { "aria-hidden": "true" },
-              }),
-              _vm._v(" "),
-              _c("i", {
-                staticClass: "fa fa-eye-slash signUp-eye-slash",
-                attrs: { "aria-hidden": "true" },
-              }),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c(
-            "span",
-            { staticClass: "is-invalid error-message-password error-signUp" },
-            [
-              _c("i", {
-                staticClass: "fa fa-exclamation-circle",
-                attrs: { "aria-hidden": "true" },
-              }),
-            ]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "login-form-bottom" }, [
-            _c(
-              "span",
-              {
-                staticClass:
-                  "is-invalid error-message-signUpCondition error-signUp",
-              },
-              [
-                _c("i", {
-                  staticClass: "fa fa-exclamation-circle",
-                  attrs: { "aria-hidden": "true" },
-                }),
-              ]
-            ),
-            _vm._v(" "),
-            _c("p", [
-              _c("input", {
-                attrs: {
-                  type: "checkbox",
-                  name: "signUpCondition",
-                  id: "signup-tc",
-                },
-              }),
-              _vm._v(" "),
-              _c(
-                "label",
-                { staticClass: "label-signup-tc", attrs: { for: "signup-tc" } },
-                [
-                  _c("span", [_vm._v(" I agree to the ")]),
-                  _vm._v(" "),
-                  _c("a", { attrs: { href: "" } }, [
-                    _vm._v("Terms and Conditions "),
-                  ]),
-                ]
-              ),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "btn-sign-in" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn-submit",
-                  attrs: { type: "button", name: "submit", id: "signUpSubmit" },
-                },
-                [_vm._v("Sign Up")]
-              ),
-            ]),
-            _vm._v(" "),
-            _c("p", { staticClass: "login-account" }, [
-              _vm._v("Already have an Alison account? "),
-              _c("a", { attrs: { href: "" } }, [_vm._v(" Log In ")]),
-            ]),
-          ]),
-        ]),
-      ]),
+    return _c("span", { staticClass: "password-visible-icon" }, [
+      _c("i", {
+        staticClass: "fa fa-eye signUp-eye",
+        attrs: { "aria-hidden": "true" },
+      }),
+      _vm._v(" "),
+      _c("i", {
+        staticClass: "fa fa-eye-slash signUp-eye-slash",
+        attrs: { "aria-hidden": "true" },
+      }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "label-signup-tc", attrs: { for: "signup-tc" } },
+      [
+        _c("span", [_vm._v(" I agree to the ")]),
+        _vm._v(" "),
+        _c("a", { attrs: { href: "" } }, [_vm._v("Terms and Conditions ")]),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "login-account" }, [
+      _vm._v("Already have an Alison account? "),
+      _c("a", { attrs: { href: "" } }, [_vm._v(" Log In ")]),
     ])
   },
 ]
@@ -38778,20 +39070,32 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "custom-model-main" }, [
-    _c("div", { staticClass: "custom-model-inner" }, [
-      _c("div", { staticClass: "close-btn" }, [_vm._v("×")]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "custom-model-wrap" },
-        [_c("login-component"), _vm._v(" "), _c("sign-up-component")],
-        1
-      ),
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "bg-overlay" }),
-  ])
+  return _vm.hideModal
+    ? _c("div", { staticClass: "custom-model-main" }, [
+        _c("div", { staticClass: "custom-model-inner" }, [
+          _c("div", { staticClass: "close-btn" }, [_vm._v("×")]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "custom-model-wrap" },
+            [
+              _c("login-component", {
+                on: {
+                  registeredUser: function ($event) {
+                    return _vm.getData($event)
+                  },
+                },
+              }),
+              _vm._v(" "),
+              _c("sign-up-component"),
+            ],
+            1
+          ),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bg-overlay" }),
+      ])
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -38832,17 +39136,109 @@ var render = function () {
           _vm._v(" "),
           _c("div", { staticClass: "parent-login-form" }, [
             _c("div", { staticClass: "login-form-inner" }, [
-              _vm._m(3),
-              _vm._v(" "),
               _c("div", { staticClass: "login-form" }, [
-                _vm._m(4),
+                _c("div", { staticClass: "input-field-email" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.userData.email,
+                        expression: "userData.email",
+                      },
+                    ],
+                    staticClass: "email",
+                    attrs: {
+                      type: "text",
+                      name: "email",
+                      id: "login-email",
+                      required: "",
+                      autocomplete: "off",
+                      placeholder: "Email adress",
+                    },
+                    domProps: { value: _vm.userData.email },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.userData, "email", $event.target.value)
+                      },
+                    },
+                  }),
+                  _vm._v(" "),
+                  _vm.hasError.email
+                    ? _c(
+                        "span",
+                        {
+                          staticClass:
+                            "is-invalid error-message-login-email error-login",
+                        },
+                        [
+                          _c(
+                            "i",
+                            {
+                              staticClass: "fa fa-exclamation-circle",
+                              attrs: { "aria-hidden": "true" },
+                            },
+                            [_vm._v(_vm._s(_vm.errorTexts.email))]
+                          ),
+                        ]
+                      )
+                    : _vm._e(),
+                ]),
                 _vm._v(" "),
-                _vm._m(5),
+                _c("div", { staticClass: "input-field-password" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.userData.password,
+                        expression: "userData.password",
+                      },
+                    ],
+                    staticClass: "password",
+                    attrs: {
+                      type: "password",
+                      name: "password",
+                      id: "login-password",
+                      required: "",
+                      placeholder: "Password",
+                    },
+                    domProps: { value: _vm.userData.password },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.userData, "password", $event.target.value)
+                      },
+                    },
+                  }),
+                  _vm._v(" "),
+                  _vm._m(3),
+                ]),
                 _vm._v(" "),
-                _vm._m(6),
+                _vm.hasError.password
+                  ? _c(
+                      "span",
+                      {
+                        staticClass:
+                          "is-invalid error-message-login-password error-login",
+                      },
+                      [
+                        _c("i", {
+                          staticClass: "fa fa-exclamation-circle",
+                          attrs: { "aria-hidden": "true" },
+                        }),
+                        _vm._v(_vm._s(_vm.errorTexts.password)),
+                      ]
+                    )
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("div", { staticClass: "login-form-bottom  margin-top" }, [
-                  _vm._m(7),
+                  _vm._m(4),
                   _vm._v(" "),
                   _c("div", { staticClass: "btn-sign-in" }, [
                     _c(
@@ -38850,13 +39246,17 @@ var render = function () {
                       {
                         staticClass: "btn-submit",
                         attrs: { id: "signInSubmit" },
-                        on: { click: _vm.logInSubmit },
+                        on: {
+                          click: function ($event) {
+                            return _vm.signInSubmit()
+                          },
+                        },
                       },
                       [_vm._v("Log in")]
                     ),
                   ]),
                   _vm._v(" "),
-                  _vm._m(8),
+                  _vm._m(5),
                 ]),
               ]),
             ]),
@@ -38912,89 +39312,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "span",
-      { staticClass: "is-invalid error-message-login-invalid error-login" },
-      [
-        _c("i", {
-          staticClass: "fa fa-exclamation-circle",
-          attrs: { "aria-hidden": "true" },
-        }),
-      ]
-    )
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-field-email" }, [
-      _c("input", {
-        staticClass: "email",
-        attrs: {
-          type: "text",
-          name: "email",
-          id: "login-email",
-          required: "",
-          autocomplete: "off",
-          placeholder: "Email adress",
-        },
+    return _c("span", { staticClass: "password-visible-icon" }, [
+      _c("i", {
+        staticClass: "fa fa-eye signIn-eye",
+        attrs: { "aria-hidden": "true" },
       }),
       _vm._v(" "),
-      _c(
-        "span",
-        { staticClass: "is-invalid error-message-login-email error-login" },
-        [
-          _c("i", {
-            staticClass: "fa fa-exclamation-circle",
-            attrs: { "aria-hidden": "true" },
-          }),
-        ]
-      ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-field-password" }, [
-      _c("input", {
-        staticClass: "password",
-        attrs: {
-          type: "password",
-          name: "password",
-          id: "login-password",
-          required: "",
-          placeholder: "Password",
-        },
+      _c("i", {
+        staticClass: "fa fa-eye-slash signIn-eye-slash",
+        attrs: { "aria-hidden": "true" },
       }),
-      _vm._v(" "),
-      _c("span", { staticClass: "password-visible-icon" }, [
-        _c("i", {
-          staticClass: "fa fa-eye signIn-eye",
-          attrs: { "aria-hidden": "true" },
-        }),
-        _vm._v(" "),
-        _c("i", {
-          staticClass: "fa fa-eye-slash signIn-eye-slash",
-          attrs: { "aria-hidden": "true" },
-        }),
-      ]),
     ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "span",
-      { staticClass: "is-invalid error-message-login-password error-login" },
-      [
-        _c("i", {
-          staticClass: "fa fa-exclamation-circle",
-          attrs: { "aria-hidden": "true" },
-        }),
-      ]
-    )
   },
   function () {
     var _vm = this
@@ -39071,7 +39399,9 @@ var staticRenderFns = [
           },
         }),
         _vm._v(" "),
-        _c("a", { attrs: { href: "" } }, [_vm._v("Countinue with Facebook")]),
+        _c("a", { attrs: { href: "/redirect/facebook" } }, [
+          _vm._v("Countinue with Facebook"),
+        ]),
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "social-login" }, [
@@ -39082,7 +39412,9 @@ var staticRenderFns = [
           },
         }),
         _vm._v(" "),
-        _c("a", { attrs: { href: "" } }, [_vm._v("Countinue with Google")]),
+        _c("a", { attrs: { href: "/redirect/google" } }, [
+          _vm._v("Countinue with Google"),
+        ]),
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "social-login" }, [
@@ -39104,7 +39436,9 @@ var staticRenderFns = [
           },
         }),
         _vm._v(" "),
-        _c("a", { attrs: { href: "" } }, [_vm._v("Countinue with Linkedin")]),
+        _c("a", { attrs: { href: "/redirect/linkedin" } }, [
+          _vm._v("Countinue with Linkedin"),
+        ]),
       ]),
     ])
   },
@@ -51305,6 +51639,11 @@ Vue.compile = compileToFunctions;
 /******/ 	__webpack_require__.m = __webpack_modules__;
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/amd options */
+/******/ 	(() => {
+/******/ 		__webpack_require__.amdO = {};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/chunk loaded */
 /******/ 	(() => {
 /******/ 		var deferred = [];
@@ -51371,6 +51710,21 @@ Vue.compile = compileToFunctions;
 /******/ 				if (typeof window === 'object') return window;
 /******/ 			}
 /******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/harmony module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.hmd = (module) => {
+/******/ 			module = Object.create(module);
+/******/ 			if (!module.children) module.children = [];
+/******/ 			Object.defineProperty(module, 'exports', {
+/******/ 				enumerable: true,
+/******/ 				set: () => {
+/******/ 					throw new Error('ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + module.id);
+/******/ 				}
+/******/ 			});
+/******/ 			return module;
+/******/ 		};
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */

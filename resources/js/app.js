@@ -4,6 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+
 require('./bootstrap');
 
 window.Vue = require('vue').default;
@@ -16,14 +17,6 @@ window.Vue = require('vue').default;
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
-Vue.component('LoginComponent', require('./components/LoginComponent.vue').default);
-Vue.component('ModalComponent', require('./components/ModalComponent.vue').default);
-Vue.component('SignUpComponent', require('./components/SignUpComponent.vue').default);
-Vue.component('SocialiteComponent', require('./components/SocialiteComponent.vue').default);
-
 
 
 /**
@@ -32,12 +25,20 @@ Vue.component('SocialiteComponent', require('./components/SocialiteComponent.vue
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
-    el: '#app',
-    components : {
-        LoginComponent,
-        ModalComponent,
-        SignUpComponent,
-        SocialiteComponent,
-    }
-});
+
+import Vue from "vue";
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
+import LoginComponent from './components/LoginComponent';
+import ModalComponent from './components/ModalComponent';
+
+Vue.config.productionTip = false;
+
+Vue.use(VueAxios, axios)
+
+Vue.component('my-component', LoginComponent);
+
+new Vue({
+    render: h => h(ModalComponent)
+}).$mount("#app");
