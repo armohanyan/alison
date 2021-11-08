@@ -3,18 +3,17 @@
 namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
+use App\Models\CourseType;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class CourseTypeController extends Controller
 {
-    public function categories() {
+    public function courseTypes() {
 
-        $categories = Category::limit(9)->get();
-
+        $courseTypes = CourseType::all();
         return response()->json([
             'success' => true,
-            'categories' => $categories,
+            'courseTypes' => $courseTypes,
         ]) ;
     }
 }

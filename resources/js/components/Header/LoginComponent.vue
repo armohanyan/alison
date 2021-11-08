@@ -68,10 +68,9 @@
 </template>
 
 <script>
-import SocialiteComponent from "./SocialiteComponent";
+import SocialiteComponent from "../../components/Header/SocialiteComponent";
 export default {
     components: { SocialiteComponent },
-
     data() {
         return {
             userData: {
@@ -89,8 +88,10 @@ export default {
                 signUpCondition : false,
             },
             errorsArray : {},
+            courseCategories : [],
         }
     },
+
     methods : {
         signUpSubmit() {
             $.each ((this.errorMessage), (key, value ) =>{
@@ -98,7 +99,7 @@ export default {
             })
             this.axios
                 .post('/sign-up', this.userData)
-                .then((response) => {
+                .then( (response) => {
                     if ( response.data.success){
                         this.$emit( 'registeredUser', false);
                         Swal.fire({
@@ -108,7 +109,7 @@ export default {
                             showConfirmButton: false,
                             timer: 2000
                         })
-                        location.reload();
+                        window.location.reload();
                     }
                     else{
                         $.each(response.data.errors, (error, msg) => {

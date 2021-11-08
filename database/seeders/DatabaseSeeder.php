@@ -24,6 +24,6 @@ class DatabaseSeeder extends Seeder
 
 //        CourseType::class::factory(2)->create();
 
-        Course::class::factory(20)->create();
+//        Course::class::factory(20)->create();
     }
 }

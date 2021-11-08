@@ -5,7 +5,7 @@
             <div class="custom-model-wrap">
 <!--------------------------LogIn Component here------------------------>
                             <login-component @registeredUser="getData($event)"/>
-<!----------------------------------------------------------------------->
+<!------------------- ---------------------------------------------------->
 <!--------------------------SignUp Component here------------------------>
                             <sign-up-component/>
 <!----------------------------------------------------------------------->
@@ -16,8 +16,8 @@
 </template>
 <script>
 
-import LoginComponent from "./LoginComponent";
-import SignUpComponent from "./SignUpComponent";
+import SignUpComponent from "../../components/Header/SignUpComponent";
+import LoginComponent from "../../components/Header/LoginComponent";
 
 export default {
     name:'ModalComponent',
@@ -32,9 +32,6 @@ export default {
             this.hideModal = data;
         }
     },
-    mounted() {
-        console.log(this.hideModal)
-    }
 }
 
 </script>

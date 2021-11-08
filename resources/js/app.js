@@ -27,18 +27,14 @@ window.Vue = require('vue').default;
 
 
 import Vue from "vue";
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-
-import LoginComponent from './components/LoginComponent';
-import ModalComponent from './components/ModalComponent';
+import axios from 'axios' ;
+import VueAxios from 'vue-axios';
+import IndexComponent from './components/Header/IndexComponent';
 
 Vue.config.productionTip = false;
 
-Vue.use(VueAxios, axios)
-
-Vue.component('my-component', LoginComponent);
+Vue.use(VueAxios, axios);
 
 new Vue({
-    render: h => h(ModalComponent)
+    render: h => h(IndexComponent ),
 }).$mount("#app");

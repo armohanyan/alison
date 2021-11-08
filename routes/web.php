@@ -6,6 +6,7 @@ use App\Http\Controllers\SocialAuthentication\FacebookController;
 use App\Http\Controllers\SocialAuthentication\LinkedinController;
 use App\Http\Controllers\Course\CategoryController;
 use App\Http\Controllers\HomeController ;
+use \App\Http\Controllers\Auth\AuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,22 +19,22 @@ use App\Http\Controllers\HomeController ;
 */
 
 
-    Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home') ;
-    Route::get('/user/profile', 'App\Http\Controllers\Profile\ProfileController@index')->name('profile') ;
+Auth::routes();
 
-    Route::post('/sign-up', [\App\Http\Controllers\Auth\AuthController::class, 'signUp']);
-    Route::post('/sign-in', [\App\Http\Controllers\Auth\AuthController::class, 'signIn']);
-    Route::get('/sign-out', [\App\Http\Controllers\Auth\AuthController::class, 'signOut'])->name('signout');
+Route::get('/', [HomeController::class, 'index'])->name('home') ;
 
-    Route::get('/redirect/google', [GoogleController::class, 'redirect'])->name('redirect.google');
-    Route::get('/callback/google', [GoogleController::class, 'callback'])->name('callback.google');;
+Route::post('/sign-up', [AuthController::class, 'signUp'])->name('sign-up');
+Route::post('/sign-in', [AuthController::class, 'signIn'])->name('sign-in');;
+Route::get('/sign-out', [AuthController::class, 'signOut'])->name('signout');
 
-    Route::get('redirect/facebook', [FacebookController::class, 'redirect'])->name('redirect.facebook');
-    Route::get('callback/facebook', [FacebookController::class, 'callback'])->name('callback.facebook');;
+Route::get('/redirect/google', [GoogleController::class, 'redirect'])->name('redirect.google');
+Route::get('/callback/google', [GoogleController::class, 'callback'])->name('callback.google');;
 
-    Route::get('/redirect/linkedin', [LinkedinController::class, 'redirect'])->name('redirect.linkedin');
-    Route::get('/callback/linkedin', [LinkedinController::class, 'callback'])->name('callback.linkedin');
+Route::get('redirect/facebook', [FacebookController::class, 'redirect'])->name('redirect.facebook');
+Route::get('callback/facebook', [FacebookController::class, 'callback'])->name('callback.facebook');;
 
-    Auth::routes();
+Route::get('/redirect/linkedin', [LinkedinController::class, 'redirect'])->name('redirect.linkedin');
+Route::get('/callback/linkedin', [LinkedinController::class, 'callback'])->name('callback.linkedin');
 
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/get/user', [AuthController::class, 'checkUserAuth'] )->name('get.user');

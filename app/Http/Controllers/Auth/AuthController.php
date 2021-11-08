@@ -72,6 +72,12 @@ class AuthController extends Controller
         }
     }
 
+    public function checkUserAuth(){
+        return response()->json([
+            'user' => Auth::user()
+        ]);
+    }
+
     public function signOut(){
         Auth::logout();
         return redirect()->back() ;

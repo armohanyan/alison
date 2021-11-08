@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import SocialiteComponent from "./SocialiteComponent";
+import SocialiteComponent from "../../components/Header/SocialiteComponent";
 
 export default {
     components: { SocialiteComponent },
@@ -82,7 +82,7 @@ export default {
                 .post('/sign-in', this.userData)
                 .then(function (response){
                     if ( response.data.success ){
-                        location.reload();
+                        window.location.reload();
                     }
                     else{
                         $.each(response.data.errors, (error, msg) => {

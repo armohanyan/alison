@@ -21,7 +21,8 @@ class Category extends Model
         return CategoryFactory::new();
     }
 
-    public function courses() {
+    public function courses()
+    {
        return $this->hasMany(Course::class,);
     }
 
