@@ -20,10 +20,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-//        Category::class::factory(10)->create();
+        Category::class::factory(10)->create();
 
 //        CourseType::class::factory(2)->create();
 
-        Course::class::factory(20)->create();
+//        Course::class::factory(20)->create();
     }
 }
