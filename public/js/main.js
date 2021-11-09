@@ -1,4 +1,4 @@
-$(document).ready(function(){
+
     $(".open-menu-category").click(function(){
         if( $(".category-list").css('display') == 'block' ){
             $(".category-list").slideUp("slow");
@@ -157,6 +157,5 @@ $(document).ready(function(){
         $('.pop-up-content-wrap-login').css('display', 'none')
     })
 
-});
 
 

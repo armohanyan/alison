@@ -2918,6 +2918,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "TrendCourses",
   data: function data() {
@@ -2929,6 +2931,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getCourses();
   },
   methods: {
+    hideBlockIntro: function hideBlockIntro(index) {
+      this.coursesArray[index].hoverBlockIntro = false;
+    },
+    showBlockIntro: function showBlockIntro(index) {
+      this.coursesArray[index].hoverBlockIntro = true;
+    },
     getCourses: function getCourses() {
       var _this = this;
 
@@ -2939,7 +2947,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context.next = 2;
                 return _this.axios.get('/api/get/courses').then(function (response) {
+                  console.log(response.data.courses);
                   _this.coursesArray = response.data.courses;
+
+                  _this.coursesArray.forEach(function (value, index) {
+                    _this.$set(_this.coursesArray[index], 'hoverBlockIntro', false);
+                  });
                 })["catch"](function (error) {
                   console.log(error);
                 });
@@ -2951,6 +2964,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    getImageFromPublic: function getImageFromPublic() {
+      return '/images/';
     }
   }
 });
@@ -41620,27 +41636,75 @@ var render = function () {
   return _c(
     "div",
     { staticClass: "cours-list-row trending-courses" },
-    _vm._l(_vm.coursesArray, function (courseArray) {
+    _vm._l(_vm.coursesArray, function (courseArray, index) {
       return _c(
         "a",
-        { key: _vm.index, attrs: { href: "google.com", title: "" } },
+        {
+          key: index,
+          attrs: { href: "google.com", title: "", "data-id": courseArray.id },
+          on: {
+            mouseenter: function ($event) {
+              return _vm.showBlockIntro(index)
+            },
+            mouseleave: function ($event) {
+              return _vm.hideBlockIntro(index)
+            },
+          },
+        },
         [
           _c("div", { staticClass: "course-block" }, [
-            _vm._m(0, true),
+            _c("div", { staticClass: "cl-image" }, [
+              _c("img", {
+                attrs: { src: _vm.getImageFromPublic() + courseArray.img },
+              }),
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "course-block-content" }, [
-              _c("span", { staticClass: "block-content-type" }),
+              _c("span", { staticClass: "block-content-type" }, [
+                _vm._v(_vm._s(courseArray.course_type.name)),
+              ]),
               _vm._v(" "),
-              _c("span", { staticClass: "block-content-category" }),
+              _c("span", { staticClass: "block-content-category" }, [
+                _vm._v(_vm._s(courseArray.category.name)),
+              ]),
               _vm._v(" "),
               _c("h3", { staticClass: "course-type-title" }, [
                 _c("div", { attrs: { title: "title-inner-div" } }, [
-                  _c("span", [_vm._v(_vm._s(courseArray.title) + " ")]),
+                  _c("span", [_vm._v(_vm._s(courseArray.title))]),
                 ]),
               ]),
             ]),
             _vm._v(" "),
-            _vm._m(1, true),
+            courseArray.hoverBlockIntro
+              ? _c("div", { staticClass: "course-block-intro" }, [
+                  _vm._m(0, true),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "div-course-title" }, [
+                    _c("span", { staticClass: "course-title" }, [
+                      _vm._v(_vm._s(courseArray.title)),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "publisher" }, [
+                    _c("span", [
+                      _c(
+                        "i",
+                        {
+                          staticClass: "fa fa-university",
+                          attrs: { "aria-hidden": "true" },
+                        },
+                        [_vm._v(_vm._s(courseArray.publisher))]
+                      ),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "course-intro" }, [
+                    _c("span", [_vm._v(_vm._s(courseArray.description))]),
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(1, true),
+                ])
+              : _vm._e(),
             _vm._v(" "),
             _vm._m(2, true),
           ]),
@@ -41655,64 +41719,41 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "cl-image" }, [
-      _c("img", { attrs: { alt: "" } }),
+    return _c("div", { staticClass: "social-links" }, [
+      _c("a", { attrs: { href: "" } }, [
+        _c("img", {
+          attrs: { src: "https://img.icons8.com/color/48/000000/linkedin.png" },
+        }),
+      ]),
+      _vm._v(" "),
+      _c("a", { attrs: { href: "" } }, [
+        _c("img", {
+          attrs: {
+            src: "https://img.icons8.com/color/48/000000/facebook-new.png",
+          },
+        }),
+      ]),
+      _vm._v(" "),
+      _c("a", { attrs: { href: "" } }, [
+        _c("img", {
+          attrs: {
+            src: "https://img.icons8.com/color/48/000000/twitter--v2.png",
+          },
+        }),
+      ]),
     ])
   },
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "course-block-intro" }, [
-      _c("div", { staticClass: "social-links" }, [
-        _c("a", { attrs: { href: "" } }, [
-          _c("img", {
-            attrs: {
-              src: "https://img.icons8.com/color/48/000000/linkedin.png",
-            },
-          }),
-        ]),
-        _vm._v(" "),
-        _c("a", { attrs: { href: "" } }, [
-          _c("img", {
-            attrs: {
-              src: "https://img.icons8.com/color/48/000000/facebook-new.png",
-            },
-          }),
-        ]),
-        _vm._v(" "),
-        _c("a", { attrs: { href: "" } }, [
-          _c("img", {
-            attrs: {
-              src: "https://img.icons8.com/color/48/000000/twitter--v2.png",
-            },
-          }),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "div-course-title" }, [
-        _c("span", { staticClass: "course-title" }),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "publisher" }, [
-        _c("span", [
-          _c("i", {
-            staticClass: "fa fa-university",
-            attrs: { "aria-hidden": "true" },
-          }),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "course-intro" }, [_c("span")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "more-info" }, [
-        _c("a", { attrs: { href: "" } }, [
-          _vm._v("More Information "),
-          _c("i", {
-            staticClass: "fa fa-question-circle",
-            attrs: { "aria-hidden": "true" },
-          }),
-        ]),
+    return _c("div", { staticClass: "more-info" }, [
+      _c("a", { attrs: { href: "" } }, [
+        _vm._v("More Information "),
+        _c("i", {
+          staticClass: "fa fa-question-circle",
+          attrs: { "aria-hidden": "true" },
+        }),
       ]),
     ])
   },

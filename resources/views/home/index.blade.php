@@ -60,7 +60,7 @@
 {{--        <div class="main-cours-list">--}}
 
 
-            {{--            <div class="cours-list-row">--}}
+{{--                        <div class="cours-list-row">--}}
 {{--                @foreach($courses as $course)--}}
 {{--                    <a href="google.com" title="{{ $course->title }}">--}}
 {{--                        <div class="course-block">--}}

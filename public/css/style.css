@@ -499,14 +499,15 @@ section {
     position: relative;
     height: auto;
     margin: 25px 15px 0  0;
-    max-width: 18%;
     padding-bottom: 15px;
     background-color: #fff;
     min-height: 300px;
-    width: 100%;
     overflow: hidden;
     cursor: pointer;
     box-shadow: 0 1px 7px 0 rgb(50 50 50 / 20%);
+}
+.cours-list-row >  a {
+    width: 250px;
 }
 
 .cl-image img{
@@ -587,7 +588,6 @@ section {
     text-align: center;
     pointer-events: none;
     transition: all .4s ease-in;
-    opacity: 0;
 }
 
 .social-links i {
