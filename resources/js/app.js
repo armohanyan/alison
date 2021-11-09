@@ -30,6 +30,7 @@ import Vue from "vue";
 import axios from 'axios' ;
 import VueAxios from 'vue-axios';
 import IndexComponent from './components/Header/IndexComponent';
+import ArticleIndex from './components/article/ArticleIndex';
 
 Vue.config.productionTip = false;
 
@@ -38,3 +39,7 @@ Vue.use(VueAxios, axios);
 new Vue({
     render: h => h(IndexComponent ),
 }).$mount("#app");
+
+new Vue({
+    render: h => h(ArticleIndex),
+}).$mount("#article-courses");

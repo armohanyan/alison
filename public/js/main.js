@@ -44,30 +44,7 @@ $(document).ready(function(){
     $('.front').mouseleave(function() {
         $(this).css('border-top', '');
     })
-    // console.log(546556456)
-    // $('.item-cat').on('hover',
-    //     function() {
-    //         console.log('sdfdsf')
-    //         var rand = colors[Math.floor(Math.random() * colors.length)];
-    //         $(this).find('i').css('color', rand  );
-    //         $(this).css('border-bottom', '5px solid ' + rand  );
-    //     },
-    //     function() {
-    //         console.log('25413')
-    //         $(this).find('i').css('color', '');
-    //         $(this).css('border-bottom', '')
-    //     }
-    // )
-    // $('.ul-category-list > li ').mouseenter(function() {
-    //     var rand = colors[Math.floor(Math.random() * colors.length)];
-    //     $(this).find('i').css('color', rand  );
-    //     $(this).css('border-bottom', '5px solid ' + rand  );
-    // });
-    //
-    // $('.ul-course-type li ').mouseleave(function() {
-    //     $(this).find('i').css('color', '');
-    //     $(this).css('border-bottom', '')
-    // })
+
 
     $('.course-block').mouseenter(function() {
         $(this).find('.course-block-intro').css('opacity', 1 )

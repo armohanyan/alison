@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Auth\AuthController;
 use \App\Http\Controllers\Course\CategoryController;
 use \App\Http\Controllers\Course\CourseTypeController;
+use \App\Http\Controllers\Course\CourseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,4 +24,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/get/categories', [CategoryController::class, 'categories'] )->name('get.categories');
 Route::get('/get/course-types', [CourseTypeController::class, 'courseTypes'] )->name('get.courseTypes');
+Route::get('/get/courses', [CourseController::class, 'getCourses'] )->name('get.getCourses');
 

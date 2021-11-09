@@ -2,8 +2,11 @@
     <div class="category-list">
         <div class="color-change">
             <ul class="ul-category-list">
-                <li @mouseover="changeBorderColor"  @mouseout="onmouseOut"v-for="(category, index) in courseCategories" :key="index" v-bind:style="style" >
-                    <a :id="index" class="sm-link" href=""><i class="fa fa-desktop" aria-hidden="true"></i> <br>
+                <li @mouseover.capture="changeBorderColor"
+                    @mouseout="onmouseOut" v-for="(category, index) in courseCategories"
+                    :key="index"
+                    :style="styleObject">
+                    <a :id="index" class="sm-link"><i class="fa fa-desktop" aria-hidden="true"></i> <br>
                         <span class="category-name">{{ category.name }}</span>
                     </a>
                 </li>
@@ -18,7 +21,10 @@ export default {
     data() {
         return{
             courseCategories : [],
-            color: 'red',
+            changeColor : false,
+            styleObject: {
+                'border-bottom': ''
+            }
         }
     },
 
@@ -29,8 +35,8 @@ export default {
     methods: {
         changeBorderColor: function (event) {
             let rand = ( Math.random()*0xFFFFFF<<0).toString(16)
-            console.log(rand)
-            event.target.style.borderBottom = '4px solid #' + rand ;
+            event.target.style.borderBottom = '4px solid #' + rand;
+
         },
         onmouseOut : function (event) {
             event.target.style.borderBottom = 'none'
@@ -41,7 +47,7 @@ export default {
             .then( response => {
                 this.courseCategories = response.data.categories
             })
-            .catch(error => {
+            .catch(error => {category-list
                 console.log('Upss! something went wrong')
                 this.categories = []
             })
@@ -53,14 +59,8 @@ export default {
 <style scoped>
 
 
-.fa-desktop{
-    border-bottom : none !important
-}
-.category-name{
-    border-bottom : none !important
-}
 .category-list{
-    height: 250px;
+    height: 130px;
     position: absolute;
     display: none;
     width: 100%;
@@ -71,7 +71,6 @@ export default {
     z-index:2;
     top: 64px;
 }
-
 .ul-category-list{
     max-width: 95%;
     justify-content: center;
@@ -89,7 +88,6 @@ export default {
     color: #566d7f;
 }
 
-
 .sm-link{
     background-color: #e9edf1;
     display: inline-block;
@@ -99,6 +97,10 @@ export default {
     vertical-align: middle;
     padding-top: 9px;
     border-bottom: 7px solid #fff;
+}
+
+li > * {
+    pointer-events: none;
 }
 
 .sm-link :hover{
@@ -113,5 +115,12 @@ export default {
     margin-bottom: 7px;
     display: inline-block;
 }
+
+/*.fa-desktop{*/
+/*    border-bottom : none !important*/
+/*}*/
+/*.category-name{*/
+/*    border-bottom : none !important*/
+/*}*/
 
 </style>
