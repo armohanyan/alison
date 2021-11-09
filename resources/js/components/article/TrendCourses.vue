@@ -3,7 +3,7 @@
         <a v-for="courseArray in coursesArray" :key="index" href="google.com" title="">
             <div class="course-block">
                 <div class="cl-image">
-                    <img :src="{{ courseArray.img }}" alt="">
+                    <img  alt="">
                 </div>
                 <div class="course-block-content">
                     <span class="block-content-type"></span>
@@ -62,7 +62,6 @@
                 await this.axios.get('/api/get/courses')
                 .then( response => {
                     this.coursesArray =  response.data.courses
-                    console.log( response.data.courses[0].img)
                 })
                 .catch( error =>{
                     console.log(error)

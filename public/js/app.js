@@ -2940,7 +2940,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 2;
                 return _this.axios.get('/api/get/courses').then(function (response) {
                   _this.coursesArray = response.data.courses;
-                  console.log(response.data.courses[0].img);
                 })["catch"](function (error) {
                   console.log(error);
                 });
@@ -41614,8 +41613,123 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render),
 /* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
 /* harmony export */ });
-var render = function () {}
-var staticRenderFns = []
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "cours-list-row trending-courses" },
+    _vm._l(_vm.coursesArray, function (courseArray) {
+      return _c(
+        "a",
+        { key: _vm.index, attrs: { href: "google.com", title: "" } },
+        [
+          _c("div", { staticClass: "course-block" }, [
+            _vm._m(0, true),
+            _vm._v(" "),
+            _c("div", { staticClass: "course-block-content" }, [
+              _c("span", { staticClass: "block-content-type" }),
+              _vm._v(" "),
+              _c("span", { staticClass: "block-content-category" }),
+              _vm._v(" "),
+              _c("h3", { staticClass: "course-type-title" }, [
+                _c("div", { attrs: { title: "title-inner-div" } }, [
+                  _c("span", [_vm._v(_vm._s(courseArray.title) + " ")]),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _vm._m(1, true),
+            _vm._v(" "),
+            _vm._m(2, true),
+          ]),
+        ]
+      )
+    }),
+    0
+  )
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "cl-image" }, [
+      _c("img", { attrs: { alt: "" } }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "course-block-intro" }, [
+      _c("div", { staticClass: "social-links" }, [
+        _c("a", { attrs: { href: "" } }, [
+          _c("img", {
+            attrs: {
+              src: "https://img.icons8.com/color/48/000000/linkedin.png",
+            },
+          }),
+        ]),
+        _vm._v(" "),
+        _c("a", { attrs: { href: "" } }, [
+          _c("img", {
+            attrs: {
+              src: "https://img.icons8.com/color/48/000000/facebook-new.png",
+            },
+          }),
+        ]),
+        _vm._v(" "),
+        _c("a", { attrs: { href: "" } }, [
+          _c("img", {
+            attrs: {
+              src: "https://img.icons8.com/color/48/000000/twitter--v2.png",
+            },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "div-course-title" }, [
+        _c("span", { staticClass: "course-title" }),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "publisher" }, [
+        _c("span", [
+          _c("i", {
+            staticClass: "fa fa-university",
+            attrs: { "aria-hidden": "true" },
+          }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "course-intro" }, [_c("span")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "more-info" }, [
+        _c("a", { attrs: { href: "" } }, [
+          _vm._v("More Information "),
+          _c("i", {
+            staticClass: "fa fa-question-circle",
+            attrs: { "aria-hidden": "true" },
+          }),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "parent-div-startnow" }, [
+      _c("div", { staticClass: "child-div-startnow" }, [
+        _c("a", { staticClass: "btn-start-now ", attrs: { title: "" } }, [
+          _vm._v("Start Now"),
+        ]),
+      ]),
+    ])
+  },
+]
+render._withStripped = true
 
 
 
