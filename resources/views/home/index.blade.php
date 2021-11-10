@@ -45,71 +45,12 @@
         </div>
     </div>
   </section>
+<!-------------------------- Article Component is here ------------------------>
    <div id="article-courses">
        <article-index/>
    </div>
-{{--    <div class="courses-list-body">--}}
-{{--        <div class="courses-list">--}}
-{{--            <ul class="courses-list-ul">--}}
-{{--                <li><a href="">Treding</a></li>--}}
-{{--                <li><a href="">Most Popular</a></li>--}}
-{{--                <li><a href="">Most Recent</a></li>--}}
-{{--                <li><a href="">Tags</a></li>--}}
-{{--            </ul>--}}
-{{--        </div>--}}
-{{--        <div class="main-cours-list">--}}
-
-
-{{--                        <div class="cours-list-row">--}}
-{{--                @foreach($courses as $course)--}}
-{{--                    <a href="google.com" title="{{ $course->title }}">--}}
-{{--                        <div class="course-block">--}}
-{{--                            <div class="cl-image">--}}
-{{--                                <img src="{{ asset('images/'.$course->img) }}" alt="">--}}
-{{--                            </div>--}}
-{{--                            <div class="course-block-content">--}}
-{{--                                <span class="block-content-type">{{  $course->category->name }}</span>--}}
-{{--                                <span class="block-content-category">{{  $course->courseType->name }}</span>--}}
-{{--                                <h3 class="course-type-title">--}}
-{{--                                    <div title="title-inner-div">--}}
-{{--                                        <span>{{ $course->title }}</span>--}}
-{{--                                    </div>--}}
-{{--                                </h3>--}}
-{{--                            </div>--}}
-
-{{--                            <div class="course-block-intro">--}}
-{{--                                <div class="social-links">--}}
-{{--                                    <a href=""><img src="https://img.icons8.com/color/48/000000/linkedin.png"/></a>--}}
-{{--                                    <a href=""><img src="https://img.icons8.com/color/48/000000/facebook-new.png"/></a>--}}
-{{--                                    <a href=""><img src="https://img.icons8.com/color/48/000000/twitter--v2.png"/></a>--}}
-{{--                                </div>--}}
-{{--                                <div class="div-course-title">--}}
-{{--                                    <span class="course-title" > {{ $course->title }}</span>--}}
-{{--                                </div>--}}
-{{--                                <div class="publisher">--}}
-{{--                                    <span><i class="fa fa-university" aria-hidden="true"></i>{{ $course->publisher }}</span>--}}
-{{--                                </div>--}}
-{{--                                <div class="course-intro">--}}
-{{--                                    <span>{{ $course->description  }}</span>--}}
-{{--                                </div>--}}
-{{--                                <div class="more-info">--}}
-{{--                                    <a href=""class="" >More Information <i class="fa fa-question-circle" aria-hidden="true"></i> </a>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="parent-div-startnow">--}}
-{{--                                <div class="child-div-startnow">--}}
-{{--                                    <a title="" class="btn-start-now ">Start Now</a>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </a>--}}
-{{--                @endforeach--}}
-{{--            <div class="btn-more-courses">--}}
-{{--                <a href="" class="more-courses-link" title="More Courses">More Courses</a>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-
+   <router-view></router-view>
+<!----------------------------------------------------------------------->
     <div class="alison-statics">
         <div class="statics-inner">
             <div class="learners-number">

@@ -24,5 +24,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/get/categories', [CategoryController::class, 'categories'] )->name('get.categories');
 Route::get('/get/course-types', [CourseTypeController::class, 'courseTypes'] )->name('get.courseTypes');
-Route::get('/get/courses', [CourseController::class, 'getCourses'] )->name('get.getCourses');
+Route::get('/get/courses', [CourseController::class, 'getCourses'] )->name('courses');
+Route::get('/get/most-popular/courses', [CourseController::class, 'getMostPopularCourses'] )->name('mostpopularcourses');
 

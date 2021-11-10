@@ -26,15 +26,35 @@ window.Vue = require('vue').default;
  */
 
 
-import Vue from "vue";
-import axios from 'axios' ;
-import VueAxios from 'vue-axios';
+
+
 import IndexComponent from './components/Header/IndexComponent';
 import ArticleIndex from './components/article/ArticleIndex';
+import ShowCourse from './components/article/ShowCourse';
+import Vue from "vue";
 
+import axios from 'axios' ;
+import VueAxios from 'vue-axios';
+
+import VueRouter from 'vue-router'
+Vue.use(VueRouter);
 Vue.config.productionTip = false;
-
 Vue.use(VueAxios, axios);
+
+//
+// const routes = [
+//     {
+//         path : '/show',
+//         name : 'ShowCourse',
+//         component: ShowCourse,
+//     },
+// ];
+//
+// const router = new VueRouter({
+//     mode: 'history',
+//     routes
+// })
+
 
 new Vue({
     render: h => h(IndexComponent ),

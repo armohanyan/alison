@@ -38,7 +38,7 @@ export default {
         },
 
         async getCourseTypes(){
-            await this.axios.get('api/get/course-types')
+            await this.axios.get('/api/get/course-types')
             .then( response => {
                 this.courseTypes = response.data.courseTypes
             })

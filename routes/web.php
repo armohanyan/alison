@@ -5,6 +5,7 @@ use App\Http\Controllers\SocialAuthentication\GoogleController;
 use App\Http\Controllers\SocialAuthentication\FacebookController;
 use App\Http\Controllers\SocialAuthentication\LinkedinController;
 use App\Http\Controllers\Course\CategoryController;
+use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\HomeController ;
 use \App\Http\Controllers\Auth\AuthController;
 /*
@@ -38,3 +39,4 @@ Route::get('/callback/linkedin', [LinkedinController::class, 'callback'])->name(
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/get/user', [AuthController::class, 'checkUserAuth'] )->name('get.user');
+Route::get('/show/{id}', [CourseController::class, 'show'] )->name('show.courses');

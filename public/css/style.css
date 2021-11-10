@@ -456,6 +456,7 @@ section {
 }
 
 .courses-list-ul li a {
+    cursor: pointer;
     padding-right: 15px;
     color: #000;
     opacity: .8;
