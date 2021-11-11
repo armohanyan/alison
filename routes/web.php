@@ -39,4 +39,5 @@ Route::get('/callback/linkedin', [LinkedinController::class, 'callback'])->name(
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/get/user', [AuthController::class, 'checkUserAuth'] )->name('get.user');
-Route::get('/show/{id}', [CourseController::class, 'show'] )->name('show.courses');
+Route::get('/show/{id}', [CourseController::class, 'show'] )->name('show.course');
+Route::post('/course/rate', [CourseController::class, 'rateCourse'] )->name('rate.course');

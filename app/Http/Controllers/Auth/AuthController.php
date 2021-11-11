@@ -52,10 +52,10 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), $validation);
 
         if( $validator->fails() ){
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->getMessageBag()->toArray(),
-            ], 200);
+                return response()->json([
+                    'success' => false,
+                    'errors' => $validator->getMessageBag()->toArray(),
+                ], 200);
         }
 
         else{

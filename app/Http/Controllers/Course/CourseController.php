@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
-use http\Env\Request;
+//use http\Env\Request;
 
-//use Illuminate\Http\Request;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
@@ -37,7 +38,12 @@ class CourseController extends Controller
         ]);
     }
 
+    public function rateCourse (Request $request ) {
 
+        return response()->json([
+          'response' => 'success'
+        ]);
+    }
 
 
 
