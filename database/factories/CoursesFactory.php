@@ -23,7 +23,7 @@ class CoursesFactory extends Factory
             'category_id' => $this->faker->numberBetween(1,10),
             'course_type_id' => $this->faker->numberBetween(1,2),
             'title' => $this->faker->name(),
-            'description' => $this->faker->text(35),
+            'description' => $this->faker->text(),
             'publisher' => $this->faker->name(),
             'img'  => 'default.png',
         ];

@@ -1,4 +1,4 @@
-
+$(document).ready(function() {
     $(".open-menu-category").click(function(){
         if( $(".category-list").css('display') == 'block' ){
             $(".category-list").slideUp("slow");
@@ -157,28 +157,52 @@
         $('.pop-up-content-wrap-login').css('display', 'none')
 
     })
-    //
-    // $.ajaxSetup({
-    //     headers: {
-    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //     }
-    // });
-    // $('.rating > input ').click(function (e) {
-    //     e.preventDefault() ;
-    //     $.ajax({
-    //             type: 'POST',
-    //             url: '/course/rate',
-    //             data:   {
-    //                 courseRate : $(this).data('rating'),
-    //                 courseId : $(this).data('id'),
-    //             },
-    //             success: function(response){
-    //                 if(response){
-    //                     console.log(response)                    }
-    //                 else{
-    //                     console.log('error')
-    //                 }
-    //             },
-    //         })
-    //
-    // })
+
+/*--------------------------------------------------------------------------*/
+
+    var count;
+    var review;
+
+    var $star_rating = $('.star-rating .fa-star');
+    $star_rating.click(function() {
+        var rate = parseInt($(this).data('rating'));
+        $('input.rating-value').val(rate);
+        $star_rating.each(function() {
+            if (rate >= parseInt($(this).data('rating'))) {
+                count=parseInt($(this).data('rating'));
+                return $(this).removeClass('checked').addClass('checked');
+            }
+            else {
+                return $(this).removeClass('checked');
+            }
+        });
+    });
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $('#btn-review').click(function() {
+        $.ajax({
+            url: '/course/rate',
+            type: 'GET',
+            data: {
+                course_id : $(this).data('id'),
+                course_rate : count,
+                review : $('#input-review').val()
+            },
+
+            success: function(response){
+                $('.rating-review-course').hide()
+                window.location.reload();
+            },
+        })
+
+    })
+});
+
+
+
+

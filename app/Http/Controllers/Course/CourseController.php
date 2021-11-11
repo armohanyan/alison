@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 //use http\Env\Request;
 
+use App\Models\Rating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,8 +24,8 @@ class CourseController extends Controller
 
     public function getMostPopularCourses() {
 
-//        $mostPopularCourses = Course::with('Category', 'CourseType')->o   rderBy("name")->get();
-        $mostPopularCourses = Course::orderBy("publisher", 'asc')->get();
+        $mostPopularCourses = Course::with('Category', 'CourseType')->get();
+
         return response()->json([
             'mostPopularCourses'  => $mostPopularCourses
         ], 200);
@@ -33,33 +34,10 @@ class CourseController extends Controller
 
     public function show($id){
         $course = Course::find($id);
-        return view('courses.index')->with([
+
+        return view(    'courses.index')->with([
             'course' => $course,
         ]);
     }
-
-    public function rateCourse (Request $request ) {
-
-        return response()->json([
-          'response' => 'success'
-        ]);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

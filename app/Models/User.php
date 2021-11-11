@@ -46,4 +46,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function hasRateUser($course){
+        return (bool) $course->ratings
+            ->where( 'user_id', $this->id )
+            ->count();
+    }
 }

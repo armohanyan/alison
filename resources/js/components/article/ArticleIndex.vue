@@ -9,7 +9,7 @@
         </div>
         <div class="main-cours-list">
             <div class="cours-list-row trending-courses">
-                <a v-for="(courseArray, index) in coursesArray" :key="index" href=""
+                <a v-for="(courseArray, index) in coursesArray" :key="index" :href="/show/ + courseArray.id"
                    title="" @mouseenter="showBlockIntro(index)" @mouseleave="hideBlockIntro(index)"
                    :data-id="courseArray.id">
                     <div class="course-block">
@@ -17,8 +17,8 @@
                             <img :src="getImageFromPublic() + courseArray.img">
                         </div>
                         <div class="course-block-content">
-                            <!--                    <span class="block-content-type">{{ courseArray.course_type.name }}</span>-->
-                            <!--                    <span class="block-content-category">{{ courseArray.category.name }}</span>-->
+                            <span class="block-content-type">{{ courseArray.course_type.name }}</span>
+                            <span class="block-content-category">{{ courseArray.category.name }}</span>
                             <h3 class="course-type-title">
                                 <div title="title-inner-div">
                                     <span>{{ courseArray.title }}</span>
@@ -138,5 +138,7 @@ export default {
 </script>
 
 <style scoped>
-
+.child-div-startnow > a{
+    color: #fff;
+}
 </style>
