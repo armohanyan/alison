@@ -15,4 +15,20 @@ class TotalRating extends Model
         'total_count',
         'arithmetic_average',
     ];
+
+
+    public function category(){
+        return $this->hasManyThrough(Category::class, Course::class);
+    }
+
+
+    public function courseType(){
+        return $this->hasManyThrough(CourseType::class, Course::class);
+    }
+
+    public function course() {
+        return $this->belongsTo(Course::class);
+    }
+
+
 }

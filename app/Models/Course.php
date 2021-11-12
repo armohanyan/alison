@@ -38,7 +38,7 @@ class Course extends Model
     }
 
     public function totalRating(){
-        return $this->hasMany(TotalRating::class);
+        return $this->hasOne(TotalRating::class);
     }
 
     public function getArithmeticAverage(){

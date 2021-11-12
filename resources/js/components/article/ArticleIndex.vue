@@ -17,8 +17,8 @@
                             <img :src="getImageFromPublic() + courseArray.img">
                         </div>
                         <div class="course-block-content">
-                            <span class="block-content-type">{{ courseArray.course_type.name }}</span>
-                            <span class="block-content-category">{{ courseArray.category.name }}</span>
+<!--                            <span class="block-content-type">{{ courseArray.course_type.name }}</span>-->
+<!--                            <span class="block-content-category">{{ courseArray.category.name }}</span>-->
                             <h3 class="course-type-title">
                                 <div title="title-inner-div">
                                     <span>{{ courseArray.title }}</span>
@@ -41,9 +41,9 @@
                             <div class="course-intro">
                                 <span>{{ courseArray.description }}</span>
                             </div>
-                            <div class="more-info">
-                                <a href="" class="">More Information <i class="fa fa-question-circle" aria-hidden="true"></i> </a>
-                            </div>
+<!--                            <div class="more-info">-->
+<!--                                <a href="" class="">More Information <i class="fa fa-question-circle" aria-hidden="true"></i> </a>-->
+<!--                            </div>-->
                         </div>
                         <div class="parent-div-startnow">
                             <div class="child-div-startnow">
@@ -104,7 +104,8 @@ export default {
             }
             await this.axios.get(url)
                 .then(response => {
-                    if (url == '/api/get/most-popular/courses' ){
+                    if ( url == '/api/get/most-popular/courses' ){
+                        console.log(response.data.mostPopularCourses);
                         this.coursesArray = response.data.mostPopularCourses;
                     }
                     else {

@@ -22,6 +22,7 @@ class CoursesFactory extends Factory
         return [
             'category_id' => $this->faker->numberBetween(1,10),
             'course_type_id' => $this->faker->numberBetween(1,2),
+            'total_rating_id' => $this->faker->numberBetween(1,20),
             'title' => $this->faker->name(),
             'description' => $this->faker->text(),
             'publisher' => $this->faker->name(),

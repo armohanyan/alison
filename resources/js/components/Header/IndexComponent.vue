@@ -4,7 +4,7 @@
         <div class="header-main">
             <div class="part-left p-2 flex-grow-1">
                 <div class="logo">
-                    <a href=""><img class="logo-image" src="/images/alison.svg" alt=""></a>
+                    <a href="/"><img class="logo-image" src="/images/alison.svg" alt=""></a>
                 </div>
                 <div class="search">
                     <form>
@@ -36,13 +36,9 @@
                 </div>
             </div>
 
-            <div :class="isAuth ? 'active-item dropdown': 'hide-item'" style="padding: 13px">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ authUser.first_name }}</button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Action</a>http://127.0.0.1:8002/
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdowz`n-item" href="#">Something else here</a>
-                </div>
+            <div :class="isAuth ? 'active-item dropdown': 'hide-item' " style="padding: 13px">
+                <img src="https://img.icons8.com/fluency/48/000000/person-male.png"/>
+                <span>{{ authUser.first_name + ' ' + authUser.surname }}</span>
             </div>
 
             <div :class="isAuth ? 'hide-item' : 'active-item login-links'">
@@ -56,13 +52,13 @@
                 <a href="/sign-out" class="logout btn btn-primary">Logout</a>
             </div>
         </div>
-        <!------------------------ Modal Component Categories Component here ------------->
-            <modal-component/>
-        <!------------------------- Course Categories Component here ------------->
-            <course-categories/>
-        <!-------------------------- Course Types Component here -------------------->
-            <course-type/>
-        <!----------------------------------------------------------------------->
+<!------------------------ Modal Component Categories Component here ------------->
+        <modal-component/>
+<!------------------------- Course Categories Component here ------------->
+        <course-categories/>
+<!-------------------------- Course Types Component here -------------------->
+        <course-type/>
+<!----------------------------------------------------------------------->
     </div>
 </template>
 
@@ -108,5 +104,12 @@ export default {
 </script>
 
 <style scoped>
-
+.active-item > span {
+    color: #fff;
+    font-weight: 700;
+}
+.active-item > img {
+    width: 50px;
+    height: 45px;
+}
 </style>

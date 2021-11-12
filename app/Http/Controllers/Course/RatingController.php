@@ -42,7 +42,6 @@ class RatingController extends Controller
             'arithmetic_average' => $courseArithmeticAverage,
         ]);
 
-
         return response()->json([
             'success' => true,
         ]);
