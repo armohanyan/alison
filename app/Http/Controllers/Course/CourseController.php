@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Course;
 //use http\Env\Request;
 use App\Models\TotalRating;
@@ -15,7 +16,8 @@ class CourseController extends Controller
 {
     public function getCourses() {
 
-        $courses = Course::with('Category', 'CourseType')->get();
+        $courses = Course::with('Category', 'CourseType')
+            ->get();
 
         return response()->json([
             'courses'  => $courses
@@ -25,15 +27,22 @@ class CourseController extends Controller
 
     public function getMostPopularCourses() {
 
-        $coursesTotalRating = TotalRating::with('Course', 'Category', 'CourseType')->orderByDesc('arithmetic_average', 'DESC')->get() ;
-        $mostPopularCourses = collect( [] );
-        dd($coursesTotalRating);
-        foreach ($coursesTotalRating as $courseTotalRating){
-            $mostPopularCourses->push($courseTotalRating['course']);
+        $coursesTotalRating = TotalRating::with('Course')
+            ->orderByDesc('arithmetic_average', 'desc')
+            ->get();
+
+        $arr = collect([]);
+
+        for ( $i = 0; $i < $coursesTotalRating->count() ; $i++){
+            $collection = collect($coursesTotalRating[$i]['course'])->merge([
+                 $coursesTotalRating[$i]['course']->category
+        ]);
+            $arr->push($collection);
         }
 
+
         return response()->json([
-            'mostPopularCourses'  => $coursesTotalRating,
+            'mostPopularCourses'  => $arr,
         ], 200);
 
     }

@@ -18,12 +18,12 @@ class TotalRating extends Model
 
 
     public function category(){
-        return $this->hasManyThrough(Category::class, Course::class);
+        return $this->belongsTo(Category::class);
     }
 
 
     public function courseType(){
-        return $this->hasManyThrough(CourseType::class, Course::class);
+        return $this->belongsTo(CourseType::class);
     }
 
     public function course() {

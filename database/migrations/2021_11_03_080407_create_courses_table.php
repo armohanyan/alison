@@ -14,10 +14,10 @@ class CreateCoursesTable extends Migration
     public function up()
     {
         Schema::create('courses', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->id();
             $table->foreignId('category_id')->constrained('categories')->onDelete('CASCADE');
             $table->foreignId('course_type_id')->constrained('course_types')->onDelete('CASCADE');
-            $table->foreignId('total_rating_id')->constrained('total_ratings')->onDelete('CASCADE');
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('img')->nullable() ;
