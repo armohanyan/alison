@@ -9,57 +9,37 @@ require('./bootstrap');
 
 window.Vue = require('vue').default;
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-
-
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-
-
-
 import IndexComponent from './components/Header/IndexComponent';
-import ArticleIndex from './components/article/ArticleIndex';
-import ShowCourse from './components/article/ShowCourse';
+import ArticleIndex from './components/article/ArticleIndex'; 
 import Vue from "vue";
-
+// import store from './store'
+// import VueSocketIO from 'vue-socket.io'
 import axios from 'axios' ;
 import VueAxios from 'vue-axios';
-
 import VueRouter from 'vue-router'
+
 Vue.use(VueRouter);
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 
-//
-// const routes = [
-//     {
-//         path : '/show',
-//         name : 'ShowCourse',
-//         component: ShowCourse,
+// Vue.use(new VueSocketIO({
+//     debug: true,
+//     connection: 'http://127.0.0.1:8002',
+//     vuex: {
+//         store,
+//         actionPrefix: 'SOCKET_',
+//         mutationPrefix: 'SOCKET_'
 //     },
-// ];
-//
-// const router = new VueRouter({
-//     mode: 'history',
-//     routes
-// })
-
+//     options: { path: "/my-app/" } //Optional options
+// }))
+ 
 
 new Vue({
+        // store,
     render: h => h(IndexComponent ),
 }).$mount("#app");
 
 new Vue({
+    // store, 
     render: h => h(ArticleIndex),
 }).$mount("#article-courses");

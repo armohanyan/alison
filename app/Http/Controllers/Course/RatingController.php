@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Course;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\User;
+use App\Models\AlisonStatic;
 use App\Models\Rating;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -44,6 +46,23 @@ class RatingController extends Controller
 
         return response()->json([
             'success' => true,
-        ]);
+            ]);
+        }
+
+    public function getStatics(){ 
+
+        $courseQuantity = Course::all()->count();
+        $learnersQuantity = User::all()->count();  
+
+        $alisonStatics = [
+            'courseQuantity' => $courseQuantity,
+            'learnersQuantity' => $learnersQuantity
+        ]; 
+
+        return response()->json([
+            'success' => true, 
+            'alisonStatics' => $alisonStatics
+        ]); 
+
     }
 }

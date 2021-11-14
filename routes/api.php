@@ -6,16 +6,13 @@ use \App\Http\Controllers\Auth\AuthController;
 use \App\Http\Controllers\Course\CategoryController;
 use \App\Http\Controllers\Course\CourseTypeController;
 use \App\Http\Controllers\Course\CourseController;
+use \App\Http\Controllers\Course\RatingController;
 
 /*
 |--------------------------------------------------------------------------
 | API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
+|---------------------------------------------------
+
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -26,4 +23,5 @@ Route::get('/get/categories', [CategoryController::class, 'categories'] )->name(
 Route::get('/get/course-types', [CourseTypeController::class, 'courseTypes'] )->name('get.courseTypes');
 Route::get('/get/courses', [CourseController::class, 'getCourses'] )->name('courses');
 Route::get('/get/most-popular/courses', [CourseController::class, 'getMostPopularCourses'] )->name('mostpopularcourses');
+Route::get('/get/statics', [RatingController::class, 'getStatics'] )->name('get.statics');
 

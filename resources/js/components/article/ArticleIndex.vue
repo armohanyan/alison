@@ -1,10 +1,10 @@
 <template>
+<div class="article-main">
     <div class="courses-list-body">
         <div class="courses-list">
             <ul class="courses-list-ul">
                 <li><a @click = "clickCourses">Courses</a></li>
                 <li><a @click = "clickMostPopular">Most Popular</a></li>
-                <li><a @click = "clickMostRecent">Most Recent</a></li>
             </ul>
         </div>
         <div class="main-cours-list">
@@ -17,15 +17,14 @@
                             <img :src="getImageFromPublic() + courseArray.img">
                         </div>
                         <div class="course-block-content">
-<!--                            <span class="block-content-type">{{ courseArray.course_type.name }}</span>-->
-<!--                            <span class="block-content-category">{{ courseArray.category.name }}</span>-->
+                           <span class="block-content-type">{{ courseArray.course_type.name }}</span>
+                           <span class="block-content-category">{{ courseArray.category.name }}</span>
                             <h3 class="course-type-title">
                                 <div title="title-inner-div">
                                     <span>{{ courseArray.title }}</span>
                                 </div>
                             </h3>
                         </div>
-
                         <div v-if="courseArray.hoverBlockIntro" class="course-block-intro" >
                             <div class="social-links">
                                 <a href=""><img src="https://img.icons8.com/color/48/000000/linkedin.png"/></a>
@@ -41,9 +40,6 @@
                             <div class="course-intro">
                                 <span>{{ courseArray.description }}</span>
                             </div>
-<!--                            <div class="more-info">-->
-<!--                                <a href="" class="">More Information <i class="fa fa-question-circle" aria-hidden="true"></i> </a>-->
-<!--                            </div>-->
                         </div>
                         <div class="parent-div-startnow">
                             <div class="child-div-startnow">
@@ -58,12 +54,21 @@
             </div>
         </div>
     </div>
-</template>
+    <alison-static/>    
+</div> 
+</template> 
 
 <script>
+import AlisonStatic from "../../components/article/AlisonStatic";
 
 export default {
+    
+    components: {
+         AlisonStatic 
+    },
+
     name: "TrendCourses" ,
+
     data() {
         return {
             coursesArray : [],
@@ -93,19 +98,17 @@ export default {
 
         async getCourses(type) {
             let url = '';
-            if(type == 'recent') {
-                // url = '/api/get/courses';
-            }
-            else if(type == 'popular') {
+
+            if(type == 'popular') {
                 url = '/api/get/most-popular/courses';
             }
             else {
                 url = '/api/get/courses';
             }
+
             await this.axios.get(url)
                 .then(response => {
                     if ( url == '/api/get/most-popular/courses' ){
-                        console.log(response.data.mostPopularCourses);
                         this.coursesArray = response.data.mostPopularCourses;
                     }
                     else {
@@ -128,12 +131,6 @@ export default {
             return '/images/'
         }
     },
-
-    watch : {
-        clickedCourses : function (newVal, oldVal){
-            console.log('Prop changed: ', newVal, ' | was: ', oldVal)
-        }
-    }
 }
 
 </script>

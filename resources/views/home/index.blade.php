@@ -49,32 +49,31 @@
    <div id="article-courses">
        <article-index/>
    </div>
-   <router-view></router-view>
 <!----------------------------------------------------------------------->
-    <div class="alison-statics">
-        <div class="statics-inner">
-            <div class="learners-number">
-                <span><img src="https://cdn01.alison-static.net/public/html/site/img/home-stats/learners.svg" alt=""></span>
-                <span class="numbers">21</span>
-                <span class="static-title">Million Learners</span>
+        <!-- <div class="alison-statics">
+            <div class="statics-inner">
+                <div class="learners-number">
+                    <span><img src="https://cdn01.alison-static.net/public/html/site/img/home-stats/learners.svg" alt=""></span>
+                    <span class="numbers">21</span>
+                    <span class="static-title">Million Learners</span>
+                </div>
+                <div class="graduates-number">
+                    <span><img src="https://cdn01.alison-static.net/public/html/site/img/home-stats/graduates.svg" alt=""></span>
+                    <span class="numbers">4</span>
+                    <span class="static-title">Million Graduates</span>
+                </div>
+                <div class="courses-number">
+                    <span><img src="https://cdn01.alison-static.net/public/html/site/img/home-stats/courses.svg" alt=""></span>
+                    <span class="numbers">3500+</span>
+                    <span class="static-title">Courses</span>
+                </div>
+                <div class="countries-number">
+                    <span><img src="https://cdn01.alison-static.net/public/html/site/img/home-stats/countries.svg" alt=""></span>
+                    <span class="numbers">195</span>
+                    <span class="static-title">Countries</span>
+                </div>
             </div>
-            <div class="graduates-number">
-                <span><img src="https://cdn01.alison-static.net/public/html/site/img/home-stats/graduates.svg" alt=""></span>
-                <span class="numbers">4</span>
-                <span class="static-title">Million Graduates</span>
-            </div>
-            <div class="courses-number">
-                <span><img src="https://cdn01.alison-static.net/public/html/site/img/home-stats/courses.svg" alt=""></span>
-                <span class="numbers">3500+</span>
-                <span class="static-title">Courses</span>
-            </div>
-            <div class="countries-number">
-                <span><img src="https://cdn01.alison-static.net/public/html/site/img/home-stats/countries.svg" alt=""></span>
-                <span class="numbers">195</span>
-                <span class="static-title">Countries</span>
-            </div>
-        </div>
-    </div>
+        </div> -->
     @include('includes.testimonials')
 
     <div class="alison-publishers">

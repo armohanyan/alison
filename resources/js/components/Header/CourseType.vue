@@ -28,6 +28,7 @@ export default {
     },
 
     methods : {
+
         changeBorderColor: function (event) {
             let rand = ( Math.random()*0xFFFFFF<<0).toString(16)
             event.target.style.borderBottom = '4px solid #' + rand;
@@ -42,6 +43,7 @@ export default {
             .then( response => {
                 this.courseTypes = response.data.courseTypes
             })
+            
             .catch(error => {
                 console.log(error)
                 this.courseTypes= []
