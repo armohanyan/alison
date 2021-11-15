@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Course;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\Testimonal;
 use App\Models\User;
 use App\Models\AlisonStatic;
 use App\Models\Rating;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
 class RatingController extends Controller
 {
 
@@ -49,20 +50,39 @@ class RatingController extends Controller
             ]);
         }
 
-    public function getStatics(){ 
+    public function getStatics(){
 
         $courseQuantity = Course::all()->count();
-        $learnersQuantity = User::all()->count();  
+        $learnersQuantity = User::all()->count();
 
         $alisonStatics = [
             'courseQuantity' => $courseQuantity,
             'learnersQuantity' => $learnersQuantity
-        ]; 
+        ];
 
         return response()->json([
-            'success' => true, 
+            'success' => true,
             'alisonStatics' => $alisonStatics
-        ]); 
+        ]);
 
+    }
+
+    public function getTestimonials (){
+        $testimonials = Testimonal::all();
+
+        $smallTestimonials = $testimonials->filter(function ($item) {
+            return  Str::of( $item->body)->length() < 20 ;
+        });
+
+        $bigTestimonials = $testimonials->filter(function ($item) {
+            return  Str::of( $item->body)->length() > 20 ;
+        });
+
+
+        return response()->json([
+           'success' => true,
+            'bigTestimonials' => $bigTestimonials,
+            'smallTestimonials' => $smallTestimonials->toArray(),
+        ]);
     }
 }

@@ -22,7 +22,7 @@
                 <span class="static-title">Countries</span>
             </div>
         </div>
-    </div>    
+    </div>
 </template>
 
 <script>
@@ -31,9 +31,9 @@ export default ({
 
    name : 'AlisonStatic',
 
-   data(){ 
+   data(){
        return {
-          alisonStatics : {}, 
+          alisonStatics : [],
        }
    },
 
@@ -45,17 +45,17 @@ export default ({
         async getStatics(){
             await this.axios.get('/api/get/statics')
             .then( response => {
-                this.alisonStatics = response.data.alisonStatics 
+                this.alisonStatics = response.data.alisonStatics
             })
             .catch(error => {
                 console.log(error)
-                this.courseTypes= []
+                this.alisonStatics = []
             })
         }
     }
 
 })
-</script>   
+</script>
 
 
 <style scoped>

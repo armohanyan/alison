@@ -49,54 +49,28 @@
    <div id="article-courses">
        <article-index/>
    </div>
-<!----------------------------------------------------------------------->
-        <!-- <div class="alison-statics">
-            <div class="statics-inner">
-                <div class="learners-number">
-                    <span><img src="https://cdn01.alison-static.net/public/html/site/img/home-stats/learners.svg" alt=""></span>
-                    <span class="numbers">21</span>
-                    <span class="static-title">Million Learners</span>
-                </div>
-                <div class="graduates-number">
-                    <span><img src="https://cdn01.alison-static.net/public/html/site/img/home-stats/graduates.svg" alt=""></span>
-                    <span class="numbers">4</span>
-                    <span class="static-title">Million Graduates</span>
-                </div>
-                <div class="courses-number">
-                    <span><img src="https://cdn01.alison-static.net/public/html/site/img/home-stats/courses.svg" alt=""></span>
-                    <span class="numbers">3500+</span>
-                    <span class="static-title">Courses</span>
-                </div>
-                <div class="countries-number">
-                    <span><img src="https://cdn01.alison-static.net/public/html/site/img/home-stats/countries.svg" alt=""></span>
-                    <span class="numbers">195</span>
-                    <span class="static-title">Countries</span>
-                </div>
-            </div>
-        </div> -->
-    @include('includes.testimonials')
-
-    <div class="alison-publishers">
-        <div class="publishers-inner">
-            <div class="publishers-image">
-                <a href="" class=""><img src="https://cdn01.alison-static.net/public/html/site/img/home-publishers/mit.png" alt=""></a>
-                <a href="" class=""><img src="https://cdn01.alison-static.net/public/html/site/img/home-publishers/stanford.png" alt=""></a>
-                <a href="" class=""><img src="https://cdn01.alison-static.net/public/html/site/img/home-publishers/columbia.png" alt=""></a>
-                <a href="" class=""><img src="https://cdn01.alison-static.net/public/html/site/img/home-publishers/cambridge.png" alt=""></a>
-                <div class="publisher-spacer"></div>
-                <div class="publisher-spacer"></div>
-                <div class="publisher-spacer"></div>
-                <div class="publisher-spacer"></div>
-                <a href="" class=""><img src="https://cdn01.alison-static.net/public/html/site/img/home-publishers/google.png" alt=""></a>
-                <a href="" class=""><img src="https://cdn01.alison-static.net/public/html/site/img/home-publishers/microsoft.png" alt=""></a>
-                <a href="" class=""><img src="https://cdn01.alison-static.net/public/html/site/img/home-publishers/saylor.png" alt=""></a>
-                <a href="" class=""><img src="https://cdn01.alison-static.net/public/html/site/img/home-publishers/openstax.png" alt=""></a>
-            </div>
-            <div class="publishers-text">
-                <h3>So why wait? Start one of our 3,500 high quality courses from the world's leading experts today!</h3>
-                <a href=""  class="publishers-btn">Start Learning Now</a>
-            </div>
-        </div>
-    </div>
-    @include('includes.footer')
+<!------------------------------------------------------------------------------>
+{{--    <div class="alison-publishers">--}}
+{{--        <div class="publishers-inner">--}}
+{{--            <div class="publishers-image">--}}
+{{--                <a href="" class=""><img src="https://cdn01.alison-static.net/public/html/site/img/home-publishers/mit.png" alt=""></a>--}}
+{{--                <a href="" class=""><img src="https://cdn01.alison-static.net/public/html/site/img/home-publishers/stanford.png" alt=""></a>--}}
+{{--                <a href="" class=""><img src="https://cdn01.alison-static.net/public/html/site/img/home-publishers/columbia.png" alt=""></a>--}}
+{{--                <a href="" class=""><img src="https://cdn01.alison-static.net/public/html/site/img/home-publishers/cambridge.png" alt=""></a>--}}
+{{--                <div class="publisher-spacer"></div>--}}
+{{--                <div class="publisher-spacer"></div>--}}
+{{--                <div class="publisher-spacer"></div>--}}
+{{--                <div class="publisher-spacer"></div>--}}
+{{--                <a href="" class=""><img src="https://cdn01.alison-static.net/public/html/site/img/home-publishers/google.png" alt=""></a>--}}
+{{--                <a href="" class=""><img src="https://cdn01.alison-static.net/public/html/site/img/home-publishers/microsoft.png" alt=""></a>--}}
+{{--                <a href="" class=""><img src="https://cdn01.alison-static.net/public/html/site/img/home-publishers/saylor.png" alt=""></a>--}}
+{{--                <a href="" class=""><img src="https://cdn01.alison-static.net/public/html/site/img/home-publishers/openstax.png" alt=""></a>--}}
+{{--            </div>--}}
+{{--            <div class="publishers-text">--}}
+{{--                <h3>So why wait? Start one of our 3,500 high quality courses from the world's leading experts today!</h3>--}}
+{{--                <a href=""  class="publishers-btn">Start Learning Now</a>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    @include('includes.footer')--}}
 @endsection

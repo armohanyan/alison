@@ -57,40 +57,40 @@ $(document).ready(function() {
 
 
     // SLIDE
-
-    $('.testimonials-left-image').slick({
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 5500,
-        arrows: false,
-        fade: true,
-        asNavFor: '.testimonials-left-text' ,
-
-    });
-
-    $('.testimonials-left-text').slick({
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        asNavFor: '.testimonials-left-image',
-        dots: true,
-        autoplay: true,
-        autoplaySpeed: 5500,
-        focusOnSelect: true,
-    });
-
-
-    $('.testimonials-left-text').on('afterChange', function(event, slick, currentSlide, nextSlide) {
-        $itemId = $(slick.$slides.get(currentSlide)).data('id')
-        $($itemId).addClass('bubble-active');
-        $($itemId).fadeIn()  ;
-    })
-
-    $('.testimonials-left-text').on('beforeChange', function(event, slick, currentSlide, nextSlide) {
-        $itemId = $(slick.$slides.get(currentSlide)).data('id')
-        $($itemId).removeClass('bubble-active');
-        $($itemId).fadeOut()
-    })
+    //
+    // $('.testimonials-left-image').slick({
+    //     slidesToShow: 1,
+    //     slidesToScroll: 1,
+    //     autoplay: true,
+    //     autoplaySpeed: 5500,
+    //     arrows: false,
+    //     fade: true,
+    //     asNavFor: '.testimonials-left-text' ,
+    //
+    // });
+    //
+    // $('.testimonials-left-text').slick({
+    //     slidesToShow: 1,
+    //     slidesToScroll: 1,
+    //     asNavFor: '.testimonials-left-image',
+    //     dots: true,
+    //     autoplay: true,
+    //     autoplaySpeed: 5500,
+    //     focusOnSelect: true,
+    // });
+    //
+    //
+    // $('.testimonials-left-text').on('afterChange', function(event, slick, currentSlide, nextSlide) {
+    //     $itemId = $(slick.$slides.get(currentSlide)).data('id')
+    //     $($itemId).addClass('bubble-active');
+    //     $($itemId).fadeIn()  ;
+    // })
+    //
+    // $('.testimonials-left-text').on('beforeChange', function(event, slick, currentSlide, nextSlide) {
+    //     $itemId = $(slick.$slides.get(currentSlide)).data('id')
+    //     $($itemId).removeClass('bubble-active');
+    //     $($itemId).fadeOut()
+    // })
 
     $('.video-placeholder-inner').click(function () {
         $(this).find('img').remove()

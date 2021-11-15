@@ -54,17 +54,23 @@
             </div>
         </div>
     </div>
-    <alison-static/>    
-</div> 
-</template> 
+<!------------------------ Alison Static Component here ------------->
+    <alison-static/>
+<!------------------------- Testimonials Component here ------------->
+    <testimonials/>
+<!------------------------------------------------------------------->
+</div>
+</template>
 
 <script>
 import AlisonStatic from "../../components/article/AlisonStatic";
+import Testimonials from "../../components/article/Testimonials.vue";
 
 export default {
-    
+
     components: {
-         AlisonStatic 
+        AlisonStatic,
+        Testimonials
     },
 
     name: "TrendCourses" ,
@@ -80,6 +86,7 @@ export default {
     },
 
     methods : {
+
         clickCourses: function (e) {
             this.getCourses('courses')
         },
@@ -97,6 +104,7 @@ export default {
         },
 
         async getCourses(type) {
+
             let url = '';
 
             if(type == 'popular') {

@@ -24,4 +24,5 @@ Route::get('/get/course-types', [CourseTypeController::class, 'courseTypes'] )->
 Route::get('/get/courses', [CourseController::class, 'getCourses'] )->name('courses');
 Route::get('/get/most-popular/courses', [CourseController::class, 'getMostPopularCourses'] )->name('mostpopularcourses');
 Route::get('/get/statics', [RatingController::class, 'getStatics'] )->name('get.statics');
+Route::get('/get/testimonials', [RatingController::class, 'getTestimonials'] )->name('get.testimonial');
 

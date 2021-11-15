@@ -4,6 +4,7 @@
     border: none;
     box-sizing: border-box;
 }
+
 a:link{
     text-decoration: none!important;
 }
@@ -703,15 +704,15 @@ section {
     font-weight: 500;
 }
 
+/* Testimonials slider */
+
+
+
 .testimonials-slider .testimonials-slider--image {
     max-width: 60%;
     width: 568px;
     margin-bottom: -5px;
 }
-
-
-
-/* Testimonials slider */
 
 
 .main-testimonials{
@@ -721,14 +722,15 @@ section {
 }
 
 .main-testimonials-inner{
-    display:flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
+    /*display:flex;*/
+    /*justify-content: flex-start;*/
+    /*flex-wrap: wrap;*/
 }
 
 .testimonials-left-inner{
-    width: 70%;
-    display: flex;
+    position: relative;
+    width: 55% !important;
+    display: flex !important;
     align-items:center;
 
     flex-wrap: wrap;
@@ -742,7 +744,7 @@ section {
     max-width: 35%;
     padding-left: 15px;
     position: relative;
-    right: 60px;
+    /*right: 60px;*/
 }
 
 
@@ -781,7 +783,11 @@ section {
 }
 
 .testimonials-right-inner{
-    max-width: 20%;
+    max-width: 25%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #fff;
     padding-top: 25px;
 }
 
@@ -804,29 +810,25 @@ section {
     height: 100%;
 }
 
-.testimonials-bubble-image div .bubble-small{
+.testimonials-bubble-image div #bubble-0{
     width: 67px;
     margin-left: 130px;
     height: 67px;
 }
 
-.testimonials-bubble-image div .bubble-same{
+.testimonials-bubble-image div #bubble-1{
     width: 130px;
     margin-left: 50px;
     height: 130px;
 }
 
-.testimonials-bubble-image div .same-second{
-    margin-left: 140px;
-}
-
-.testimonials-bubble-image div .bubble-middle{
+.testimonials-bubble-image div #bubble-2 {
     width: 110px;
     height: 110px;
-    margin-left: 140px;
+    margin-left: 200px;
 }
 
-.testimonials-bubble-image div .bubble-big{
+.testimonials-bubble-image div  #bubble-3 {
     width: 150px;
     height: 150px;
     margin-left: 0;
@@ -857,36 +859,29 @@ section {
     box-shadow: 0 3px 3px 0 rgb(50 50 50 / 49%);
 }
 
-.bubble-image-1{
+#bubble-image-0{
     left: 141px;
     background-color: #0094c9;
-    display: none;
 }
 
-.bubble-image-2{
+#bubble-image-1{
     left: 90px;
     background-color: #83c11f;
     border-color: #83c11f;
-    display: none;
-
 }
 
-.bubble-image-3{
+#bubble-image-2{
     top: 5px;
     right:-31px;
     background-color: #0094c9;
     border-color: #0094c9;
-    display: none;
-
 }
 
-.bubble-image-4{
+#bubble-image-3{
     top: 20px;
     left: 45px;
     background-color: #83c11f;
     border-color: #83c11f;
-    display: none;
-
 }
 
 .bubble-after:after{
@@ -901,11 +896,11 @@ section {
     border-bottom: 0;
     border-right: 0;
 }
-.bubble-image-4:after{
+#bubble-image-3:after{
     border-top-color: #83c11f;
 
 }
-.bubble-image-2:after{
+#bubble-image-1:after{
     border-top-color: #83c11f;
 
 }
