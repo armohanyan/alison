@@ -35,6 +35,7 @@
                                 </span>
                             </div>
                             <span v-if="hasError.password" class="is-invalid error-message-login-password error-login"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>{{ errorTexts.password }}</span>
+                            <span v-if="hasError.invalidLoginOrPassword" class="is-invalid error-message-login-password error-login"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>{{ errorTexts.invalidLoginOrPassword }}</span>
                             <div class="login-form-bottom  margin-top">
                                 <p>
                                     <input type="checkbox" checked name="remember" id="remember">
@@ -67,6 +68,7 @@ export default {
             hasError: {
                 email : false,
                 password : false,
+                invalidLoginOrPassword : false,
             },
             errorTexts : {}
         }
@@ -74,27 +76,29 @@ export default {
     methods : {
 
         signInSubmit() {
-            var self = this;
-            $.each ((self.hasError), (key, value ) =>{
-                self.hasError[key] = false
+            $.each ((this.hasError), (key, value) => {
+                this.hasError[key] = false
             })
             this.axios
                 .post('/sign-in', this.userData)
-                .then(function (response){
+                .then(response => {
                     if ( response.data.success ){
                         window.location.reload();
                     }
-                    else{
+                    else if(response.data.invalid){
+                        this.errorTexts['invalidLoginOrPassword'] = response.data.error;
+                        this.hasError.invalidLoginOrPassword = true
+                    }
+                    else {
                         $.each(response.data.errors, (error, msg) => {
-                            self.errorTexts[error] = msg.join() ;
-                            self.hasError[error] =  true;
+                            this.errorTexts[error] = msg.join();
+                            this.hasError[error] =  true;
                         })
                     }
                 })
                 .catch(err => {
                     console.log('error')
                 })
-                .finally(() => this.loading = false)
         }
     },
 }

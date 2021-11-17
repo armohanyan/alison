@@ -8,13 +8,15 @@
 require('./bootstrap');
 
 window.Vue = require('vue').default;
-
-import IndexComponent from './components/Header/IndexComponent';
-import ArticleIndex from './components/article/ArticleIndex'; 
+import
+IndexComponent from './components/Header/IndexComponent';
+import ArticleIndex from './components/article/ArticleIndex';
+import IndexFooter from './components/footer/IndexFooter';
 import Vue from "vue";
 // import store from './store'
 // import VueSocketIO from 'vue-socket.io'
-import axios from 'axios' ;
+import
+axios from 'axios' ;
 import VueAxios from 'vue-axios';
 import VueRouter from 'vue-router'
 
@@ -32,7 +34,7 @@ Vue.use(VueAxios, axios);
 //     },
 //     options: { path: "/my-app/" } //Optional options
 // }))
- 
+
 
 new Vue({
         // store,
@@ -40,6 +42,12 @@ new Vue({
 }).$mount("#app");
 
 new Vue({
-    // store, 
+    // store,
     render: h => h(ArticleIndex),
 }).$mount("#article-courses");
+
+
+
+new Vue({
+    render: h => h(IndexFooter),
+}).$mount("#footer-component");

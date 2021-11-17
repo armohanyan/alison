@@ -15,7 +15,7 @@
                 <div class="testimonials-bubble-image">
                     <div v-for="(smallTestimonial, index) in smallTestimonials" :key="index" class="testimonials-bubble-image-inner" >
                         <img  :id="'bubble-' + index" class="" :src="getImageFromPublic() + smallTestimonial.author_img" alt="">
-                        <div v-if="smallTestimonial['hoverBlock-' + index]"  class="testimonials-text bubble-after" :id="'bubble-image-' + index"><span>Got promoted!  </span></div>
+                        <div v-if="smallTestimonial['hoverBlock-' + index]"  class="testimonials-text bubble-after" :id="'bubble-image-' + index"><span>{{ smallTestimonial.body }}</span></div>
                     </div>
                 </div>
             </div>
@@ -46,19 +46,19 @@ export default {
     data() {
       return {
           bigTestimonials : [],
-          smallTestimonials : {},
+          smallTestimonials : [],
           settings : {
-            // autoplay:true,
-            'dots' : true,
-            "dotsClass": "slick-dots custom-dot-class",
-            autoplaySpeed:3000,
-            pauseOnHover:true,
-            "infinite": true,
-            "speed": 1000,
-            "slidesToShow": 1,
-            "slidesToScroll": 1,
-            "rtl": true
-        },
+               autoplay : true,
+               autoplaySpeed : 5000,
+               pauseOnHover : true,
+              'dots' : true,
+              "infinite" : true,
+              "speed" : 1000,
+              "slidesToShow" : 1,
+              "slidesToScroll" : 1,
+              "rtl" : true,
+              "dotsClass" : "slick-dots custom-dot-class"
+          },
       }
     },
 
@@ -70,20 +70,16 @@ export default {
         async getTestimonials(){
             await this.axios.get('/api/get/testimonials')
             .then( response => {
-                console.log(response )
+
                 this.bigTestimonials = response.data.bigTestimonials;
                 this.smallTestimonials = response.data.smallTestimonials;
 
                 this.smallTestimonials.forEach((value, index) => {
                     this.$set(this.smallTestimonials[index], 'hoverBlock-' + index, false)
                 });
-
-                // console.log(this.bigTestimonials)
-                // console.log(this.smallTestimonials)
             })
             .catch(error => {
                 console.log(error)
-                // this.testimonials  = []
             })
         },
 

@@ -7,6 +7,7 @@ use App\Models\Testimonal;
 use App\Models\User;
 use App\Models\AlisonStatic;
 use App\Models\Rating;
+use Illuminate\Support\Collection ;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -68,21 +69,25 @@ class RatingController extends Controller
     }
 
     public function getTestimonials (){
+
         $testimonials = Testimonal::all();
 
-        $smallTestimonials = $testimonials->filter(function ($item) {
-            return  Str::of( $item->body)->length() < 20 ;
-        });
+        // Testimonials that string length is bigger than 20
 
         $bigTestimonials = $testimonials->filter(function ($item) {
-            return  Str::of( $item->body)->length() > 20 ;
-        });
+            return Str::of( $item->body)->length() > 20 ;
+        })->random(4)->values();
 
+        // Testimonials that string length is not bigger than 20
+
+        $smallTestimonials = $testimonials->filter(function ($item) {
+            return Str::of( $item->body)->length() < 20 ;
+        })->random(4)->values();
 
         return response()->json([
-           'success' => true,
+            'success' => true,
             'bigTestimonials' => $bigTestimonials,
-            'smallTestimonials' => $smallTestimonials->toArray(),
+            'smallTestimonials' => $smallTestimonials,
         ]);
     }
 }

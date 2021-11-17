@@ -62,8 +62,8 @@ class AuthController extends Controller
             $credentials = $request->only('email', 'password');
             if (  ! Auth::attempt($credentials) ) {
                 return response()->json([
-                    'success' => false,
-                    'invalid' => 'Invalid Login or Password',
+                    'invalid' => true,
+                    'error' => 'Invalid Login or Password',
                 ], 200);
             }
             else{

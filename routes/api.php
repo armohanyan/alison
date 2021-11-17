@@ -7,6 +7,7 @@ use \App\Http\Controllers\Course\CategoryController;
 use \App\Http\Controllers\Course\CourseTypeController;
 use \App\Http\Controllers\Course\CourseController;
 use \App\Http\Controllers\Course\RatingController;
+use \App\Http\Controllers\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,6 @@ Route::get('/get/most-popular/courses', [CourseController::class, 'getMostPopula
 Route::get('/get/statics', [RatingController::class, 'getStatics'] )->name('get.statics');
 Route::get('/get/testimonials', [RatingController::class, 'getTestimonials'] )->name('get.testimonial');
 
+//Route::group(['middleware' => 'auth:api'], function () {
+//    Route::post('/post/message', [ChatController::class, 'storeMessage'])->name('store.message');
+//});

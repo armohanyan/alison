@@ -46,10 +46,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    protected $table = 'users';
+
+    public function chats(){
+       return $this->hasMany(Chat::class);
+    }
 
     public function hasRateUser($course){
         return (bool) $course->ratings
             ->where( 'user_id', $this->id )
             ->count();
     }
+
+    public function getUserFullName(){
+        return $this->first_name. ' '. $this->surname ;
+    }
+
+    public function getUserAvatar(){
+        return 'https://static.thenounproject.com/png/363640-200.png';
+    }
+
+    //    public function getParticipantMessages($participan_id){
+    //        $messages = Chat::where('user_id', )
+    //
+    //    }
 }

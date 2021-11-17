@@ -9,6 +9,7 @@ use App\Http\Controllers\Course\RatingController;
 use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\HomeController ;
 use \App\Http\Controllers\Auth\AuthController;
+use \App\Http\Controllers\ChatController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,3 +43,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/get/user', [AuthController::class, 'checkUserAuth'] )->name('get.user');
 Route::get('/show/{id}', [CourseController::class, 'show'] )->name('show.course');
 Route::get('/course/rate', [RatingController::class, 'rateCourse'] )->name('rate.course');
+
+
+Route::post('/post/message', [ChatController::class, 'storeMessage'] )->middleware('auth')->name('store.message');
+Route::get('/get/messages', [ChatController::class, 'getMessages'] )->middleware('auth')->name('get.message');
+
