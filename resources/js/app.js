@@ -24,18 +24,6 @@ Vue.use(VueRouter);
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 
-// Vue.use(new VueSocketIO({
-//     debug: true,
-//     connection: 'http://127.0.0.1:8002',
-//     vuex: {
-//         store,
-//         actionPrefix: 'SOCKET_',
-//         mutationPrefix: 'SOCKET_'
-//     },
-//     options: { path: "/my-app/" } //Optional options
-// }))
-
-
 new Vue({
         // store,
     render: h => h(IndexComponent ),

@@ -78,17 +78,18 @@
                 </ul>
             </div>
         </div>
-        <chat-component/>
+        <private-chat/>
     </footer>
 </template>
 
 <script>
 
-import ChatComponent from "../../components/footer/ChatComponent";
+
+import PrivateChat from "../../components/footer/PrivateChat";
 export default {
     name: "IndexFooter",
     components: {
-        ChatComponent
+        PrivateChat
     },
 }
 

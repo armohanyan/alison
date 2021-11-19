@@ -1,29 +1,16 @@
-'use strict';
 
-const express = require('express');
-const socketIO = require('socket.io');
+// var http = require('http').Server();
+// var io = require('socket.io')(http);
+// var Redis = require('ioredis');
+// var redis = new Redis();
 
-const PORT = process.env.PORT || 3000;
-const INDEX = '/index.html';
+// redis.subscribe('chat');
+// redis.on('message', function(channel, message) {
+//     console.log('Message Recieved: ' + message);
+//     message = JSON.parse(message);
+//     io.emit(channel + ':' + message.event, message.data);
+// });
 
-const server = express()
-    .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
-    .listen(PORT, () => console.log(`Listening on ${PORT}`));
-
-const io = socketIO(server);
-
-io.on('connection', (socket) => {
-    console.log('connection');
-
-    socket.on('sendChatToServer', (message) => {
-        // console.log(message);
-        io.sockets.emit('sendChatToClient', message);
-        // socket.broadcast.emit('sendChatToClient', message);
-    });
-
-    socket.on('disconnect', (socket) => {
-        console.log('Disconnect');
-    });
-});
-
-setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
+// http.listen(3000, function(){
+//     console.log('Listening on Port 3000');
+// });

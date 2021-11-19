@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Chat;
 use Carbon\Carbon;
+use App\Events ;
+use http\Message;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -14,28 +16,39 @@ class ChatController extends Controller
 {
     public  function storeMessage(Request $request){
 
+        dd($request->all());
         $currentUser = Auth::user();
+        $message = $request['message'];
+        $participants = $request->participantsId;
+        // $admin = User::find($participants);
 
-        if ($request->participantsId){
-            foreach ( $request->participantsId as  $participantId ) {
+        $senderUser = [
+            'name' => $currentUser->getUserFullName(),
+            'id' => $currentUser->id,
+            'profilePicture' => $currentUser->getUserAvatar(),
+        ];
+    
+        $senderMessage = [
+            'content' => $message['content'] ,
+            'myself' => false,
+            'participantId' => $currentUser->id,
+            'timestamp' =>  $message['timestamp'],
+            'type' => 'text',
+        ];
 
-                $currentUser->chats()->create([
-                    'message' => $request->message['content'],
-                    'participant_id' => $participantId
-                ]);
-
-            }
-        }
-        else{
-            $currentUser->chats()->create([
-                'message' => $request->message['content'],
-            ]);;
-        }
-
-
-        return response()->json([
-            'success' => true,
+        Events\PrivateChat::dispatch([
+            'senderMessage' => $senderMessage,
+            'senderUser' => $senderUser,
         ]);
+        
+        $currentUser->chats()->create([
+            'message' => $message['content'],
+            'participant_id' =>  $participants  
+        ]);
+       
+       return response()->json([
+           'success' => true,
+       ]);
 
     }
 

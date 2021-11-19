@@ -27,13 +27,20 @@ import { Chat } from 'vue-quick-chat';
 import 'vue-quick-chat/dist/vue-quick-chat.css';
 
 export default {
+    name : 'PrivateChat',
     components: {
         Chat
-    },
+    },  
     data() {
         return {
             visible: true,
-            participants: [],
+            participants: [
+                //     {
+                //     name: 'Admin',
+                //     id: 1,
+                //     profilePicture: 'https://upload.wikimedia.org/wikipedia/en/thumb/a/a1/NafSadh_Profile.jpg/768px-NafSadh_Profile.jpg'
+                //  }
+            ],
             myself : {},
             messages: [
 
@@ -94,32 +101,34 @@ export default {
 
     mounted() {
         this.getMessages()
+        window.Echo.channel('chat')
+            .listen('PrivateChat', ({data}) => {
+               this.messages.push(data['senderMessage'])
+               this.participants.push(data['senderUser'])
+            })
 
-        window.Echo.channel('room.1 ')
-        .listen('NewMessage', ({message}) => {
-            // console.log(message)
-        })
+            console.log(this.p)
     },
 
     methods: {
 
-        // async getMessages(){
-        //     await this.axios.get('/get/messages')
-        //     .then(response => {
-        //
-        //         const sortedMessages = response.data.messages.sort( (a,b) =>  new Date(a.timestamp) - new Date(b.timestamp) );
-        //
-        //         sortedMessages.forEach((item, index) => {
-        //             this.messages.push(sortedMessages[index])
-        //         })
-        //
-        //         this.myself = response.data.authUser
-        //         this.participants = response.data.userParticipant
-        //     })
-        //     .catch(error => {
-        //         console.log(error)
-        //     })
-        // },
+        async getMessages(){
+            await this.axios.get('/get/messages')
+            .then(response => {
+        
+                const sortedMessages = response.data.messages.sort( (a,b) =>  new Date(a.timestamp) - new Date(b.timestamp) );
+        
+                sortedMessages.forEach((item, index) => {
+                    this.messages.push(sortedMessages[index])
+                })
+        
+                this.myself = response.data.authUser
+                this.participants.push(response.data.userParticipant)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        },
 
         onType: function (event) {
             //here you can set any behavior
@@ -130,26 +139,22 @@ export default {
                 resolve(this.toLoad);
                 this.messages.unshift(...this.toLoad);
                 this.toLoad = [];
-            }, 1000);
+            }, 1000);   
         },
 
         onMessageSubmit: function (message) {
-            this.messages.push(message);
-            let participantsId = this.participants.map( item => item.id );
+            this.messages.push(message);    
+       
+           let participantsId =  this.participants
 
-            this.axios.post('/post/message', {message, participantsId, room_id : 2, } )
+           console.log(participantsId)
+            this.axios.post('message', {message, participantsId } )
                 .then(function (response){
-                    console.log('success')
+                    log('send message')
                 })
                 .catch(err => {
                     console.log('error')
                 })
-
-
-            /*
-            * you can update message state after the server response
-            */
-            // timeout simulating the request
 
             setTimeout(() => {
                 message.uploaded = true
