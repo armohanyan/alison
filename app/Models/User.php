@@ -66,8 +66,4 @@ class User extends Authenticatable
         return 'https://static.thenounproject.com/png/363640-200.png';
     }
 
-    //    public function getParticipantMessages($participan_id){
-    //        $messages = Chat::where('user_id', )
-    //
-    //    }
 }

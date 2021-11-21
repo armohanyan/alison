@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
 
 //        Course::class::factory(20)->create();
 
-       Testimonal::class::factory(4)->create();
+    //    Testimonal::class::factory(4)->create();
 
 
     }

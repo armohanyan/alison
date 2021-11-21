@@ -3434,13 +3434,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      visible: true,
-      participants: [//     {
-        //     name: 'Admin',
-        //     id: 1,
-        //     profilePicture: 'https://upload.wikimedia.org/wikipedia/en/thumb/a/a1/NafSadh_Profile.jpg/768px-NafSadh_Profile.jpg'
-        //  }
-      ],
+      isAuthUserAdmin: false,
+      visible: false,
+      participants: [],
       myself: {},
       messages: [],
       chatTitle: 'Alison chat',
@@ -3472,14 +3468,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         bottomLeft: "10px",
         bottomRight: "10px"
       },
-      hideCloseButton: false,
+      hideCloseButton: true,
       submitIconSize: 25,
       closeButtonIconSize: "20px",
       asyncMode: false,
       toLoad: [],
       scrollBottom: {
         messageSent: true,
-        messageReceived: false
+        messageReceived: true
       },
       displayHeader: true,
       profilePictureConfig: {
@@ -3496,18 +3492,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   mounted: function mounted() {
     var _this = this;
 
-    this.getMessages();
+    this.getAuthUser();
+
+    if (localStorage.getItem('myself') != 1) {
+      this.getMessages();
+      this.visible = true;
+    }
+
     window.Echo.channel('chat').listen('PrivateChat', function (_ref) {
       var data = _ref.data;
 
-      _this.messages.push(data['senderMessage']);
+      if (!_this.participants.some(function (item) {
+        return item.id == data['senderUser']['id'];
+      })) {
+        _this.participants.push(data['senderUser']);
 
-      _this.participants.push(data['senderUser']);
+        _this.visible = true;
+      }
+
+      _this.messages.push(data['senderMessage']);
     });
-    console.log(this.p);
   },
   methods: {
-    getMessages: function getMessages() {
+    getAuthUser: function getAuthUser() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -3516,18 +3523,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this2.axios.get('/get/messages').then(function (response) {
-                  var sortedMessages = response.data.messages.sort(function (a, b) {
-                    return new Date(a.timestamp) - new Date(b.timestamp);
-                  });
-                  sortedMessages.forEach(function (item, index) {
-                    _this2.messages.push(sortedMessages[index]);
-                  });
+                return _this2.axios.get('/get/authuser').then(function (response) {
+                  localStorage.setItem('myself', response.data.authUser.id);
                   _this2.myself = response.data.authUser;
-
-                  _this2.participants.push(response.data.userParticipant);
-                })["catch"](function (error) {
-                  console.log(error);
                 });
 
               case 2:
@@ -3538,30 +3536,73 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
+    getMessages: function getMessages() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return _this3.axios.get('/get/messages').then(function (response) {
+                  var allMessages = [];
+                  _this3.participants[0] = response.data.admin;
+                  response.data.mergeMessages.forEach(function (message) {
+                    var myself = _this3.myself.id == message.user_id ? myself = true : myself = false;
+                    var currectType = {
+                      'content': message.message,
+                      'myself': myself,
+                      'participantId': response.data.admin.id,
+                      'timestamp': message.created_at,
+                      'type': 'text'
+                    };
+                    allMessages.push(currectType);
+                  });
+                  _this3.messages = allMessages.sort(function (a, b) {
+                    return new Date(a.timestamp) - new Date(b.timestamp);
+                  });
+                  console.log(_this3.messages);
+                })["catch"](function (error) {
+                  console.log(error);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
     onType: function onType(event) {//here you can set any behavior
     },
     loadMoreMessages: function loadMoreMessages(resolve) {
-      var _this3 = this;
+      var _this4 = this;
 
       setTimeout(function () {
-        var _this3$messages;
+        var _this4$messages;
 
-        resolve(_this3.toLoad);
+        resolve(_this4.toLoad);
 
-        (_this3$messages = _this3.messages).unshift.apply(_this3$messages, _toConsumableArray(_this3.toLoad));
+        (_this4$messages = _this4.messages).unshift.apply(_this4$messages, _toConsumableArray(_this4.toLoad));
 
-        _this3.toLoad = [];
+        _this4.toLoad = [];
       }, 1000);
     },
     onMessageSubmit: function onMessageSubmit(message) {
       this.messages.push(message);
-      var participantsId = this.participants;
-      console.log(participantsId);
+
+      if (this.participants.length > 0) {
+        var participantsId = this.participants[0].id;
+        console.log(participantsId);
+      }
+
       this.axios.post('message', {
         message: message,
         participantsId: participantsId
       }).then(function (response) {
-        log('send message');
+        console.log('send message');
       })["catch"](function (err) {
         console.log('error');
       });

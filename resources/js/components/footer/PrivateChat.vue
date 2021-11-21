@@ -33,14 +33,9 @@ export default {
     },  
     data() {
         return {
-            visible: true,
-            participants: [
-                //     {
-                //     name: 'Admin',
-                //     id: 1,
-                //     profilePicture: 'https://upload.wikimedia.org/wikipedia/en/thumb/a/a1/NafSadh_Profile.jpg/768px-NafSadh_Profile.jpg'
-                //  }
-            ],
+            isAuthUserAdmin : false,
+            visible: false,
+            participants: [],
             myself : {},
             messages: [
 
@@ -75,7 +70,7 @@ export default {
                 bottomLeft: "10px",
                 bottomRight: "10px",
             },
-            hideCloseButton: false,
+            hideCloseButton: true,
             submitIconSize: 25,
             closeButtonIconSize: "20px",
             asyncMode: false,
@@ -83,7 +78,7 @@ export default {
 
             scrollBottom: {
                 messageSent: true,
-                messageReceived: false
+                messageReceived: true
             },
 
             displayHeader:true,
@@ -100,34 +95,62 @@ export default {
     },
 
     mounted() {
-        this.getMessages()
-        window.Echo.channel('chat')
+        this.getAuthUser()
+
+        if( localStorage.getItem('myself') != 1 ){
+            this.getMessages()
+            this.visible = true
+        }
+
+         window.Echo.channel('chat')
             .listen('PrivateChat', ({data}) => {
-               this.messages.push(data['senderMessage'])
-               this.participants.push(data['senderUser'])
+                if( ! this.participants.some( item => item.id == data['senderUser']['id']) ){
+                    this.participants.push(data['senderUser'])   
+                    this.visible = true
+                }
+                this.messages.push(data['senderMessage'])
             })
 
-            console.log(this.p)
     },
 
     methods: {
 
-        async getMessages(){
-            await this.axios.get('/get/messages')
-            .then(response => {
-        
-                const sortedMessages = response.data.messages.sort( (a,b) =>  new Date(a.timestamp) - new Date(b.timestamp) );
-        
-                sortedMessages.forEach((item, index) => {
-                    this.messages.push(sortedMessages[index])
-                })
-        
+        async getAuthUser(){
+            await this.axios.get('/get/authuser')
+            .then( response => {
+                localStorage.setItem('myself', response.data.authUser.id)
                 this.myself = response.data.authUser
-                this.participants.push(response.data.userParticipant)
             })
-            .catch(error => {
-                console.log(error)
-            })
+
+        },
+
+        async getMessages(){
+          await this.axios.get('/get/messages')
+                .then(response => {
+                    let allMessages = [];
+                    this.participants[0] = response.data.admin
+
+                    response.data.mergeMessages.forEach((message) => {
+                        let myself = this.myself.id == message.user_id ? myself = true : myself = false;
+
+                        let currectType = { 
+                            'content' : message.message,
+                            'myself' : myself,
+                            'participantId' : response.data.admin.id,
+                            'timestamp' : message.created_at,
+                            'type' : 'text',
+                        };
+
+                        allMessages.push(currectType)
+                    })
+
+                    this.messages = allMessages.sort( (a,b) =>  new Date(a.timestamp) - new Date(b.timestamp) );  
+                console.log(this.messages)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            
         },
 
         onType: function (event) {
@@ -143,14 +166,16 @@ export default {
         },
 
         onMessageSubmit: function (message) {
-            this.messages.push(message);    
-       
-           let participantsId =  this.participants
+            this.messages.push(message); 
 
-           console.log(participantsId)
+            if( this.participants.length > 0 ) {
+                var participantsId = this.participants[0].id
+                console.log(participantsId)
+            }
+
             this.axios.post('message', {message, participantsId } )
                 .then(function (response){
-                    log('send message')
+                    console.log('send message')
                 })
                 .catch(err => {
                     console.log('error')

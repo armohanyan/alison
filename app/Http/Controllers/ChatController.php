@@ -14,14 +14,24 @@ use function Couchbase\defaultDecoder;
 
 class ChatController extends Controller
 {
+    public function getAuthUser(){
+        
+        $authUser = [
+            'name' => Auth::user()->getUserFullName(),
+            'id' => Auth::user()->id,
+            'profilePicture' => Auth::user()->getUserAvatar(),
+        ];
+        return response()->json([
+            'authUser' => $authUser,
+         ]);
+    }
+
     public  function storeMessage(Request $request){
 
-        dd($request->all());
         $currentUser = Auth::user();
         $message = $request['message'];
-        $participants = $request->participantsId;
-        // $admin = User::find($participants);
-
+        $participantsId = $request->participantsId;
+        
         $senderUser = [
             'name' => $currentUser->getUserFullName(),
             'id' => $currentUser->id,
@@ -38,71 +48,42 @@ class ChatController extends Controller
 
         Events\PrivateChat::dispatch([
             'senderMessage' => $senderMessage,
-            'senderUser' => $senderUser,
+            'senderUser' => $senderUser,    
         ]);
         
+
         $currentUser->chats()->create([
             'message' => $message['content'],
-            'participant_id' =>  $participants  
-        ]);
+            'participant_id' =>  $participantsId,  
+        ]);    
        
-       return response()->json([
-           'success' => true,
-       ]);
+        return response()->json([
+           'success' => true,   
+        ]);
 
     }
 
     public function getMessages() {
 
-        $messagesArray = Auth::user()->chats;
-        $participantMessagesArray =  Chat::where('participant_id', Auth::user()->id)->get();
+        $adminData = User::find(1);
 
-        $userParticipant = collect([]);
-        $messages = collect([]);
+        if( Auth::user()->id != 1 ){
 
-        foreach ( $messagesArray as $messageArray ){
-
-            $currectType = [
-                'content' => $messageArray->message ,
-                'myself' => true,
-                'participantId' => $messageArray->participant_id,
-                'timestamp' => $messageArray->created_at,
-                'type' => 'text',
+            $messagesArray = Auth::user()->chats;
+            $participantMessagesArray = Chat::where('participant_id', Auth::user()->id)->get();
+            
+            $mergeMessages = $messagesArray->merge($participantMessagesArray);
+            
+            $admin = [
+                'name' => $adminData->getUserFullName(),
+                'id' => $adminData->id,
+                'profilePicture' => $adminData->getUserAvatar(),
             ];
-            $messages->push($currectType);
 
+            return response()->json([
+                'admin' => $admin,  
+                'mergeMessages' => $mergeMessages
+            ]);
         }
-
-        foreach ( $participantMessagesArray as $participantMessageArray ){
-
-            $currectType = [
-                'content' => $participantMessageArray->message ,
-                'myself' => false,
-                'participantId' => $participantMessageArray->user_id,
-                'timestamp' => $participantMessageArray->created_at,
-                'type' => 'text',
-            ];
-            $messages->push($currectType);
-
-            $userParticipantCorrectType = [
-                'name' => $participantMessageArray->user->getUserFullName(),
-                'id' => $participantMessageArray->user_id,
-                'profilePicture' => $participantMessageArray->user->getUserAvatar(),
-            ];
-            $userParticipant->push($userParticipantCorrectType);
-
-        }
-
-        $authUser = [
-            'name' => Auth::user()->getUserFullName(),
-            'id' => Auth::user()->id,
-            'profilePicture' => Auth::user()->getUserAvatar(),
-        ];
-
-        return response()->json([
-            'messages' => $messages,
-            'authUser' => $authUser,
-            'userParticipant' => $userParticipant->unique('id')->values(),
-        ]);
     }
 }
