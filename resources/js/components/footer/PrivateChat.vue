@@ -25,13 +25,6 @@
 <script>
 import { Chat } from 'vue-quick-chat';
 import 'vue-quick-chat/dist/vue-quick-chat.css';
-var HOST = location.origin.replace(/^https/, 'ws')
-var ws = new WebSocket(HOST);
-var el;
-
-ws.onmessage = function (event) {
-    console.log(event)
-};
 export default {
     name : 'PrivateChat',
     components: {
@@ -101,20 +94,22 @@ export default {
     },
 
     mounted() {
+        let socket = io('http://localhost:3000')
         this.getAuthUser()
+
         if( localStorage.getItem('myself') != 1 ){
             this.getMessages()
         }
 
-         window.Echo.channel('chat')
-            .listen('PrivateChat', ({data}) => {
-                if( ! this.participants.some( item => item.id == data['senderUser']['id']) ){
-                    this.participants.push(data['senderUser'])   
-                    this.visible = true
+    //    const socket = io('https://' + window.location.hostname);
+        
+        socket.on("chat:App\\Events\\PrivateChat", response  => {   
+             if( ! this.participants.some( item => item.id == response.data['senderUser']['id']) ){
+                    this.participants.push(response.data['senderUser'])   
+                    this.visible = true 
                 }
-                this.messages.push(data['senderMessage'])
-            })
-
+                this.messages.push(response.data['senderMessage'])
+        })
     },
 
     methods: {

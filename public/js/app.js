@@ -3427,14 +3427,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 
 
-var HOST = location.origin.replace(/^https/, 'ws');
-var ws = new WebSocket(HOST);
-var el;
-
-ws.onmessage = function (event) {
-  console.log(event);
-};
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'PrivateChat',
   components: {
@@ -3500,24 +3492,24 @@ ws.onmessage = function (event) {
   mounted: function mounted() {
     var _this = this;
 
+    var socket = io('http://localhost:3000');
     this.getAuthUser();
 
     if (localStorage.getItem('myself') != 1) {
       this.getMessages();
-    }
+    } //    const socket = io('https://' + window.location.hostname);
 
-    window.Echo.channel('chat').listen('PrivateChat', function (_ref) {
-      var data = _ref.data;
 
+    socket.on("chat:App\\Events\\PrivateChat", function (response) {
       if (!_this.participants.some(function (item) {
-        return item.id == data['senderUser']['id'];
+        return item.id == response.data['senderUser']['id'];
       })) {
-        _this.participants.push(data['senderUser']);
+        _this.participants.push(response.data['senderUser']);
 
         _this.visible = true;
       }
 
-      _this.messages.push(data['senderMessage']);
+      _this.messages.push(response.data['senderMessage']);
     });
   },
   methods: {
@@ -3721,16 +3713,15 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  */
 
 
-window.io = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
-window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
-  broadcaster: 'socket.io',
-  host: window.location.hostname + ':6001',
-  auth: {
-    headers: {
-      'Authorization': "Bearer ".concat(localStorage.getItem('token'))
-    }
-  }
-});
+window.io = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js"); // window.Echo = new Echo({
+//     broadcaster: 'socket.io',
+//     host: window.location.hostname + ':6001',
+//     auth: {
+//         headers: {
+//             'Authorization': `Bearer ${localStorage.getItem('token')}`
+//         }
+//     }
+// });
 
 /***/ }),
 
@@ -98802,7 +98793,7 @@ module.exports = yeast;
 /******/ 			return __webpack_require__.O(result);
 /******/ 		}
 /******/ 		
-/******/ 		var chunkLoadingGlobal = self["webpackChunk"] = self["webpackChunk"] || [];
+/******/ 		var chunkLoadingGlobal = self["webpackChunkalison_app_main"] = self["webpackChunkalison_app_main"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
 /******/ 	})();

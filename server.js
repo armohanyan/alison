@@ -1,24 +1,17 @@
-'use strict';
+let http = require('http').Server();
+let io = require('socket.io')(http);
+let Redis = require ('ioredis');    
 
-const express = require('express');
-const { Server } = require('ws');
+let redis  = new Redis(); 
+redis.subscribe('chat'); 
 
-const PORT = process.env.PORT || 3000;
-const INDEX = '/index.html';
-
-const server = express()
-  .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
-  .listen(PORT, () => console.log(`Listening on ${PORT}`));
-
-const wss = new Server({ server });
-
-wss.on('connection', (ws) => {
-  console.log('Client connected');
-  ws.on('close', () => console.log('Client disconnected'));
+redis.on('message', function (channel, message){
+    console.log("message received: " + message); 
+    console.log("Channel:" + channel); 
+    message = JSON.parse(message); 
+    io.emit(channel + ":" + message.event, message.data);
 });
 
-setInterval(() => {
-  wss.clients.forEach((client) => {
-    client.send(new Date().toTimeString());
-  });
-}, 1000);   
+http.listen(3000, function(){
+    console.log('Lestening on Port :3000')
+}); 

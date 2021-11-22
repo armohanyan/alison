@@ -1,12 +1,20 @@
 {
   "private": true,
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "npm run development",
+    "development": "mix",
+    "watch": "mix watch",
+    "watch-poll": "mix watch -- --watch-options-poll=1000",
+    "hot": "mix watch --hot",
+    "prod": "npm run production",
+    "production": "mix --production"
   },
   "devDependencies": {
     "@vue/cli-plugin-router": "~4.5.0",
     "axios": "^0.22.0",
     "bootstrap": "^4.6.0",
+    "cross-env": "^7.0.3",
     "jquery": "^3.6",
     "laravel-mix": "^6.0.39",
     "lodash": "^4.17.19",
