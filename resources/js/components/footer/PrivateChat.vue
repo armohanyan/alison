@@ -94,7 +94,11 @@ export default {
     },
 
     mounted() {
-    var socket = io.connect("https://socketiochat10.herokuapp.com", {secure: true, port: '3000',transports : ['websocket'] });
+    var socket = io.connect("https://socketiochat10.herokuapp.com",
+     {secure: true,
+      port: '3000',
+      transports : 
+      ['socket.io'] });
         this.getAuthUser()
 
         if( localStorage.getItem('myself') != 1 ){
