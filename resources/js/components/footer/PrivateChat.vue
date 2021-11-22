@@ -100,7 +100,7 @@ export default {
             this.getMessages()
         }
 
-      const socket = io.connect("https://alison-app-main.herokuapp.com/");
+      const socket = io.connect();
 
         socket.on("chat:App\\Events\\PrivateChat", response  => {   
              if( ! this.participants.some( item => item.id == response.data['senderUser']['id']) ){
