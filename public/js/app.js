@@ -3492,18 +3492,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   mounted: function mounted() {
     var _this = this;
 
-    // var socket = io.connect("https://socketiochat10.herokuapp.com",{
-    //          secure: true,
-    //          port: '3000',
-    //          transports :['socket.io']
-    //    });
     this.getAuthUser();
 
     if (localStorage.getItem('myself') != 1) {
       this.getMessages();
     }
 
-    var socket = socketIO(server);
+    var socket = io.connect('http://localhost:3000');
     socket.on("chat:App\\Events\\PrivateChat", function (response) {
       if (!_this.participants.some(function (item) {
         return item.id == response.data['senderUser']['id'];
@@ -3617,7 +3612,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onClose: function onClose() {
       this.visible = false;
     }
-  }
+  } // sockets: {
+  //     connect(data) {
+  //         // console.log(data);
+  //     },
+  //     sendChatToClient(data) {
+  //         this.messages.push(data);
+  //     }
+  // }
+
 });
 
 /***/ }),
