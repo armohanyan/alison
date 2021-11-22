@@ -3498,7 +3498,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.getMessages();
     }
 
-    var socket = io.connect('http://localhost:3000');
+    var socket = io.connect();
     socket.on("chat:App\\Events\\PrivateChat", function (response) {
       if (!_this.participants.some(function (item) {
         return item.id == response.data['senderUser']['id'];
