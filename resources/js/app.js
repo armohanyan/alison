@@ -19,7 +19,14 @@ import
 axios from 'axios' ;
 import VueAxios from 'vue-axios';
 import VueRouter from 'vue-router'
+import VueSocketIO from 'vue-socket.io'
+import SocketIO from 'socket.io-client'
 
+Vue.use(new VueSocketIO({
+        debug: true,
+        connection: SocketIO('https://chat-terminal-socket-io.herokuapp.com'),
+    })
+);
 Vue.use(VueRouter);
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);

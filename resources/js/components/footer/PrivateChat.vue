@@ -94,26 +94,20 @@ export default {
     },
 
     mounted() {
-    // var socket = io.connect("https://socketiochat10.herokuapp.com",{
-    //          secure: true,
-    //          port: '3000',
-    //          transports :['socket.io']
-    //    });
-
         this.getAuthUser()
 
         if( localStorage.getItem('myself') != 1 ){
             this.getMessages()
         }
 
-      const socket = socketIO(server);
+      const socket = io.connect('http://localhost:3000');
 
         socket.on("chat:App\\Events\\PrivateChat", response  => {   
              if( ! this.participants.some( item => item.id == response.data['senderUser']['id']) ){
-                    this.participants.push(response.data['senderUser'])   
-                    this.visible = true 
-                }
-                this.messages.push(response.data['senderMessage'])
+                this.participants.push(response.data['senderUser'])   
+                this.visible = true 
+            }
+            this.messages.push(response.data['senderMessage'])
         })
     },
 
@@ -194,7 +188,16 @@ export default {
         onClose() {
             this.visible = false;
         },
-    }
+    },
+    
+    // sockets: {
+    //     connect(data) {
+    //         // console.log(data);
+    //     },
+    //     sendChatToClient(data) {
+    //         this.messages.push(data);
+    //     }
+    // }
 }
 </script>
 
