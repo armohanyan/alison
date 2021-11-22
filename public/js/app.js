@@ -3492,14 +3492,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   mounted: function mounted() {
     var _this = this;
 
-    var socket = io();
+    // let socket = io()
     this.getAuthUser();
 
     if (localStorage.getItem('myself') != 1) {
       this.getMessages();
-    } //    const socket = io('https://' + window.location.hostname);
+    }
 
-
+    var socket = io('https://' + window.location.hostname);
     socket.on("chat:App\\Events\\PrivateChat", function (response) {
       if (!_this.participants.some(function (item) {
         return item.id == response.data['senderUser']['id'];

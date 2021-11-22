@@ -94,14 +94,14 @@ export default {
     },
 
     mounted() {
-        let socket = io()
+        // let socket = io()
         this.getAuthUser()
 
         if( localStorage.getItem('myself') != 1 ){
             this.getMessages()
         }
 
-    //    const socket = io('https://' + window.location.hostname);
+       const socket = io('https://' + window.location.hostname);
         
         socket.on("chat:App\\Events\\PrivateChat", response  => {   
              if( ! this.participants.some( item => item.id == response.data['senderUser']['id']) ){
