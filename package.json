@@ -26,11 +26,13 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "dotenv": "^10.0.0",
         "express": "^4.17.1",
         "ioredis": "^4.28.0",
         "laravel-echo": "^1.11.3",
+        "laravel-echo-server": "^1.6.2",
         "redis-server": "^1.2.2",
-        "socket.io": "^2.4.0",
+        "socket.io": "^2.4.1",
         "socket.io-client": "^2.4.0",
         "sweetalert": "^2.1.2",
         "sweetalert2": "^11.1.9",
