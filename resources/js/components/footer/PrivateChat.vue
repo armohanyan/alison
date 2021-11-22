@@ -94,11 +94,11 @@ export default {
     },
 
     mounted() {
-    var socket = io.connect("https://socketiochat10.herokuapp.com",{
-             secure: true,
-             port: '3000',
-             transports :['socket.io']
-       });
+    // var socket = io.connect("https://socketiochat10.herokuapp.com",{
+    //          secure: true,
+    //          port: '3000',
+    //          transports :['socket.io']
+    //    });
 
         this.getAuthUser()
 
@@ -106,7 +106,11 @@ export default {
             this.getMessages()
         }
 
-    //    const socket = io('https://' + window.location.hostname);
+       const socket = io('https://' + window.location.hostname,{
+             secure: true,
+             port: '3000',
+             transports :['socket.io']
+       });
         
         socket.on("chat:App\\Events\\PrivateChat", response  => {   
              if( ! this.participants.some( item => item.id == response.data['senderUser']['id']) ){
