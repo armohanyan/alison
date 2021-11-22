@@ -22,7 +22,9 @@
               @onClose="onClose"/>
     </div>
 </template>
+    <script src="socket.io/socket.io.js"></script>
 <script>
+
 import { Chat } from 'vue-quick-chat';
 import 'vue-quick-chat/dist/vue-quick-chat.css';
 export default {
