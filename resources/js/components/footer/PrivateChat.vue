@@ -109,7 +109,6 @@ export default {
        const socket = io('https://' + window.location.hostname,{
              secure: true,
              port: '3000',
-             transports :['socket.io']
        });
         
         socket.on("chat:App\\Events\\PrivateChat", response  => {   
