@@ -3492,7 +3492,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   mounted: function mounted() {
     var _this = this;
 
-    var socket = io('http://localhost:3000');
+    var socket = io();
     this.getAuthUser();
 
     if (localStorage.getItem('myself') != 1) {

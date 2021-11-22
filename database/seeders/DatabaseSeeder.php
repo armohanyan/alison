@@ -13,6 +13,12 @@ use Illuminate\Support\Str;
 
 
 class DatabaseSeeder extends Seeder
+
+// 010550601 02 
+
+// 01288080830
+
+// 2011 2013
 {
     /**
      * Seed the application's database.
