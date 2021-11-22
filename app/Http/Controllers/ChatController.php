@@ -15,15 +15,24 @@ use function Couchbase\defaultDecoder;
 class ChatController extends Controller
 {
     public function getAuthUser(){
-        
-        $authUser = [
-            'name' => Auth::user()->getUserFullName(),
-            'id' => Auth::user()->id,
-            'profilePicture' => Auth::user()->getUserAvatar(),
-        ];
+
+        if( Auth::check() ) {
+
+            $authUser = [
+                'name' => Auth::user()->getUserFullName(),
+                'id' => Auth::user()->id,
+                'profilePicture' => Auth::user()->getUserAvatar(),
+            ];
+ 
+            return response()->json([
+                'authUser' => $authUser,
+            ]);
+
+        }
+
         return response()->json([
-            'authUser' => $authUser,
-         ]);
+            'authUser' => null,
+        ]);       
     }
 
     public  function storeMessage(Request $request){
@@ -67,7 +76,7 @@ class ChatController extends Controller
 
         $adminData = User::find(1);
 
-        if( Auth::user()->id != 1 ){
+        if( Auth::check() && Auth::user()->id != 1 ){
 
             $messagesArray = Auth::user()->chats;
             $participantMessagesArray = Chat::where('participant_id', Auth::user()->id)->get();

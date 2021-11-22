@@ -96,10 +96,9 @@ export default {
 
     mounted() {
         this.getAuthUser()
-
         if( localStorage.getItem('myself') != 1 ){
             this.getMessages()
-            this.visible = true
+            // this.visible = true
         }
 
          window.Echo.channel('chat')
@@ -118,14 +117,17 @@ export default {
         async getAuthUser(){
             await this.axios.get('/get/authuser')
             .then( response => {
-                localStorage.setItem('myself', response.data.authUser.id)
-                this.myself = response.data.authUser
+                if(response.data.authUser != null){
+                    localStorage.setItem('myself', response.data.authUser.id)
+                    this.myself = response.data.authUser
+                      this.visible = true
+                 }
             })
 
         },
 
         async getMessages(){
-          await this.axios.get('/get/messages')
+          await this.axios.get('messages')
                 .then(response => {
                     let allMessages = [];
                     this.participants[0] = response.data.admin
@@ -144,8 +146,8 @@ export default {
                         allMessages.push(currectType)
                     })
 
-                    this.messages = allMessages.sort( (a,b) =>  new Date(a.timestamp) - new Date(b.timestamp) );  
-                console.log(this.messages)
+                    this.messages = allMessages.sort( (a,b) =>  new Date(a.timestamp) - new Date(b.timestamp) );
+
                 })
                 .catch(error => {
                     console.log(error)
@@ -170,7 +172,6 @@ export default {
 
             if( this.participants.length > 0 ) {
                 var participantsId = this.participants[0].id
-                console.log(participantsId)
             }
 
             this.axios.post('message', {message, participantsId } )
@@ -196,13 +197,17 @@ export default {
 
 #chat-inner {
     position: absolute;
-    top: 0;
-    right:180px;
+    top: -5px;
+    right:10px;
     height:100%
 }
-.quick-chat-container {
-    width: 150%;
+.quick-chat-container{
+    max-width: 310px;
+    min-width: 310px;
 }
 
+.quick-chat-container .container-message-manager .message-input{ 
+    overflow:auto;
+}
 
 </style>

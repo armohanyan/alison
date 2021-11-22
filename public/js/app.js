@@ -3495,8 +3495,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getAuthUser();
 
     if (localStorage.getItem('myself') != 1) {
-      this.getMessages();
-      this.visible = true;
+      this.getMessages(); // this.visible = true
     }
 
     window.Echo.channel('chat').listen('PrivateChat', function (_ref) {
@@ -3524,8 +3523,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context.next = 2;
                 return _this2.axios.get('/get/authuser').then(function (response) {
-                  localStorage.setItem('myself', response.data.authUser.id);
-                  _this2.myself = response.data.authUser;
+                  if (response.data.authUser != null) {
+                    localStorage.setItem('myself', response.data.authUser.id);
+                    _this2.myself = response.data.authUser;
+                    _this2.visible = true;
+                  }
                 });
 
               case 2:
@@ -3545,7 +3547,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return _this3.axios.get('/get/messages').then(function (response) {
+                return _this3.axios.get('messages').then(function (response) {
                   var allMessages = [];
                   _this3.participants[0] = response.data.admin;
                   response.data.mergeMessages.forEach(function (message) {
@@ -3562,7 +3564,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this3.messages = allMessages.sort(function (a, b) {
                     return new Date(a.timestamp) - new Date(b.timestamp);
                   });
-                  console.log(_this3.messages);
                 })["catch"](function (error) {
                   console.log(error);
                 });
@@ -3595,7 +3596,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (this.participants.length > 0) {
         var participantsId = this.participants[0].id;
-        console.log(participantsId);
       }
 
       this.axios.post('message', {
@@ -27295,7 +27295,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#chat-inner[data-v-1f97621c] {\n    position: absolute;\n    top: 0;\n    right:180px;\n    height:100%\n}\n.quick-chat-container[data-v-1f97621c] {\n    width: 150%;\n}\n\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#chat-inner[data-v-1f97621c] {\n    position: absolute;\n    top: -5px;\n    right:10px;\n    height:100%\n}\n.quick-chat-container[data-v-1f97621c]{\n    max-width: 310px;\n    min-width: 310px;\n}\n.quick-chat-container .container-message-manager .message-input[data-v-1f97621c]{ \n    overflow:auto;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

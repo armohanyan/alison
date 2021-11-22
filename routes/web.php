@@ -45,7 +45,7 @@ Route::get('/show/{id}', [CourseController::class, 'show'] )->name('show.course'
 Route::get('/course/rate', [RatingController::class, 'rateCourse'] )->name('rate.course');
 
 
-Route::post('message', [ChatController::class, 'storeMessage'] )->middleware('auth')->name('store.message');
-Route::get('get/messages', [ChatController::class, 'getMessages'] )->middleware('auth')->name('get.message');
-Route::get('get/authuser', [ChatController::class, 'getAuthUser'] )->middleware('auth')->name('get.authuaer');
+Route::post('message', [ChatController::class, 'storeMessage'] )->name('store.message');
+Route::get('/messages', [ChatController::class, 'getMessages'] )->name('get.message');
+Route::get('get/authuser', [ChatController::class, 'getAuthUser'] )->name('get.authuaer');
 
