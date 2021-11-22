@@ -1,20 +1,20 @@
-let https = require('https').Server();
-let io = require('socket.io')(https);
-let Redis = require ('ioredis');    
+// let https = require('https').Server();
+// let io = require('socket.io')(https);
+// let Redis = require ('ioredis');    
 
-let redis  = new Redis(); 
-redis.subscribe('chat'); 
+// let redis  = new Redis(); 
+// redis.subscribe('chat'); 
 
-redis.on('message', function (channel, message){
-    console.log("message received: " + message); 
-    console.log("Channel:" + channel); 
-    message = JSON.parse(message); 
-    io.emit(channel + ":" + message.event, message.data);
-});
+// redis.on('message', function (channel, message){
+//     console.log("message received: " + message); 
+//     console.log("Channel:" + channel); 
+//     message = JSON.parse(message); 
+//     io.emit(channel + ":" + message.event, message.data);
+// });
 
-https.listen(3000, function(){
-    console.log('Lestening on Port :3000')
-}); 
+// https.listen(3000, function(){
+//     console.log('Lestening on Port :3000')
+// }); 
 
 
 
@@ -30,9 +30,9 @@ const server = express()
   .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
-const io = socketIO(server);
+const socket = socketIO(server);
 
-io.on('connection', (socket) => {
+socket.on('connection', (socket) => {
   console.log('Client connected');
   socket.on('disconnect', () => console.log('Client disconnected'));
 });

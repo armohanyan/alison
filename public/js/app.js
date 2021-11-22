@@ -3492,18 +3492,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   mounted: function mounted() {
     var _this = this;
 
-    var socket = io.connect("https://socketiochat10.herokuapp.com", {
-      secure: true,
-      port: '3000',
-      transports: ['websocket']
-    });
+    // var socket = io.connect("https://socketiochat10.herokuapp.com",{
+    //          secure: true,
+    //          port: '3000',
+    //          transports :['socket.io']
+    //    });
     this.getAuthUser();
 
     if (localStorage.getItem('myself') != 1) {
       this.getMessages();
-    } //    const socket = io('https://' + window.location.hostname);
+    }
 
-
+    var socket = socketIO(server);
     socket.on("chat:App\\Events\\PrivateChat", function (response) {
       if (!_this.participants.some(function (item) {
         return item.id == response.data['senderUser']['id'];
