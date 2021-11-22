@@ -106,11 +106,8 @@ export default {
             this.getMessages()
         }
 
-       const socket = io('https://' + window.location.hostname,{
-             secure: true,
-             port: '3000',
-       });
-        
+      const socket = socketIO(server);
+
         socket.on("chat:App\\Events\\PrivateChat", response  => {   
              if( ! this.participants.some( item => item.id == response.data['senderUser']['id']) ){
                     this.participants.push(response.data['senderUser'])   
