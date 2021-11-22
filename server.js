@@ -1,6 +1,12 @@
-let http = require('http').Server();
-let io = require('socket.io')(http);
+// let http = require('http').Server();
+// let io = require('socket.io')(http);
+
 let Redis = require ('ioredis');    
+var express = require('express');
+var app = express();
+var server = app.listen(3000);
+var io = require('socket.io')(server);
+
 
 let redis  = new Redis(); 
 redis.subscribe('chat'); 
@@ -12,6 +18,6 @@ redis.on('message', function (channel, message){
     io.emit(channel + ":" + message.event, message.data);
 });
 
-http.listen(3000, function(){
+app.listen(3000, function(){
     console.log('Lestening on Port :3000')
 }); 
