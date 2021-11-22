@@ -25,7 +25,13 @@
 <script>
 import { Chat } from 'vue-quick-chat';
 import 'vue-quick-chat/dist/vue-quick-chat.css';
+var HOST = location.origin.replace(/^https/, 'ws')
+var ws = new WebSocket(HOST);
+var el;
 
+ws.onmessage = function (event) {
+    console.log(event)
+};
 export default {
     name : 'PrivateChat',
     components: {
@@ -98,7 +104,6 @@ export default {
         this.getAuthUser()
         if( localStorage.getItem('myself') != 1 ){
             this.getMessages()
-            // this.visible = true
         }
 
          window.Echo.channel('chat')

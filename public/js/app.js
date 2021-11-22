@@ -3427,6 +3427,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 
 
+var HOST = location.origin.replace(/^https/, 'ws');
+var ws = new WebSocket(HOST);
+var el;
+
+ws.onmessage = function (event) {
+  console.log(event);
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'PrivateChat',
   components: {
@@ -3495,7 +3503,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getAuthUser();
 
     if (localStorage.getItem('myself') != 1) {
-      this.getMessages(); // this.visible = true
+      this.getMessages();
     }
 
     window.Echo.channel('chat').listen('PrivateChat', function (_ref) {
