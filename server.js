@@ -6,12 +6,14 @@ var express = require('express');
 var app = express();
 var server = app.listen(3000);
 var io = require('socket.io')(server);
-const
-  redisOptions = require('./redisOptions'),
-  redis = require('redis'),
-  redisClient = redis.createClient(REDIS_URL, redisOptions);
 
-let redis  = new Redis(); 
+var redis = require('redis');
+var url = require('url');
+var redisURL = url.parse(process.env.REDISCLOUD_URL);
+var client = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
+client.auth(redisURL.auth.split(":")[1]);
+
+let redis  = new Redis();   
 redis.subscribe('chat'); 
 
 redis.on('message', function (channel, message){
