@@ -3499,7 +3499,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.getMessages();
     }
 
-    var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/");
+    var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {
+      secure: true,
+      port: '3000',
+      transports: ['websocket']
+    });
     socket.on("sendChatToServer", function (response) {
       console.log(response);
 
@@ -3594,7 +3598,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, 1000);
     },
     onMessageSubmit: function onMessageSubmit(message) {
-      var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/");
+      //   const socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/");
       this.messages.push(message);
       socket.emit('sendChatToServer', message);
 

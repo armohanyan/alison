@@ -102,7 +102,7 @@ export default {
             this.getMessages()
         }
 
-        const socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/");
+        var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {secure: true, port: '3000',transports : ['websocket'] });
 
         socket.on("sendChatToServer", response  => {  
             console.log(response) 
@@ -170,7 +170,7 @@ export default {
         },
 
         onMessageSubmit: function (message) {
-          const socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/");
+        //   const socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/");
           this.messages.push(message); 
           socket.emit('sendChatToServer', message)
             if( this.participants.length > 0 ) {
