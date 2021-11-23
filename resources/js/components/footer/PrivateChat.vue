@@ -106,7 +106,7 @@ export default {
             secure: true, port: '3000',transports : ['websocket'] });
 
             socket.on("sendChatToClient", data => {            
-                if( data['participantId'] != this.myself.id ){
+                if( data['senderMessage']['participantId'] != this.myself.id ){
                     this.messages.push(data['senderMessage'])
                     if( ! this.participants.some( item => item.id == data['senderUser']['id']) ){
                         this.participants.push(data['senderUser'])   

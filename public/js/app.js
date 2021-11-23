@@ -3505,7 +3505,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       transports: ['websocket']
     });
     socket.on("sendChatToClient", function (data) {
-      if (data['participantId'] != _this.myself.id) {
+      if (data['senderMessage']['participantId'] != _this.myself.id) {
         _this.messages.push(data['senderMessage']);
 
         if (!_this.participants.some(function (item) {
