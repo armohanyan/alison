@@ -3505,17 +3505,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       transports: ['websocket']
     });
     socket.on("sendChatToClient", function (data) {
-      console.log(data);
+      if (data['participantId'] != _this.myself.id) {
+        _this.messages.push(data['senderMessage']);
 
-      if (!_this.participants.some(function (item) {
-        return item.id == data['senderUser']['id'];
-      })) {
-        _this.participants.push(data['senderUser']);
+        if (!_this.participants.some(function (item) {
+          return item.id == data['senderUser']['id'];
+        })) {
+          _this.participants.push(data['senderUser']);
 
-        _this.visible = true;
+          _this.visible = true;
+        }
       }
-
-      _this.messages.push(data['senderMessage']);
     });
   },
   methods: {
