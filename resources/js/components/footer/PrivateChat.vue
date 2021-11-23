@@ -102,9 +102,9 @@ export default {
             this.getMessages()
         }
 
-      const socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/");
+          const socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/");
 
-        socket.on("chat:App\\Events\\PrivateChat", response  => {  
+        socket.on("sendChatToServer", response  => {  
             console.log(response) 
              if( ! this.participants.some( item => item.id == response.data['senderUser']['id']) ){
                 this.participants.push(response.data['senderUser'])   
@@ -171,7 +171,7 @@ export default {
 
         onMessageSubmit: function (message) {
             this.messages.push(message); 
-
+          socket.emit('sendChatToServer', message)
             if( this.participants.length > 0 ) {
                 var participantsId = this.participants[0].id
             }

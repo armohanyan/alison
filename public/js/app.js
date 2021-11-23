@@ -3500,7 +3500,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
 
     var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/");
-    socket.on("chat:App\\Events\\PrivateChat", function (response) {
+    socket.on("sendChatToServer", function (response) {
       console.log(response);
 
       if (!_this.participants.some(function (item) {
@@ -3595,6 +3595,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     onMessageSubmit: function onMessageSubmit(message) {
       this.messages.push(message);
+      socket.emit('sendChatToServer', message);
 
       if (this.participants.length > 0) {
         var participantsId = this.participants[0].id;
