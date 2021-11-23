@@ -3505,24 +3505,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       transports: ['websocket']
     });
     socket.on("sendChatToClient", function (data) {
-      console.log(data); //     if( ! this.participants.some( item => item.id == response.data['senderUser']['id']) ){
-      //         this.participants.push(response.data['senderUser'])   
-      //         this.visible = true 
-      //     }
-      //  this.messages.push(response.data['senderMessage'])
-    });
-    socket.on("sendChatToServer", function (response) {
-      console.log(response);
+      console.log(data);
 
       if (!_this.participants.some(function (item) {
-        return item.id == response.data['senderUser']['id'];
+        return item.id == data['senderUser']['id'];
       })) {
-        _this.participants.push(response.data['senderUser']);
+        _this.participants.push(data['senderUser']);
 
         _this.visible = true;
       }
 
-      _this.messages.push(response.data['senderMessage']);
+      _this.messages.push(data['senderMessage']);
     });
   },
   methods: {
@@ -3605,9 +3598,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, 1000);
     },
     onMessageSubmit: function onMessageSubmit(message) {
+      this.messages.push(message);
       var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/");
-      this.messages.push(message); //   socket.emit('sendChatToServer', [message, this.myself])
-
       socket.emit('sendChatToServer', {
         'senderMessage': message,
         'senderUser': this.myself
