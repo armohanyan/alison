@@ -110,8 +110,9 @@ export default {
         if (socket) {
             socket.on("sendChatToClient", data => {
                 console.log(socket);
-            // setMessages(data)
-        });
+                // setMessages(data)
+            });
+        }
         // socket.on("sendChatToServer", response  => {  
         //     console.log(response) 
         //      if( ! this.participants.some( item => item.id == response.data['senderUser']['id']) ){
