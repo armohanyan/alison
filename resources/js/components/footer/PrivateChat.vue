@@ -102,7 +102,7 @@ export default {
             this.getMessages()
         }
 
-      const socket = io.connect("http://localhost:3000");
+      const socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/");
 
         socket.on("chat:App\\Events\\PrivateChat", response  => {   
              if( ! this.participants.some( item => item.id == response.data['senderUser']['id']) ){
