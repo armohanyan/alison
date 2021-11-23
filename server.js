@@ -18,7 +18,7 @@ redis.on('message', function (channel, message){
     io.emit(channel + ":" + message.event, message.data);
 });
 
-app.listen(8080, () => {
+app.listen(3000, () => {
     console.info("Server started on http://localhost:8080");
-  });
+});
   
