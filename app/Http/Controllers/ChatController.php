@@ -60,11 +60,10 @@ class ChatController extends Controller
         //     'senderUser' => $senderUser,    
         // ]);
 
-        App\Events::fire(new PrivateChat([
+        event(new \App\EventsPrivateChat([
             'senderMessage' => $senderMessage,
-            'senderUser' => $senderUser,    
+            'senderUser' => $senderUser,
         ]));
-
         // Events\PrivateChat::dispatch([
         //     'senderMessage' => $senderMessage,
         //     'senderUser' => $senderUser,    
