@@ -107,8 +107,8 @@ export default {
 
 
 
-        if (socket) {
-            socket.on("sendChatToClient", data => {
+        if (socket) { 
+            socket.on("sendChatToServer", data => {
                 console.log(socket);
                 // setMessages(data)
             });

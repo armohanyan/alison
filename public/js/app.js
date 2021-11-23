@@ -3504,7 +3504,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
 
     if (socket) {
-      socket.on("sendChatToClient", function (data) {
+      socket.on("sendChatToServer", function (data) {
         console.log(socket); // setMessages(data)
       });
     } // socket.on("sendChatToServer", response  => {  
