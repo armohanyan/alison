@@ -101,9 +101,10 @@ export default {
         if( localStorage.getItem('myself') != 1 ){
             this.getMessages()
         }
+        var socket = io.connect("http://localhost:3000");
 
-        var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {
-            secure: true, port: '3000',transports : ['websocket'] });
+        // var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {
+        //     secure: true, port: '3000',transports : ['websocket'] });
 
             socket.on("sendChatToClient", data => {            
                 if( data['senderMessage']['participantId'] != this.myself.id ){

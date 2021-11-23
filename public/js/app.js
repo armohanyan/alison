@@ -3499,11 +3499,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.getMessages();
     }
 
-    var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {
-      secure: true,
-      port: '3000',
-      transports: ['websocket']
-    });
+    var socket = io.connect("http://localhost:3000"); // var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {
+    //     secure: true, port: '3000',transports : ['websocket'] });
+
     socket.on("sendChatToClient", function (data) {
       if (data['senderMessage']['participantId'] != _this.myself.id) {
         _this.messages.push(data['senderMessage']);
