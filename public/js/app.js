@@ -3603,7 +3603,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var senderMessage = {
         'content': message['content'],
         'myself': false,
-        'participantId': message['id'],
+        'participantId': this.myself.id,
         'timestamp': message['timestamp'],
         'type': 'text'
       };

@@ -179,7 +179,7 @@ export default {
             let senderMessage = {
                 'content' : message['content'] ,
                 'myself' : false,
-                'participantId' : message['id'],
+                'participantId' : this.myself.id,
                 'timestamp' : message['timestamp'],
                 'type' : 'text',
             }
