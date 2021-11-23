@@ -102,23 +102,27 @@ export default {
             this.getMessages()
         }
 
-
         var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {
             secure: true, port: '3000',transports : ['websocket'] });
 
             socket.on("sendChatToClient", data => {
                 console.log(data);
-                // setMessages(data)
+             
+            //     if( ! this.participants.some( item => item.id == response.data['senderUser']['id']) ){
+            //         this.participants.push(response.data['senderUser'])   
+            //         this.visible = true 
+            //     }
+            //  this.messages.push(response.data['senderMessage'])
             });
         
-        // socket.on("sendChatToServer", response  => {  
-        //     console.log(response) 
-        //      if( ! this.participants.some( item => item.id == response.data['senderUser']['id']) ){
-        //         this.participants.push(response.data['senderUser'])   
-        //         this.visible = true 
-        //     }
-        //     this.messages.push(response.data['senderMessage'])
-        // })
+        socket.on("sendChatToServer", response  => {  
+            console.log(response) 
+             if( ! this.participants.some( item => item.id == response.data['senderUser']['id']) ){
+                this.participants.push(response.data['senderUser'])   
+                this.visible = true 
+            }
+            this.messages.push(response.data['senderMessage'])
+        })
     },
 
     methods: {
@@ -179,7 +183,7 @@ export default {
         onMessageSubmit: function (message) {
           const socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/");
           this.messages.push(message); 
-          socket.emit('sendChatToServer', message)
+          socket.emit('sendChatToServer', [message, this.myself])
             if( this.participants.length > 0 ) {
                 var participantsId = this.participants[0].id
             }

@@ -3491,6 +3491,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   mounted: function mounted() {
+    var _this = this;
+
     this.getAuthUser();
 
     if (localStorage.getItem('myself') != 1) {
@@ -3503,19 +3505,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       transports: ['websocket']
     });
     socket.on("sendChatToClient", function (data) {
-      console.log(data); // setMessages(data)
-    }); // socket.on("sendChatToServer", response  => {  
-    //     console.log(response) 
-    //      if( ! this.participants.some( item => item.id == response.data['senderUser']['id']) ){
-    //         this.participants.push(response.data['senderUser'])   
-    //         this.visible = true 
-    //     }
-    //     this.messages.push(response.data['senderMessage'])
-    // })
+      console.log(data); //     if( ! this.participants.some( item => item.id == response.data['senderUser']['id']) ){
+      //         this.participants.push(response.data['senderUser'])   
+      //         this.visible = true 
+      //     }
+      //  this.messages.push(response.data['senderMessage'])
+    });
+    socket.on("sendChatToServer", function (response) {
+      console.log(response);
+
+      if (!_this.participants.some(function (item) {
+        return item.id == response.data['senderUser']['id'];
+      })) {
+        _this.participants.push(response.data['senderUser']);
+
+        _this.visible = true;
+      }
+
+      _this.messages.push(response.data['senderMessage']);
+    });
   },
   methods: {
     getAuthUser: function getAuthUser() {
-      var _this = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
@@ -3523,11 +3535,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this.axios.get('/get/authuser').then(function (response) {
+                return _this2.axios.get('/get/authuser').then(function (response) {
                   if (response.data.authUser != null) {
                     localStorage.setItem('myself', response.data.authUser.id);
-                    _this.myself = response.data.authUser;
-                    _this.visible = true;
+                    _this2.myself = response.data.authUser;
+                    _this2.visible = true;
                   }
                 });
 
@@ -3540,7 +3552,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     getMessages: function getMessages() {
-      var _this2 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
@@ -3548,11 +3560,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return _this2.axios.get('messages').then(function (response) {
+                return _this3.axios.get('messages').then(function (response) {
                   var allMessages = [];
-                  _this2.participants[0] = response.data.admin;
+                  _this3.participants[0] = response.data.admin;
                   response.data.mergeMessages.forEach(function (message) {
-                    var myself = _this2.myself.id == message.user_id ? myself = true : myself = false;
+                    var myself = _this3.myself.id == message.user_id ? myself = true : myself = false;
                     var currectType = {
                       'content': message.message,
                       'myself': myself,
@@ -3562,7 +3574,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     };
                     allMessages.push(currectType);
                   });
-                  _this2.messages = allMessages.sort(function (a, b) {
+                  _this3.messages = allMessages.sort(function (a, b) {
                     return new Date(a.timestamp) - new Date(b.timestamp);
                   });
                 })["catch"](function (error) {
@@ -3580,22 +3592,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onType: function onType(event) {//here you can set any behavior
     },
     loadMoreMessages: function loadMoreMessages(resolve) {
-      var _this3 = this;
+      var _this4 = this;
 
       setTimeout(function () {
-        var _this3$messages;
+        var _this4$messages;
 
-        resolve(_this3.toLoad);
+        resolve(_this4.toLoad);
 
-        (_this3$messages = _this3.messages).unshift.apply(_this3$messages, _toConsumableArray(_this3.toLoad));
+        (_this4$messages = _this4.messages).unshift.apply(_this4$messages, _toConsumableArray(_this4.toLoad));
 
-        _this3.toLoad = [];
+        _this4.toLoad = [];
       }, 1000);
     },
     onMessageSubmit: function onMessageSubmit(message) {
       var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/");
       this.messages.push(message);
-      socket.emit('sendChatToServer', message);
+      socket.emit('sendChatToServer', [message, this.myself]);
 
       if (this.participants.length > 0) {
         var participantsId = this.participants[0].id;
