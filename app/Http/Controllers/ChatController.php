@@ -54,16 +54,7 @@ class ChatController extends Controller
             'timestamp' =>  $message['timestamp'],
             'type' => 'text',
         ];
-
-        // new Events\PrivateChat([
-        //     'senderMessage' => $senderMessage,
-        //     'senderUser' => $senderUser,    
-        // ]);
-
-        // event(new \App\EventsPrivateChat([
-        //     'senderMessage' => $senderMessage,
-        //     'senderUser' => $senderUser,
-        // ]));
+        
         Events\PrivateChat::dispatch([
             'senderMessage' => $senderMessage,
             'senderUser' => $senderUser,    

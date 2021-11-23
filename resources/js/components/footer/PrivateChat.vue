@@ -131,7 +131,7 @@ export default {
         async getMessages(){
           await this.axios.get('messages')
                 .then(response => {
-                    let allMessages = [];
+                    let allMessages = [];   
                     this.participants[0] = response.data.admin
 
                     response.data.mergeMessages.forEach((message) => {

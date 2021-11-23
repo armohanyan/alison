@@ -17,7 +17,7 @@ class TestimonalFactory extends Factory
     public function definition()
     {
         return [
-            'body' => $this->faker->text(20),
+            'body' => $this->faker->text(),
             'author_img' =>  'default.png',
         ];
     }

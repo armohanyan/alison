@@ -9,6 +9,7 @@ require('./bootstrap');
 
 window.Vue = require('vue').default;
 import
+
 IndexComponent from './components/Header/IndexComponent';
 import ArticleIndex from './components/article/ArticleIndex';
 import IndexFooter from './components/footer/IndexFooter';
