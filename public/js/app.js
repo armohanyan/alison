@@ -3600,7 +3600,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onMessageSubmit: function onMessageSubmit(message) {
       this.messages.push(message);
       var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/");
-      senderMessage = {
+      var senderMessage = {
         'content': message['content'],
         'myself': false,
         'participantId': message['id'],
