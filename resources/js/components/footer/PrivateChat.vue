@@ -103,16 +103,14 @@ export default {
         }
 
 
-        var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {secure: true, port: '3000',transports : ['websocket'] });
+        var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {
+            secure: true, port: '3000',transports : ['websocket'] });
 
-
-
-        if (socket) { 
-            socket.on("sendChatToServer", data => {
-                console.log(socket);
+            socket.on("sendChatToClient", data => {
+                console.log(data);
                 // setMessages(data)
             });
-        }
+        
         // socket.on("sendChatToServer", response  => {  
         //     console.log(response) 
         //      if( ! this.participants.some( item => item.id == response.data['senderUser']['id']) ){

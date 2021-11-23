@@ -3502,12 +3502,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       port: '3000',
       transports: ['websocket']
     });
-
-    if (socket) {
-      socket.on("sendChatToServer", function (data) {
-        console.log(socket); // setMessages(data)
-      });
-    } // socket.on("sendChatToServer", response  => {  
+    socket.on("sendChatToClient", function (data) {
+      console.log(data); // setMessages(data)
+    }); // socket.on("sendChatToServer", response  => {  
     //     console.log(response) 
     //      if( ! this.participants.some( item => item.id == response.data['senderUser']['id']) ){
     //         this.participants.push(response.data['senderUser'])   
@@ -3515,7 +3512,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     //     }
     //     this.messages.push(response.data['senderMessage'])
     // })
-
   },
   methods: {
     getAuthUser: function getAuthUser() {
