@@ -175,9 +175,17 @@ export default {
         onMessageSubmit: function (message) {
             this.messages.push(message);
             const socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/");
+            
+            senderMessage = {
+                'content' : message['content'] ,
+                'myself' : false,
+                'participantId' : message['id'],
+                'timestamp' : message['timestamp'],
+                'type' : 'text',
+            }
 
             socket.emit('sendChatToServer', {
-                'senderMessage' : message,
+                'senderMessage' : senderMessage,
                 'senderUser' : this.myself,   
             })
 

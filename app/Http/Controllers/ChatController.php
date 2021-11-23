@@ -40,26 +40,6 @@ class ChatController extends Controller
         $currentUser = Auth::user();
         $message = $request['message'];
         $participantsId = $request->participantsId;
-        
-        $senderUser = [
-            'name' => $currentUser->getUserFullName(),
-            'id' => $currentUser->id,
-            'profilePicture' => $currentUser->getUserAvatar(),
-        ];
-    
-        $senderMessage = [
-            'content' => $message['content'] ,
-            'myself' => false,
-            'participantId' => $currentUser->id,
-            'timestamp' =>  $message['timestamp'],
-            'type' => 'text',
-        ];
-        
-        Events\PrivateChat::dispatch([
-            'senderMessage' => $senderMessage,
-            'senderUser' => $senderUser,    
-        ]);
-        
 
         $currentUser->chats()->create([
             'message' => $message['content'],
