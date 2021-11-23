@@ -24,6 +24,7 @@ class PrivateChat implements ShouldBroadcast
     {
         $this->data = $data;    
         $this->dontBroadcastToCurrentUser();
+        dd($this->data);
     }
 
     /**
