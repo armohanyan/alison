@@ -20,6 +20,13 @@
               @onMessageSubmit="onMessageSubmit"
               @onType="onType"
               @onClose="onClose"/>
+    <div v-if="hoverNotificationButton" class="button-notfication">
+        <button @click="hoverNotification" type="button" class="icon-button">
+            <span class="material-icons"><i class="fa fa-comment" aria-hidden="true"></i></span>
+            <span v-if="countMessage > 0" class="icon-button__badge">{{ countMessage }}</span>
+        </button>
+    </div>
+              
     </div>
 </template>
     <script src="socket.io/socket.io.js"></script>
@@ -28,7 +35,7 @@
 import { Chat } from 'vue-quick-chat';
 import 'vue-quick-chat/dist/vue-quick-chat.css';
 export default {
-    name : 'PrivateChat',
+    name : 'PrivateChat',   
     components: {
         Chat
     },  
@@ -41,7 +48,8 @@ export default {
             messages: [
 
             ],
-
+            hoverNotificationButton : true,
+            countMessage : 0,
             chatTitle: 'Alison chat',
             placeholder: 'Send your message',
             colors: {
@@ -71,7 +79,7 @@ export default {
                 bottomLeft: "10px",
                 bottomRight: "10px",
             },
-            hideCloseButton: true,
+            hideCloseButton: false,
             submitIconSize: 25,
             closeButtonIconSize: "20px",
             asyncMode: false,
@@ -96,26 +104,28 @@ export default {
     },
 
     mounted() {
+
+        //Server for local
+        var socket = io.connect("http://localhost:3000");
+        // Server for HEROKU
+        // var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {secure: true, port: '3000',transports : ['websocket'] });
+       
         this.getAuthUser()
 
         if( localStorage.getItem('myself') != 1 ){
             this.getMessages()
         }
-        var socket = io.connect("http://localhost:3000");
 
-        // var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {
-        //     secure: true, port: '3000',transports : ['websocket'] });
 
-            socket.on("sendChatToClient", data => {            
-                if( data['senderMessage']['participantId'] != this.myself.id ){
-                    this.messages.push(data['senderMessage'])
-                    if( ! this.participants.some( item => item.id == data['senderUser']['id']) ){
-                        this.participants.push(data['senderUser'])   
-                        this.visible = true 
-                    }
-                }  
-
-            });
+        socket.on("sendChatToClient", data => {            
+            if( data['senderMessage']['participantId'] != this.myself.id ){ 
+                this.countMessage++
+                this.messages.push(data['senderMessage'])
+                if( ! this.participants.some( item => item.id == data['senderUser']['id']) ){
+                    this.participants.push(data['senderUser'])
+                }
+            }
+        });
     },
 
     methods: {
@@ -126,10 +136,8 @@ export default {
                 if(response.data.authUser != null){
                     localStorage.setItem('myself', response.data.authUser.id)
                     this.myself = response.data.authUser
-                      this.visible = true
                  }
             })
-
         },
 
         async getMessages(){
@@ -161,6 +169,12 @@ export default {
             
         },
 
+        hoverNotification:function(){
+            this.visible = true;
+            this.countMessage = 0;
+            this.hoverNotificationButton = false
+        },
+
         onType: function (event) {
             //here you can set any behavior
         },
@@ -175,7 +189,7 @@ export default {
 
         onMessageSubmit: function (message) {
             this.messages.push(message);
-            const socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/");
+            const socket = io.connect("http://localhost:3000");
 
             let senderMessage = {
                 'content' : message['content'] ,
@@ -208,21 +222,57 @@ export default {
         },
         onClose() {
             this.visible = false;
+            this.hoverNotificationButton = true;
+            this.countMessage = 0;
         },
     },
-    
-    // sockets: {
-    //     connect(data) {
-    //         // console.log(data);
-    //     },
-    //     sendChatToClient(data) {
-    //         this.messages.push(data);
-    //     }
-    // }
 }
 </script>
 
 <style scoped>
+
+.button-notfication {       
+    position: absolute;
+    bottom: 6px;
+    right: 10px;
+}
+
+.icon-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    color: #333333;
+    background: #dddddd;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+}
+
+.icon-button:hover {
+     cursor: pointer;
+}
+
+.icon-button:active {
+     background: #cccccc;
+}
+
+.icon-button__badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 25px;
+    height: 25px;
+    background: red;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
 
 #chat-inner {
     position: absolute;

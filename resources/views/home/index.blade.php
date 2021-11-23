@@ -31,7 +31,7 @@
                 <div class="row-column-category-list">
                     @foreach($categories as $category)
                         <div class="section-category-item">
-                            <a href="">
+                            <a href="{{ $category->name }}/courses">
                                 <div class="front">
                                     <span class=""><i class="fa fa-desktop" aria-hidden="true"></i> </span>
                                     <p class="">{{ $category->name }}</p>

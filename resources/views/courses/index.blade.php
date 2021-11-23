@@ -93,7 +93,7 @@
                             <div class="text-center">
                                 <h4 class="mt-4 mb-4">Please rate us and write an apinion.It's very important for us.</h4>
                                 <div class="star-rating d-inline-block">
-                                    <i class="fa fa-star" data-rating="1"></i>
+                                CategoryCours                            <i class="fa fa-star" data-rating="1"></i>
                                     <i class="fa fa-star" data-rating="2"></i>
                                     <i class="fa fa-star" data-rating="3"></i>
                                     <i class="fa fa-star" data-rating="4"></i>

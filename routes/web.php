@@ -49,3 +49,4 @@ Route::post('message', [ChatController::class, 'storeMessage'] )->name('store.me
 Route::get('/messages', [ChatController::class, 'getMessages'] )->name('get.message');
 Route::get('get/authuser', [ChatController::class, 'getAuthUser'] )->name('get.authuaer');
 
+Route::get('{name}/courses', [CategoryController::class, 'index'] )->name('category.index');

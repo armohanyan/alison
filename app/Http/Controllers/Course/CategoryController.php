@@ -17,4 +17,8 @@ class CategoryController extends Controller
             'categories' => $categories,
         ]) ;
     }
+
+    public function index($name){
+         return view('courses.category-courses'); 
+    }
 }
