@@ -6,7 +6,10 @@ var express = require('express');
 var app = express();
 var server = app.listen(3000);
 var io = require('socket.io')(server);
-
+const
+  redisOptions = require('./redisOptions'),
+  redis = require('redis'),
+  redisClient = redis.createClient(REDIS_URL, redisOptions);
 
 let redis  = new Redis(); 
 redis.subscribe('chat'); 
