@@ -53,7 +53,5 @@ export default {
 </script>
 
 <style scoped>
-.child-div-startnow > a{
-    color: #fff;
-}
+
 </style>

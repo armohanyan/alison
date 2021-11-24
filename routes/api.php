@@ -26,7 +26,6 @@ Route::get('/get/courses', [CourseController::class, 'getCourses'] )->name('cour
 Route::get('/get/most-popular/courses', [CourseController::class, 'getMostPopularCourses'] )->name('mostpopularcourses');
 Route::get('/get/statics', [RatingController::class, 'getStatics'] )->name('get.statics');
 Route::get('/get/testimonials', [RatingController::class, 'getTestimonials'] )->name('get.testimonial');
-
-//Route::group(['middleware' => 'auth:api'], function () {
-//    Route::post('/post/message', [ChatController::class, 'storeMessage'])->name('store.message');
-//});
+Route::get('/get/category/{categoryId}/courses', [CourseController::class, 'getCategoryCourses'] )->name('getCategoryCourses');
+Route::get('/get/courstype/id/{courseTypeId}/courses', [CourseController::class, 'getCourseTypeCourses'] )->name('getCourseTypeCourses');
+Route::post('/search/course', [CategoryController::class, 'getSearchResult']);

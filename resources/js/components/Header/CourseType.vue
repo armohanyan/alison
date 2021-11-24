@@ -4,7 +4,7 @@
             <ul class="ul-course-type">
                 <li @mouseover.capture="changeBorderColor"
                     @mouseout="onmouseOut" v-for="(courseType, index) in courseTypes" :key="index">
-                    <a class="sm-link" href=""><i class="fa fa-desktop" aria-hidden="true"></i><br>
+                    <a class="sm-link" :href="'/type/id/' + courseType.id + '/courses'"><i class="fa fa-desktop" aria-hidden="true"></i><br>
                         <span class="category-name">{{ courseType.name }}</span>
                     </a>
                 </li>
@@ -55,7 +55,5 @@ export default {
 </script>
 
 <style scoped>
-    li > * {
-        pointer-events: none;
-    }
+
 </style>

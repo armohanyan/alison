@@ -16,4 +16,12 @@ class CourseTypeController extends Controller
             'courseTypes' => $courseTypes,
         ]) ;
     }
+    
+    public function index($courseTypeId){
+
+        return view('courses.coursetype')->with([
+            'courseTypeId' => $courseTypeId,
+         ]) ;
+    }
+
 }

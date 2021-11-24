@@ -23,4 +23,10 @@ class CategoryController extends Controller
             'categoryId' => $categoryId,
          ]) ;
     }
+
+    public function getSearchResult(Request $request){
+        $searchResult = Category::where('name', 'LIKE','%'.$request->searchValue.'%')->orderByDesc('id')->get();
+        return response()->json($searchResult); 
+    } 
+
 }

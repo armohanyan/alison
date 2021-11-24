@@ -7,16 +7,18 @@
                     <a href="/"><img class="logo-image" src="/images/alison.svg" alt=""></a>
                 </div>
                 <div class="search">
-                    <form>
-                        <div class="custom-search">
-                            <input type="text" class="custom-search-input" placeholder="Search for courses">
-                            <button class="custom-search-botton" type="submit"><i class="fa fa-search" aria-hidden="true"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>+
+                    <div class="custom-search">
+                        <input type="text" class="custom-search-input" placeholder="Search for courses" v-model="searchValue">
+                        <button class="custom-search-botton" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="searchResult" v-if="searchResults.length > 0">
+                        <ul>
+                           <li v-for="(searchResult, index) in searchResults" :key="index"><a :href="'/category/'+ searchResult.id +'/courses'">{{ searchResult.name }}</a> </li>
+                        </ul>
+                    </div>
+                </div>
                 <div class="headerMenu">
-                    <ul class="nav-ul" >
+                    <ul class="nav-ul" >    
                         <li  class="header-menu-list">
                             <a class="open-menu-category" data-open="categories-container" title="Course Categories">
                                 <span>Course Categories <i style="font-weight: 100" class="fa fa-angle-down" aria-hidden="true"></i></span>
@@ -47,7 +49,6 @@
                     <a class="sign-in modal-sign-in" href="">Log In</a>
                 </div>
             </div>
-<!--            {{ Auth::check() ? 'active-item' : 'hide-item'}}-->
             <div :class="isAuth ? 'active-item logout-inner': 'hide-item'" style="padding: 13px">
                 <a href="/sign-out" class="logout btn btn-primary">Logout</a>
             </div>
@@ -73,8 +74,11 @@ export default {
 
     data (){
        return {
-           isAuth : false,
-           authUser : []
+            isAuth : false,
+            authUser : [],
+            searchValue : null,
+            searchResults : [],  
+            hoverSearchResult : false
        }
     },
 
@@ -82,21 +86,43 @@ export default {
         this.checkUserAuth();
     },
 
+    watch: {
+        searchValue(after, before) {
+            if(this.searchValue.length > 0){
+                this.getSearchResults();
+                if( this.searchResults.length > 0 ){
+
+                }
+            }
+            this.searchResults = [];
+        }
+    },
+
     methods : {
         async checkUserAuth() {
             await this.axios.get('/get/user')
-            .then( response =>{
-                if (response.data.user == null ){
-                    this.isAuth = false;
-                }
-                else {
-                    this.isAuth = true;
-                    this.authUser = response.data.user
-                }
-            })
-            .catch(error => {
-                console.log(error)
-            })
+                 .then( response =>{
+                    if (response.data.user == null ){
+                        this.isAuth = false;
+                    }
+                    else {
+                        this.isAuth = true;
+                        this.authUser = response.data.user
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        },
+
+        async getSearchResults() {
+  
+            await axios.post('/api/search/course', { searchValue: this.searchValue } )
+                .then(response => {
+                    this.searchResults = response.data ;
+                } )
+
+                .catch(error => {});
         }
     }
 
@@ -112,4 +138,27 @@ export default {
     width: 50px;
     height: 45px;
 }
+
+.searchResult { 
+    background-color: #fff;
+    width:245px;
+    padding:5px; 
+    border-radius: 10px;
+    position: absolute;
+    z-index: 1000;
+}
+
+.searchResult ul li {
+    border-bottom:1px solid rgba(0, 0, 0, .2);
+    padding:10px;
+}
+
+.searchResult ul li a {
+    color: #000;
+}  
+
+.searchResult ul li:hover{
+    background:#f0f0f0;    
+}
+
 </style>

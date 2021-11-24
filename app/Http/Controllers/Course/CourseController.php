@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\CourseType;
 use App\Models\Course;
-//use http\Env\Request;
 use App\Models\TotalRating;
 use Illuminate\Support\Collection ;
 use App\Models\Rating;
@@ -15,7 +15,22 @@ use Illuminate\Support\Facades\Auth;
 class CourseController extends Controller
 {
 
-// Get all  courses.
+    // Show a course. 
+
+    public function show($id){
+
+        $course = Course::find($id);
+
+        if( ! $course ){
+            return redirect()->back();
+        };
+
+        return view('courses.index')->with([
+            'course' => $course,
+        ]);
+    }
+
+    // Get all  courses.
 
     public function getCourses() {
 
@@ -28,8 +43,8 @@ class CourseController extends Controller
 
     }
 
-// Get most popular courses for filtering.
-// Get courses, their category and course type, collect that and push into a new array.
+    // Get most popular courses for filtering.
+    // Get courses, their category and course type, collect that and push into a new array.
 
     public function getMostPopularCourses() {
 
@@ -47,24 +62,44 @@ class CourseController extends Controller
         }
 
         return response()->json([
-            'mostPopularCourses'  => $mostPopularCourses,
+            'courses'  => $mostPopularCourses,
         ], 200);
 
     }
 
-// Show a course. 
 
-    public function show($id){
+    // Get Course by Course Category
 
-        $course = Course::find($id);
+    public function getCategoryCourses($categoryId){
+        
+        $course = new Course;
+        $categoryCourses = Category::with('courses')->where('id', $categoryId)->first(); 
 
-        if( ! $course ){
-            return redirect()->back();
-        };
-
-        return view('courses.index')->with([
-            'course' => $course,
-        ]);
+        if( ! $categoryCourses){   
+            return redirect()->back();     
+        }
+        $courses = $course->getCoursesCategoryOrType($categoryCourses);
+        
+        return response()->json([
+            'courses'  => $categoryCourses->courses
+        ], 200);
     }
 
+    // Get Course by Course Type
+
+    public function getCourseTypeCourses($courseTypeId){
+
+        $course = new Course;
+        $courseTypeCourses = CourseType::with('courses')->where('id', $courseTypeId)->first(); 
+
+        if( ! $courseTypeCourses){   
+            return redirect()->back();     
+        }
+        
+        $courses = $course->getCoursesCategoryOrType($courseTypeCourses);
+        
+        return response()->json([
+            'courses' => $courses,
+        ], 200);
+    }
 }

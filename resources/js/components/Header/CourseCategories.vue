@@ -6,12 +6,12 @@
                     @mouseout="onmouseOut" v-for="(category, index) in courseCategories"
                     :key="index"
                     :style="styleObject">
-                    <a :id="index" class="sm-link"><i class="fa fa-desktop" aria-hidden="true"></i> <br>
+                    <a :id="index" class="sm-link" :href="'/category/'+ category.id +'/courses'"><i class="fa fa-desktop" aria-hidden="true"></i> <br>
                         <span class="category-name">{{ category.name }}</span>
                     </a>
                 </li>
             </ul>
-        </div>
+        </div>``
     </div>
 </template>
 <script>
@@ -99,9 +99,9 @@ export default {
     border-bottom: 7px solid #fff;
 }
 
-li > * {
+/* li > * {
     pointer-events: none;
-}
+} */
 
 .sm-link :hover{
     display: inline-block;

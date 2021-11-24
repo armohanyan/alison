@@ -7,6 +7,7 @@ use App\Http\Controllers\SocialAuthentication\LinkedinController;
 use App\Http\Controllers\Course\CategoryController;
 use App\Http\Controllers\Course\RatingController;
 use App\Http\Controllers\Course\CourseController;
+use App\Http\Controllers\Course\CourseTypeController;
 use App\Http\Controllers\HomeController ;
 use \App\Http\Controllers\Auth\AuthController;
 use \App\Http\Controllers\ChatController;
@@ -50,3 +51,4 @@ Route::get('/messages', [ChatController::class, 'getMessages'] )->name('get.mess
 Route::get('get/authuser', [ChatController::class, 'getAuthUser'] )->name('get.authuaer');
 
 Route::get('category/{categoryId}/courses', [CategoryController::class, 'index'] )->name('category.index');
+Route::get('type/id/{courseTypeId}/courses', [CourseTypeController::class, 'index'] )->name('coursetype.index');

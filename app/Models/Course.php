@@ -45,4 +45,18 @@ class Course extends Model
         return TotalRating::where('course_id', $this->id)->pluck('arithmetic_average')->first();
      }
 
+
+    public function getCoursesCategoryOrType($courseTypeOrCategory){
+        $coursesCategoryOrTypeArray = collect([]);
+
+        foreach( $courseTypeOrCategory['courses'] as $course ){
+            $currentCourseCategory = $course->category;
+            $currentCourseCourseType = $course->courseType;
+            $currentCourse = collect($course);
+            $coursesCategoryOrTypeArray->push($currentCourse);  
+        }
+        
+        return $coursesCategoryOrTypeArray ; 
+    }
+
 }
