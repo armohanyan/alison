@@ -59,6 +59,8 @@ export default ({
 
     mounted() {
         this.getCourses()
+
+        console.log(window.categoryId)
     },
 
     methods : {

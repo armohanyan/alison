@@ -2,8 +2,12 @@
 
 @section('content')
     <!-------------------------- Article Component is here ------------------------>
-   <div id="article-courses">
-       <article-index />
+   <div id="courses-component">
    </div>   
 <!------------------------------------------------------------------------------>
 @endsection
+
+
+<script>
+    window.categoryId = {!! $categoryId !!}
+</script>

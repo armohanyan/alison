@@ -3109,6 +3109,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   mounted: function mounted() {
     this.getCourses();
+    console.log(window.categoryId);
   },
   methods: {
     hideBlockIntro: function hideBlockIntro(index) {
@@ -3690,11 +3691,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Header_IndexComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Header/IndexComponent */ "./resources/js/components/Header/IndexComponent.vue");
 /* harmony import */ var _components_article_ArticleIndex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/article/ArticleIndex */ "./resources/js/components/article/ArticleIndex.vue");
 /* harmony import */ var _components_footer_IndexFooter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/footer/IndexFooter */ "./resources/js/components/footer/IndexFooter.vue");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var vue_axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-axios */ "./node_modules/vue-axios/dist/vue-axios.esm.min.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var _components_article_CoursesComponent_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/article/CoursesComponent.vue */ "./resources/js/components/article/CoursesComponent.vue");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var vue_axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-axios */ "./node_modules/vue-axios/dist/vue-axios.esm.min.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -3706,32 +3708,45 @@ window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js
 
 
 
- // import store from './store'
-// import VueSocketIO from 'vue-socket.io'
 
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_5__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_6__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_5__["default"].config.productionTip = false;
-vue__WEBPACK_IMPORTED_MODULE_5__["default"].use(vue_axios__WEBPACK_IMPORTED_MODULE_4__["default"], (axios__WEBPACK_IMPORTED_MODULE_3___default()));
-new vue__WEBPACK_IMPORTED_MODULE_5__["default"]({
+
+vue__WEBPACK_IMPORTED_MODULE_6__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_7__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_6__["default"].config.productionTip = false;
+vue__WEBPACK_IMPORTED_MODULE_6__["default"].use(vue_axios__WEBPACK_IMPORTED_MODULE_5__["default"], (axios__WEBPACK_IMPORTED_MODULE_4___default()));
+new vue__WEBPACK_IMPORTED_MODULE_6__["default"]({
   // store,
   render: function render(h) {
     return h(_components_Header_IndexComponent__WEBPACK_IMPORTED_MODULE_0__["default"]);
   }
 }).$mount("#app");
-new vue__WEBPACK_IMPORTED_MODULE_5__["default"]({
-  // store,
-  render: function render(h) {
-    return h(_components_article_ArticleIndex__WEBPACK_IMPORTED_MODULE_1__["default"]);
-  }
-}).$mount("#article-courses");
-new vue__WEBPACK_IMPORTED_MODULE_5__["default"]({
-  render: function render(h) {
-    return h(_components_footer_IndexFooter__WEBPACK_IMPORTED_MODULE_2__["default"]);
-  }
-}).$mount("#footer-component");
+
+if (document.getElementById('article-courses')) {
+  new vue__WEBPACK_IMPORTED_MODULE_6__["default"]({
+    // store,
+    render: function render(h) {
+      return h(_components_article_ArticleIndex__WEBPACK_IMPORTED_MODULE_1__["default"]);
+    }
+  }).$mount("#article-courses");
+}
+
+if (document.getElementById('footer-component')) {
+  new vue__WEBPACK_IMPORTED_MODULE_6__["default"]({
+    render: function render(h) {
+      return h(_components_footer_IndexFooter__WEBPACK_IMPORTED_MODULE_2__["default"]);
+    }
+  }).$mount("#footer-component");
+}
+
+if (document.getElementById('courses-component')) {
+  new vue__WEBPACK_IMPORTED_MODULE_6__["default"]({
+    render: function render(h) {
+      return h(_components_article_CoursesComponent_vue__WEBPACK_IMPORTED_MODULE_3__["default"]);
+    }
+  }).$mount("#courses-component");
+}
 
 /***/ }),
 

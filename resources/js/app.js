@@ -13,9 +13,9 @@ import
 IndexComponent from './components/Header/IndexComponent';
 import ArticleIndex from './components/article/ArticleIndex';
 import IndexFooter from './components/footer/IndexFooter';
+import CoursesComponent from './components/article/CoursesComponent.vue';
+
 import Vue from "vue";
-// import store from './store'
-// import VueSocketIO from 'vue-socket.io'
 import
 axios from 'axios' ;
 import VueAxios from 'vue-axios';
@@ -30,13 +30,21 @@ new Vue({
     render: h => h(IndexComponent ),
 }).$mount("#app");
 
-new Vue({
-    // store,
-    render: h => h(ArticleIndex),
-}).$mount("#article-courses");
+if( document.getElementById('article-courses') ){
+    new Vue({
+        // store,
+        render: h => h(ArticleIndex),
+    }).$mount("#article-courses");
+}
 
+if( document.getElementById('footer-component') ){
+    new Vue({
+        render: h => h(IndexFooter),
+    }).$mount("#footer-component");
+}
 
-
-new Vue({
-    render: h => h(IndexFooter),
-}).$mount("#footer-component");
+if( document.getElementById('courses-component') ){
+    new Vue({
+        render: h => h(CoursesComponent),
+    }).$mount("#courses-component");
+}

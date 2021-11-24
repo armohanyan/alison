@@ -17,8 +17,10 @@ class CategoryController extends Controller
             'categories' => $categories,
         ]) ;
     }
+    public function index($categoryId){
 
-    public function index($name){
-         return view('courses.category-courses'); 
+        return view('courses.category-courses')->with([
+            'categoryId' => $categoryId,
+         ]) ;
     }
 }
