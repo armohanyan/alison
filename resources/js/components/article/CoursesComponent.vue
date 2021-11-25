@@ -108,9 +108,11 @@ export default ({
             await this.axios.get(url)
                 .then(response => {
                     let courses = response.data.courses;
-                    
                     this.coursesArray = courses.splice(0,5);
-            
+
+                    if( this.coursesArray.length <= 4){
+                        this.hoverMoreCoursesButton = false
+                    }
                     this.coursesArray.forEach((value, index) => {
                         this.$set(this.coursesArray[index], 'hoverBlockIntro', false)
                     });
@@ -122,7 +124,7 @@ export default ({
 
         loadMoreCourses(){
             
-            let lastCourseId = this.coursesArray[this.coursesArray.length - 1].id;
+            var lastCourseId = this.coursesArray[this.coursesArray.length - 1].id;
             var lastCourse = this.coursesArray[this.coursesArray.length - 1];
             var lastCourseIndex = this.coursesArray.indexOf(lastCourse);
 
@@ -141,7 +143,7 @@ export default ({
                         this.coursesArray.push(spliceCourses[index])
                     });
 
-                    if( response.data.dbLastCourseId == this.coursesArray[this.coursesArray.length - 1].id){
+                    if( response.data.dbLastCourseId == lastCourseId){
                         this.hoverMoreCoursesButton = false
                     }
                     console.log(this.coursesArray, 'all courses')

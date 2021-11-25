@@ -3194,6 +3194,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   var courses = response.data.courses;
                   _this.coursesArray = courses.splice(0, 5);
 
+                  if (_this.coursesArray.length <= 4) {
+                    _this.hoverMoreCoursesButton = false;
+                  }
+
                   _this.coursesArray.forEach(function (value, index) {
                     _this.$set(_this.coursesArray[index], 'hoverBlockIntro', false);
                   });
@@ -3232,7 +3236,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           _this2.coursesArray.push(spliceCourses[index]);
         });
 
-        if (response.data.dbLastCourseId == _this2.coursesArray[_this2.coursesArray.length - 1].id) {
+        if (response.data.dbLastCourseId == lastCourseId) {
           _this2.hoverMoreCoursesButton = false;
         }
 
