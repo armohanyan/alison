@@ -33,7 +33,7 @@
                             <a class="" data-open="categories-container" href="" title="Course Categories">
                                 <span>Career Guide </span>
                             </a>
-                        </li>
+                        </li>   
                     </ul>
                 </div>
             </div>

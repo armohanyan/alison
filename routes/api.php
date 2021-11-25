@@ -29,3 +29,4 @@ Route::get('/get/testimonials', [RatingController::class, 'getTestimonials'] )->
 Route::get('/get/category/{categoryId}/courses', [CourseController::class, 'getCategoryCourses'] )->name('getCategoryCourses');
 Route::get('/get/courstype/id/{courseTypeId}/courses', [CourseController::class, 'getCourseTypeCourses'] )->name('getCourseTypeCourses');
 Route::post('/search/course', [CategoryController::class, 'getSearchResult']);
+Route::post('/load/more/courses',[CourseController::class, 'loadMoreCourses'])->name('load.more.courses');

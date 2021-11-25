@@ -42,7 +42,7 @@
         </a>
     </div>
     <div class="btn-more-courses">
-        <a href="" class="more-courses-link" title="More Courses">More Courses</a>
+        <button v-if="hoverMoreCoursesButton" @click="loadMoreCourses" class="more-courses-link" title="More Courses">More Courses</button>
     </div>
 </div>
 </template>
@@ -54,11 +54,14 @@ export default ({
     data() {
         return {
             coursesArray : [],
+            hoverMoreCoursesButton : true,
+            currentCourseType : null,
+            categoryOrCourseId : null,
         }
     },
 
     mounted() {
-        console.log(window.courseTypeId)
+
         if(window.categoryId){
             this.getCourses(`category/${window.categoryId}/courses`)
         }
@@ -77,30 +80,74 @@ export default ({
         },
 
         async getCourses(type) {
+            this.hoverMoreCoursesButton = true
             let url = '';
             
             if(type == 'popular') {
+                
                 url = '/api/get/most-popular/courses';
+                this.currentCourseType = "mostPopluar"
             }
             else if(type == `category/${window.categoryId}/courses`){
+
                 url = `/api/get/category/${window.categoryId}/courses`
+                this.currentCourseType = "coursesByCategory"
+                this.categoryOrCourseId = window.categoryId
             }
             else if(type == `courstype/id/${window.courseTypeId}/courses`){
+
                 url = `/api/get/courstype/id/${window.courseTypeId}/courses`
-                console.log(url);
+                this.currentCourseType = "coursesByType"
+                this.categoryOrCourseId = window.courseTypeId
             }
             else {
-                url = '/api/get/courses';       
+                url = '/api/get/courses';     
+                this.currentCourseType = "allCourses"
             }
 
             await this.axios.get(url)
                 .then(response => {
-                  this.coursesArray = response.data.courses
+                    let courses = response.data.courses;
+                    
+                    this.coursesArray = courses.splice(0,5);
+            
                     this.coursesArray.forEach((value, index) => {
                         this.$set(this.coursesArray[index], 'hoverBlockIntro', false)
                     });
                 })
                 .catch(error => {
+                    console.log(error)
+                })
+        },
+
+        loadMoreCourses(){
+            
+            let lastCourseId = this.coursesArray[this.coursesArray.length - 1].id;
+            var lastCourse = this.coursesArray[this.coursesArray.length - 1];
+            var lastCourseIndex = this.coursesArray.indexOf(lastCourse);
+
+            if ( this.categoryOrCourseId != null ){
+                var categoryOrCourseId = this.categoryOrCourseId
+            }
+
+            this.axios.post('/api/load/more/courses', { lastCourseId, categoryOrCourseId , currentCourseType: this.currentCourseType })
+                .then(response => {
+                    
+                    let spliceCourses = response.data.moreCourses.splice(lastCourseIndex + 1, 5);
+                    console.log(spliceCourses, 'splice');
+                    console.log(lastCourseIndex);
+
+                    spliceCourses.forEach((value, index) => {
+                        this.coursesArray.push(spliceCourses[index])
+                    });
+
+                    if( response.data.dbLastCourseId == this.coursesArray[this.coursesArray.length - 1].id){
+                        this.hoverMoreCoursesButton = false
+                    }
+                    console.log(this.coursesArray, 'all courses')
+
+                })
+                .catch( error => {
                     console.log(error)
                 })
         },

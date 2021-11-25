@@ -46,17 +46,54 @@ class Course extends Model
      }
 
 
-    public function getCoursesCategoryOrType($courseTypeOrCategory){
+    public function getCoursesCategoryOrType($usingCategoryOrType, $categoryOrTypeId){
         $coursesCategoryOrTypeArray = collect([]);
 
+        if( $usingCategoryOrType == 'category' ) {
+
+            $categoryCourses = Category::with('courses')
+                ->where('id', $categoryOrTypeId)
+                ->first();
+
+            $courseTypeOrCategory = $categoryCourses; 
+        }
+        else {
+
+            $courseTypeCourses = CourseType::with('courses')
+                ->where('id', $categoryOrTypeId)
+                ->first();
+
+            $courseTypeOrCategory = $courseTypeCourses; 
+        }
+
         foreach( $courseTypeOrCategory['courses'] as $course ){
+
             $currentCourseCategory = $course->category;
             $currentCourseCourseType = $course->courseType;
             $currentCourse = collect($course);
-            $coursesCategoryOrTypeArray->push($currentCourse);  
+            $coursesCategoryOrTypeArray->push($currentCourse);
         }
-        
-        return $coursesCategoryOrTypeArray ; 
+
+        return $coursesCategoryOrTypeArray ;
+    }
+
+    public function getMostPopularCourses() {
+        $mostPopularCourses = collect([]);
+
+        $coursesTotalRating = TotalRating::with('Course')
+            ->orderByDesc('arithmetic_average', 'desc')
+            ->get();
+
+        foreach( $coursesTotalRating as $courseTotalRating ){
+
+            $currentCourseCategory = $courseTotalRating['course']->category;
+            $currentCourseCourseType = $courseTotalRating['course']->courseType;
+            $currentCourse = collect($courseTotalRating['course']);
+            $mostPopularCourses->push($currentCourse);
+        }
+
+        return $mostPopularCourses ;
+
     }
 
 }

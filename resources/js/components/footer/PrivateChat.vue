@@ -106,9 +106,10 @@ export default {
     mounted() {
 
         //Server for local
-        var socket = io.connect("http://localhost:3000");
+        // var socket = io.connect("http://localhost:3000");
         // Server for HEROKU
-        // var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {secure: true, port: '3000',transports : ['websocket'] });
+
+        var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {secure: true, port: '3000',transports : ['websocket'] });
        
         this.getAuthUser()
 
@@ -189,7 +190,8 @@ export default {
 
         onMessageSubmit: function (message) {
             this.messages.push(message);
-            const socket = io.connect("http://localhost:3000");
+            // const socket = io.connect("http://localhost:3000");
+            var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {secure: true, port: '3000',transports : ['websocket'] });
 
             let senderMessage = {
                 'content' : message['content'] ,

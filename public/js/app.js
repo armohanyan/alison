@@ -3142,12 +3142,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      coursesArray: []
+      coursesArray: [],
+      hoverMoreCoursesButton: true,
+      currentCourseType: null,
+      categoryOrCourseId: null
     };
   },
   mounted: function mounted() {
-    console.log(window.courseTypeId);
-
     if (window.categoryId) {
       this.getCourses("category/".concat(window.categoryId, "/courses"));
     } else if (window.courseTypeId) {
@@ -3169,22 +3170,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _this.hoverMoreCoursesButton = true;
                 url = '';
 
                 if (type == 'popular') {
                   url = '/api/get/most-popular/courses';
+                  _this.currentCourseType = "mostPopluar";
                 } else if (type == "category/".concat(window.categoryId, "/courses")) {
                   url = "/api/get/category/".concat(window.categoryId, "/courses");
+                  _this.currentCourseType = "coursesByCategory";
+                  _this.categoryOrCourseId = window.categoryId;
                 } else if (type == "courstype/id/".concat(window.courseTypeId, "/courses")) {
                   url = "/api/get/courstype/id/".concat(window.courseTypeId, "/courses");
-                  console.log(url);
+                  _this.currentCourseType = "coursesByType";
+                  _this.categoryOrCourseId = window.courseTypeId;
                 } else {
                   url = '/api/get/courses';
+                  _this.currentCourseType = "allCourses";
                 }
 
-                _context.next = 4;
+                _context.next = 5;
                 return _this.axios.get(url).then(function (response) {
-                  _this.coursesArray = response.data.courses;
+                  var courses = response.data.courses;
+                  _this.coursesArray = courses.splice(0, 5);
 
                   _this.coursesArray.forEach(function (value, index) {
                     _this.$set(_this.coursesArray[index], 'hoverBlockIntro', false);
@@ -3193,13 +3201,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   console.log(error);
                 });
 
-              case 4:
+              case 5:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
       }))();
+    },
+    loadMoreCourses: function loadMoreCourses() {
+      var _this2 = this;
+
+      var lastCourseId = this.coursesArray[this.coursesArray.length - 1].id;
+      var lastCourse = this.coursesArray[this.coursesArray.length - 1];
+      var lastCourseIndex = this.coursesArray.indexOf(lastCourse);
+
+      if (this.categoryOrCourseId != null) {
+        var categoryOrCourseId = this.categoryOrCourseId;
+      }
+
+      this.axios.post('/api/load/more/courses', {
+        lastCourseId: lastCourseId,
+        categoryOrCourseId: categoryOrCourseId,
+        currentCourseType: this.currentCourseType
+      }).then(function (response) {
+        var spliceCourses = response.data.moreCourses.splice(lastCourseIndex + 1, 5);
+        console.log(spliceCourses, 'splice');
+        console.log(lastCourseIndex);
+        spliceCourses.forEach(function (value, index) {
+          _this2.coursesArray.push(spliceCourses[index]);
+        });
+
+        if (response.data.dbLastCourseId == _this2.coursesArray[_this2.coursesArray.length - 1].id) {
+          _this2.hoverMoreCoursesButton = false;
+        }
+
+        console.log(_this2.coursesArray, 'all courses');
+      })["catch"](function (error) {
+        console.log(error);
+      });
     },
     showBlockIntro: function showBlockIntro(index) {
       this.coursesArray[index].hoverBlockIntro = true;
@@ -3579,9 +3619,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var _this = this;
 
     //Server for local
-    var socket = io.connect("http://localhost:3000"); // Server for HEROKU
-    // var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {secure: true, port: '3000',transports : ['websocket'] });
-
+    // var socket = io.connect("http://localhost:3000");
+    // Server for HEROKU
+    var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {
+      secure: true,
+      port: '3000',
+      transports: ['websocket']
+    });
     this.getAuthUser();
 
     if (localStorage.getItem('myself') != 1) {
@@ -3686,8 +3730,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, 1000);
     },
     onMessageSubmit: function onMessageSubmit(message) {
-      this.messages.push(message);
-      var socket = io.connect("http://localhost:3000");
+      this.messages.push(message); // const socket = io.connect("http://localhost:3000");
+
+      var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {
+        secure: true,
+        port: '3000',
+        transports: ['websocket']
+      });
       var senderMessage = {
         'content': message['content'],
         'myself': false,
@@ -54018,7 +54067,19 @@ var render = function () {
       0
     ),
     _vm._v(" "),
-    _vm._m(1),
+    _c("div", { staticClass: "btn-more-courses" }, [
+      _vm.hoverMoreCoursesButton
+        ? _c(
+            "button",
+            {
+              staticClass: "more-courses-link",
+              attrs: { title: "More Courses" },
+              on: { click: _vm.loadMoreCourses },
+            },
+            [_vm._v("More Courses")]
+          )
+        : _vm._e(),
+    ]),
   ])
 }
 var staticRenderFns = [
@@ -54048,21 +54109,6 @@ var staticRenderFns = [
           },
         }),
       ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "btn-more-courses" }, [
-      _c(
-        "a",
-        {
-          staticClass: "more-courses-link",
-          attrs: { href: "", title: "More Courses" },
-        },
-        [_vm._v("More Courses")]
-      ),
     ])
   },
 ]
