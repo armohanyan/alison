@@ -116,6 +116,7 @@ export default ({
                     this.coursesArray.forEach((value, index) => {
                         this.$set(this.coursesArray[index], 'hoverBlockIntro', false)
                     });
+
                 })
                 .catch(error => {
                     console.log(error)
@@ -124,8 +125,8 @@ export default ({
 
         loadMoreCourses(){
             
-            var lastCourseId = this.coursesArray[this.coursesArray.length - 1].id;
-            var lastCourse = this.coursesArray[this.coursesArray.length - 1];
+            let lastCourse = this.coursesArray[this.coursesArray.length - 1];
+            let lastCourseId = lastCourse.id;
             var lastCourseIndex = this.coursesArray.indexOf(lastCourse);
 
             if ( this.categoryOrCourseId != null ){
@@ -134,19 +135,20 @@ export default ({
 
             this.axios.post('/api/load/more/courses', { lastCourseId, categoryOrCourseId , currentCourseType: this.currentCourseType })
                 .then(response => {
-                    
                     let spliceCourses = response.data.moreCourses.splice(lastCourseIndex + 1, 5);
-                    console.log(spliceCourses, 'splice');
-                    console.log(lastCourseIndex);
 
                     spliceCourses.forEach((value, index) => {
                         this.coursesArray.push(spliceCourses[index])
                     });
 
-                    if( response.data.dbLastCourseId == lastCourseId){
+                    if( response.data.dbLastCourseId == this.coursesArray[this.coursesArray.length - 1].id){
                         this.hoverMoreCoursesButton = false
                     }
-                    console.log(this.coursesArray, 'all courses')
+
+                    console.log(lastCourseId)
+                    console.log(this.hoverMoreCoursesButton, "button"); 
+                    console.log(this.coursesArray, "array"); 
+
 
                 })
                 .catch( error => {

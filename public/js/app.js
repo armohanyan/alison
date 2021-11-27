@@ -3216,8 +3216,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loadMoreCourses: function loadMoreCourses() {
       var _this2 = this;
 
-      var lastCourseId = this.coursesArray[this.coursesArray.length - 1].id;
       var lastCourse = this.coursesArray[this.coursesArray.length - 1];
+      var lastCourseId = lastCourse.id;
       var lastCourseIndex = this.coursesArray.indexOf(lastCourse);
 
       if (this.categoryOrCourseId != null) {
@@ -3230,17 +3230,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         currentCourseType: this.currentCourseType
       }).then(function (response) {
         var spliceCourses = response.data.moreCourses.splice(lastCourseIndex + 1, 5);
-        console.log(spliceCourses, 'splice');
-        console.log(lastCourseIndex);
         spliceCourses.forEach(function (value, index) {
           _this2.coursesArray.push(spliceCourses[index]);
         });
 
-        if (response.data.dbLastCourseId == lastCourseId) {
+        if (response.data.dbLastCourseId == _this2.coursesArray[_this2.coursesArray.length - 1].id) {
           _this2.hoverMoreCoursesButton = false;
         }
 
-        console.log(_this2.coursesArray, 'all courses');
+        console.log(lastCourseId);
+        console.log(_this2.hoverMoreCoursesButton, "button");
+        console.log(_this2.coursesArray, "array");
       })["catch"](function (error) {
         console.log(error);
       });
@@ -3623,13 +3623,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var _this = this;
 
     //Server for local
-    // var socket = io.connect("http://localhost:3000");
-    // Server for HEROKU
-    var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {
-      secure: true,
-      port: '3000',
-      transports: ['websocket']
-    });
+    var socket = io.connect("http://localhost:3000"); // Server for HEROKU
+    // var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {secure: true, port: '3000',transports : ['websocket'] });
+
     this.getAuthUser();
 
     if (localStorage.getItem('myself') != 1) {
@@ -3734,13 +3730,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, 1000);
     },
     onMessageSubmit: function onMessageSubmit(message) {
-      this.messages.push(message); // const socket = io.connect("http://localhost:3000");
+      this.messages.push(message);
+      var socket = io.connect("http://localhost:3000"); // var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {secure: true, port: '3000',transports : ['websocket'] });
 
-      var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {
-        secure: true,
-        port: '3000',
-        transports: ['websocket']
-      });
       var senderMessage = {
         'content': message['content'],
         'myself': false,

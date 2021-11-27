@@ -86,25 +86,22 @@ class CourseController extends Controller
         if($request->currentCourseType == 'mostPopluar' ){
 
             $courses = $course->getMostPopularCourses();
-            $dbLastCourseId = $courses->last()['id']; 
         }
         else if( $request->currentCourseType == 'coursesByCategory'){
 
             $courses = $course->getCoursesCategoryOrType('category', $request->categoryOrCourseId );
-            $dbLastCourseId = $courses->last()['id']; 
         }
         else if($request->currentCourseType == 'coursesByType'){
 
             $courses = $course->getCoursesCategoryOrType('course-type', $request->categoryOrCourseId );
-            $dbLastCourseId = $courses->last()['id']; 
         }
         else {
-
-            $dbLastCourseId = Course::orderBy('id', 'desc')->first()->id;
     
             $courses = Course::with('Category', 'CourseType')
                 ->get();
         }
+
+        $dbLastCourseId = $courses->last()['id']; 
 
         return response()->json([
             'moreCourses'  => $courses,
