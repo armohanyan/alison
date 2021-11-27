@@ -723,11 +723,6 @@ section {
     z-index: 1000;
 }
 
-.main-testimonials-inner{
-    /*display:flex;*/
-    /*justify-content: flex-start;*/
-    /*flex-wrap: wrap;*/
-}
 
 .testimonials-left-inner{
     position: relative;
