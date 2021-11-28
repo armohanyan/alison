@@ -79,32 +79,4 @@ class CourseController extends Controller
         ], 200);
     }
 
-    public function loadMoreCourses(Request $request){
-        $course = new Course();
-
-        if( $request->currentCourseType == 'mostPopluar' ){
-
-            $courses = $course->getMostPopularCourses();
-        }
-        else if( $request->currentCourseType == 'coursesByCategory'){
-
-            $courses = $course->getCoursesCategoryOrType('category', $request->categoryOrCourseId );
-        }
-        else if($request->currentCourseType == 'coursesByType'){
-
-            $courses = $course->getCoursesCategoryOrType('course-type', $request->categoryOrCourseId );
-        }
-        else {
-    
-            $courses = Course::with('Category', 'CourseType')
-                ->get();
-        }
-
-        $dbLastCourseId = $courses->last()['id']; 
-
-        return response()->json([
-            'moreCourses'  => $courses,
-            'dbLastCourseId' => $dbLastCourseId,
-        ], 200);
-    }
 }
