@@ -116,11 +116,4 @@ export default {
     display: inline-block;
 }
 
-/*.fa-desktop{*/
-/*    border-bottom : none !important*/
-/*}*/
-/*.category-name{*/
-/*    border-bottom : none !important*/
-/*}*/
-
 </style>

@@ -20,13 +20,15 @@
               @onMessageSubmit="onMessageSubmit"
               @onType="onType"
               @onClose="onClose"/>
-    <div v-if="hoverNotificationButton" class="button-notfication">
-        <button @click="hoverNotification" type="button" class="icon-button">
-            <span class="material-icons"><i class="fa fa-comment" aria-hidden="true"></i></span>
-            <span v-if="countMessage > 0" class="icon-button__badge">{{ countMessage }}</span>
-        </button>
+    <div v-if="isAuthUserAdmin"  class="isAuthUser">
+        <div v-if="hoverNotificationButton"  class="button-notfication">
+            <button @click="hoverNotification" type="button" class="icon-button">
+                <span class="material-icons"><i class="fa fa-comment" aria-hidden="true"></i></span>
+                <span v-if="countMessage > 0" class="icon-button__badge">{{ countMessage }}</span>
+            </button>
+        </div>
     </div>
-              
+
     </div>
 </template>
     <script src="socket.io/socket.io.js"></script>
@@ -35,10 +37,10 @@
 import { Chat } from 'vue-quick-chat';
 import 'vue-quick-chat/dist/vue-quick-chat.css';
 export default {
-    name : 'PrivateChat',   
+    name : 'PrivateChat',
     components: {
         Chat
-    },  
+    },
     data() {
         return {
             isAuthUserAdmin : false,
@@ -110,7 +112,7 @@ export default {
         // Server for HEROKU
 
         // var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {secure: true, port: '3000',transports : ['websocket'] });
-       
+
         this.getAuthUser()
 
         if( localStorage.getItem('myself') != 1 ){
@@ -118,12 +120,12 @@ export default {
         }
 
 
-        socket.on("sendChatToClient", data => {            
-            if( data['senderMessage']['participantId'] != this.myself.id ){ 
+        socket.on("sendChatToClient", data => {
+            if( data['senderMessage']['participantId'] != this.myself.id ){
                 this.countMessage++
                 this.messages.push(data['senderMessage'])
                 if( ! this.participants.some( item => item.id == data['senderUser']['id']) ){
-                    this.participants.push(data['senderUser'])
+                      this.participants.push(data['senderUser'])
                 }
             }
         });
@@ -137,6 +139,7 @@ export default {
                 if(response.data.authUser != null){
                     localStorage.setItem('myself', response.data.authUser.id)
                     this.myself = response.data.authUser
+                    this.isAuthUserAdmin = true;
                  }
             })
         },
@@ -144,13 +147,13 @@ export default {
         async getMessages(){
           await this.axios.get('messages')
                 .then(response => {
-                    let allMessages = [];   
+                    let allMessages = [];
                     this.participants[0] = response.data.admin
 
                     response.data.mergeMessages.forEach((message) => {
                         let myself = this.myself.id == message.user_id ? myself = true : myself = false;
 
-                        let currectType = { 
+                        let currectType = {
                             'content' : message.message,
                             'myself' : myself,
                             'participantId' : response.data.admin.id,
@@ -167,7 +170,7 @@ export default {
                 .catch(error => {
                     console.log(error)
                 })
-            
+
         },
 
         hoverNotification:function(){
@@ -178,14 +181,14 @@ export default {
 
         onType: function (event) {
             //here you can set any behavior
-        },  
+        },
 
         loadMoreMessages(resolve) {
             setTimeout(() => {
                 resolve(this.toLoad);
                 this.messages.unshift(...this.toLoad);
                 this.toLoad = [];
-            }, 1000);   
+            }, 1000);
         },
 
         onMessageSubmit: function (message) {
@@ -203,7 +206,7 @@ export default {
 
             socket.emit('sendChatToServer', {
                 'senderMessage' : senderMessage,
-                'senderUser' : this.myself,   
+                'senderUser' : this.myself,
             })
 
             if( this.participants.length > 0 ) {
@@ -233,8 +236,12 @@ export default {
 
 <style scoped>
 
-.button-notfication {       
-    position: absolute;
+/*.isAuthUser{*/
+/*    position: fixed;*/
+/*}*/
+
+.button-notfication {
+    position: fixed;
     bottom: 6px;
     right: 10px;
 }
@@ -287,7 +294,7 @@ export default {
     min-width: 310px;
 }
 
-.quick-chat-container .container-message-manager .message-input{ 
+.quick-chat-container .container-message-manager .message-input{
     overflow:auto;
 }
 

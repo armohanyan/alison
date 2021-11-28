@@ -3144,8 +3144,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       coursesArray: [],
       hoverMoreCoursesButton: true,
-      currentCourseType: null,
-      categoryOrCourseId: null,
       allCoursesForLoadMore: []
     };
   },
@@ -3176,18 +3174,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 if (type == 'popular') {
                   url = '/api/get/most-popular/courses';
-                  _this.currentCourseType = "mostPopluar";
                 } else if (type == "category/".concat(window.categoryId, "/courses")) {
                   url = "/api/get/category/".concat(window.categoryId, "/courses");
-                  _this.currentCourseType = "coursesByCategory";
-                  _this.categoryOrCourseId = window.categoryId;
                 } else if (type == "courstype/id/".concat(window.courseTypeId, "/courses")) {
                   url = "/api/get/courstype/id/".concat(window.courseTypeId, "/courses");
-                  _this.currentCourseType = "coursesByType";
-                  _this.categoryOrCourseId = window.courseTypeId;
                 } else {
                   url = '/api/get/courses';
-                  _this.currentCourseType = "allCourses";
                 }
 
                 _context.next = 5;
@@ -3202,8 +3194,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                   _this.coursesArray.forEach(function (value, index) {
                     _this.$set(_this.coursesArray[index], 'hoverBlockIntro', false);
-
-                    _this.$set(_this.allCoursesForLoadMore[index], 'hoverBlockIntro', false);
                   });
                 })["catch"](function (error) {
                   console.log(error);
@@ -3230,7 +3220,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       spliceCourses.forEach(function (value, index) {
         _this2.coursesArray.push(spliceCourses[index]);
       });
-      console.log(lastCourse.id, 'lastCourse.id', lastCourseOFAllCoursesArray.id, 'lastCourseOFAllCoursesArray.id');
+      this.coursesArray.forEach(function (value, index) {
+        _this2.$set(_this2.coursesArray[index], 'hoverBlockIntro', false);
+      });
 
       if (this.coursesArray[this.coursesArray.length - 1].id == lastCourseOFAllCoursesArray.id) {
         this.hoverMoreCoursesButton = false;
@@ -3544,6 +3536,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3651,6 +3645,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (response.data.authUser != null) {
                     localStorage.setItem('myself', response.data.authUser.id);
                     _this2.myself = response.data.authUser;
+                    _this2.isAuthUserAdmin = true;
                   }
                 });
 
@@ -27308,7 +27303,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.category-list[data-v-307316de]{\n    height: 130px;\n    position: absolute;\n    display: none;\n    width: 100%;\n    background-color:#f7f7f7;\n    box-shadow: 0 4px 5px 0 rgb(0 0 0 / 75%);\n    padding-top:10px ;\n    text-align: center;\n    z-index:2;\n    top: 64px;\n}\n.ul-category-list[data-v-307316de]{\n    max-width: 95%;\n    justify-content: center;\n    list-style-type: disc;\n    display: flex;\n    flex-wrap:wrap;\n}\n.ul-category-list > li[data-v-307316de]{\n    margin-left:15px ;\n    max-width: 15%;\n}\n.ul-category-list > li[data-v-307316de] :hover {\n    color: #566d7f;\n}\n.sm-link[data-v-307316de]{\n    background-color: #e9edf1;\n    display: inline-block;\n    color: #566d7f;\n    width: 130px;\n    height: 114px;\n    vertical-align: middle;\n    padding-top: 9px;\n    border-bottom: 7px solid #fff;\n}\n\n/* li > * {\n    pointer-events: none;\n} */\n.sm-link[data-v-307316de] :hover{\n    display: inline-block;\n    color: #566d7f;\n}\n.sm-link i[data-v-307316de] {\n    font-size: 35px;\n    opacity: 0.7;\n    font-weight: 100;\n    margin-bottom: 7px;\n    display: inline-block;\n}\n\n/*.fa-desktop{*/\n/*    border-bottom : none !important*/\n/*}*/\n/*.category-name{*/\n/*    border-bottom : none !important*/\n/*}*/\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.category-list[data-v-307316de]{\n    height: 130px;\n    position: absolute;\n    display: none;\n    width: 100%;\n    background-color:#f7f7f7;\n    box-shadow: 0 4px 5px 0 rgb(0 0 0 / 75%);\n    padding-top:10px ;\n    text-align: center;\n    z-index:2;\n    top: 64px;\n}\n.ul-category-list[data-v-307316de]{\n    max-width: 95%;\n    justify-content: center;\n    list-style-type: disc;\n    display: flex;\n    flex-wrap:wrap;\n}\n.ul-category-list > li[data-v-307316de]{\n    margin-left:15px ;\n    max-width: 15%;\n}\n.ul-category-list > li[data-v-307316de] :hover {\n    color: #566d7f;\n}\n.sm-link[data-v-307316de]{\n    background-color: #e9edf1;\n    display: inline-block;\n    color: #566d7f;\n    width: 130px;\n    height: 114px;\n    vertical-align: middle;\n    padding-top: 9px;\n    border-bottom: 7px solid #fff;\n}\n\n/* li > * {\n    pointer-events: none;\n} */\n.sm-link[data-v-307316de] :hover{\n    display: inline-block;\n    color: #566d7f;\n}\n.sm-link i[data-v-307316de] {\n    font-size: 35px;\n    opacity: 0.7;\n    font-weight: 100;\n    margin-bottom: 7px;\n    display: inline-block;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -27428,7 +27423,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.button-notfication[data-v-1f97621c] {       \n    position: absolute;\n    bottom: 6px;\n    right: 10px;\n}\n.icon-button[data-v-1f97621c] {\n    position: relative;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    width: 50px;\n    height: 50px;\n    color: #333333;\n    background: #dddddd;\n    border: none;\n    outline: none;\n    border-radius: 50%;\n}\n.icon-button[data-v-1f97621c]:hover {\n     cursor: pointer;\n}\n.icon-button[data-v-1f97621c]:active {\n     background: #cccccc;\n}\n.icon-button__badge[data-v-1f97621c] {\n    position: absolute;\n    top: -10px;\n    right: -10px;\n    width: 25px;\n    height: 25px;\n    background: red;\n    color: #ffffff;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    border-radius: 50%;\n}\n#chat-inner[data-v-1f97621c] {\n    position: absolute;\n    top: -5px;\n    right:10px;\n    height:100%\n}\n.quick-chat-container[data-v-1f97621c]{\n    max-width: 310px;\n    min-width: 310px;\n}\n.quick-chat-container .container-message-manager .message-input[data-v-1f97621c]{ \n    overflow:auto;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/*.isAuthUser{*/\n/*    position: fixed;*/\n/*}*/\n.button-notfication[data-v-1f97621c] {\n    position: fixed;\n    bottom: 6px;\n    right: 10px;\n}\n.icon-button[data-v-1f97621c] {\n    position: relative;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    width: 50px;\n    height: 50px;\n    color: #333333;\n    background: #dddddd;\n    border: none;\n    outline: none;\n    border-radius: 50%;\n}\n.icon-button[data-v-1f97621c]:hover {\n     cursor: pointer;\n}\n.icon-button[data-v-1f97621c]:active {\n     background: #cccccc;\n}\n.icon-button__badge[data-v-1f97621c] {\n    position: absolute;\n    top: -10px;\n    right: -10px;\n    width: 25px;\n    height: 25px;\n    background: red;\n    color: #ffffff;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    border-radius: 50%;\n}\n#chat-inner[data-v-1f97621c] {\n    position: absolute;\n    top: -5px;\n    right:10px;\n    height:100%\n}\n.quick-chat-container[data-v-1f97621c]{\n    max-width: 310px;\n    min-width: 310px;\n}\n.quick-chat-container .container-message-manager .message-input[data-v-1f97621c]{\n    overflow:auto;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -54819,25 +54814,29 @@ var render = function () {
           })
         : _vm._e(),
       _vm._v(" "),
-      _vm.hoverNotificationButton
-        ? _c("div", { staticClass: "button-notfication" }, [
-            _c(
-              "button",
-              {
-                staticClass: "icon-button",
-                attrs: { type: "button" },
-                on: { click: _vm.hoverNotification },
-              },
-              [
-                _vm._m(0),
-                _vm._v(" "),
-                _vm.countMessage > 0
-                  ? _c("span", { staticClass: "icon-button__badge" }, [
-                      _vm._v(_vm._s(_vm.countMessage)),
-                    ])
-                  : _vm._e(),
-              ]
-            ),
+      _vm.isAuthUserAdmin
+        ? _c("div", { staticClass: "isAuthUser" }, [
+            _vm.hoverNotificationButton
+              ? _c("div", { staticClass: "button-notfication" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "icon-button",
+                      attrs: { type: "button" },
+                      on: { click: _vm.hoverNotification },
+                    },
+                    [
+                      _vm._m(0),
+                      _vm._v(" "),
+                      _vm.countMessage > 0
+                        ? _c("span", { staticClass: "icon-button__badge" }, [
+                            _vm._v(_vm._s(_vm.countMessage)),
+                          ])
+                        : _vm._e(),
+                    ]
+                  ),
+                ])
+              : _vm._e(),
           ])
         : _vm._e(),
     ],
