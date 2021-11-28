@@ -57,6 +57,7 @@ export default ({
             hoverMoreCoursesButton : true,
             currentCourseType : null,
             categoryOrCourseId : null,
+            allCoursesForLoadMore : [], 
         }
     },
 
@@ -70,8 +71,9 @@ export default ({
         }
         else { 
             this.getCourses()
+            // this.showFirstFiveCourses()
         }
-    },
+    },  
 
     methods : {
 
@@ -107,15 +109,17 @@ export default ({
 
             await this.axios.get(url)
                 .then(response => {
-                    let courses = response.data.courses;
-                    this.coursesArray = courses.splice(0,5);
+                    this.allCoursesForLoadMore = response.data.courses
+                    this.showFirstFiveCourses(this.allCoursesForLoadMore)
 
-                    if( this.coursesArray.length <= 4){
+                    if( this.coursesArray.length <= 4){     
                         this.hoverMoreCoursesButton = false
                     }
+                    
                     this.coursesArray.forEach((value, index) => {
                         this.$set(this.coursesArray[index], 'hoverBlockIntro', false)
-                    });
+                        this.$set(this.allCoursesForLoadMore[index], 'hoverBlockIntro', false)
+                    }); 
 
                 })
                 .catch(error => {
@@ -123,38 +127,28 @@ export default ({
                 })
         },
 
-        loadMoreCourses(){
-            
-            let lastCourse = this.coursesArray[this.coursesArray.length - 1];
-            let lastCourseId = lastCourse.id;
-            var lastCourseIndex = this.coursesArray.indexOf(lastCourse);
+        showFirstFiveCourses(allCourses){
+            this.coursesArray = allCourses.slice(0,5);
+        },
 
-            if ( this.categoryOrCourseId != null ){
-                var categoryOrCourseId = this.categoryOrCourseId
+        loadMoreCourses(){
+            let lastCourse = this.coursesArray[this.coursesArray.length - 1];
+            var lastCourseOFAllCoursesArray = this.allCoursesForLoadMore[this.allCoursesForLoadMore.length - 1];
+            let lastIndexOfLastCourse = this.coursesArray.indexOf(lastCourse) 
+
+            let spliceCourses = this.allCoursesForLoadMore.slice(lastIndexOfLastCourse + 1, lastIndexOfLastCourse + 1 + 5 ); 
+
+            spliceCourses.forEach((value, index) => {
+                this.coursesArray.push(spliceCourses[index])
+            }); 
+
+            console.log(lastCourse.id, 'lastCourse.id', lastCourseOFAllCoursesArray.id, 'lastCourseOFAllCoursesArray.id' )
+            
+            if( this.coursesArray[this.coursesArray.length - 1].id == lastCourseOFAllCoursesArray.id ){
+                this.hoverMoreCoursesButton = false
             }
 
-            this.axios.post('/api/load/more/courses', { lastCourseId, categoryOrCourseId , currentCourseType: this.currentCourseType })
-                .then(response => {
-                    let spliceCourses = response.data.moreCourses.splice(lastCourseIndex + 1, 5);
-
-                    spliceCourses.forEach((value, index) => {
-                        this.coursesArray.push(spliceCourses[index])
-                    });
-
-                    if( response.data.dbLastCourseId == this.coursesArray[this.coursesArray.length - 1].id){
-                        this.hoverMoreCoursesButton = false
-                    }
-
-                    console.log(lastCourseId)
-                    console.log(this.hoverMoreCoursesButton, "button"); 
-                    console.log(this.coursesArray, "array"); 
-
-
-                })
-                .catch( error => {
-                    console.log(error)
-                })
-        },
+        },      
 
         showBlockIntro(index){
             this.coursesArray[index].hoverBlockIntro = true;

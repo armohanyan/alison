@@ -35,14 +35,13 @@ class CourseController extends Controller
     public function getCourses() {
 
         $courses = Course::with('Category', 'CourseType')
-            ->limit(5)
             ->get();
 
         return response()->json([
-            'courses'  => $courses
+            'courses'  => $courses  
         ], 200);
 
-    }
+    }   
 
     // Get most popular courses for filtering.
     // Get courses, their category and course type, collect that and push into a new array.
@@ -83,7 +82,7 @@ class CourseController extends Controller
     public function loadMoreCourses(Request $request){
         $course = new Course();
 
-        if($request->currentCourseType == 'mostPopluar' ){
+        if( $request->currentCourseType == 'mostPopluar' ){
 
             $courses = $course->getMostPopularCourses();
         }

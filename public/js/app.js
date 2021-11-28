@@ -3145,7 +3145,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       coursesArray: [],
       hoverMoreCoursesButton: true,
       currentCourseType: null,
-      categoryOrCourseId: null
+      categoryOrCourseId: null,
+      allCoursesForLoadMore: []
     };
   },
   mounted: function mounted() {
@@ -3154,7 +3155,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     } else if (window.courseTypeId) {
       this.getCourses("courstype/id/".concat(window.courseTypeId, "/courses"));
     } else {
-      this.getCourses();
+      this.getCourses(); // this.showFirstFiveCourses()
     }
   },
   methods: {
@@ -3191,8 +3192,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context.next = 5;
                 return _this.axios.get(url).then(function (response) {
-                  var courses = response.data.courses;
-                  _this.coursesArray = courses.splice(0, 5);
+                  _this.allCoursesForLoadMore = response.data.courses;
+
+                  _this.showFirstFiveCourses(_this.allCoursesForLoadMore);
 
                   if (_this.coursesArray.length <= 4) {
                     _this.hoverMoreCoursesButton = false;
@@ -3200,6 +3202,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                   _this.coursesArray.forEach(function (value, index) {
                     _this.$set(_this.coursesArray[index], 'hoverBlockIntro', false);
+
+                    _this.$set(_this.allCoursesForLoadMore[index], 'hoverBlockIntro', false);
                   });
                 })["catch"](function (error) {
                   console.log(error);
@@ -3213,37 +3217,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
+    showFirstFiveCourses: function showFirstFiveCourses(allCourses) {
+      this.coursesArray = allCourses.slice(0, 5);
+    },
     loadMoreCourses: function loadMoreCourses() {
       var _this2 = this;
 
       var lastCourse = this.coursesArray[this.coursesArray.length - 1];
-      var lastCourseId = lastCourse.id;
-      var lastCourseIndex = this.coursesArray.indexOf(lastCourse);
-
-      if (this.categoryOrCourseId != null) {
-        var categoryOrCourseId = this.categoryOrCourseId;
-      }
-
-      this.axios.post('/api/load/more/courses', {
-        lastCourseId: lastCourseId,
-        categoryOrCourseId: categoryOrCourseId,
-        currentCourseType: this.currentCourseType
-      }).then(function (response) {
-        var spliceCourses = response.data.moreCourses.splice(lastCourseIndex + 1, 5);
-        spliceCourses.forEach(function (value, index) {
-          _this2.coursesArray.push(spliceCourses[index]);
-        });
-
-        if (response.data.dbLastCourseId == _this2.coursesArray[_this2.coursesArray.length - 1].id) {
-          _this2.hoverMoreCoursesButton = false;
-        }
-
-        console.log(lastCourseId);
-        console.log(_this2.hoverMoreCoursesButton, "button");
-        console.log(_this2.coursesArray, "array");
-      })["catch"](function (error) {
-        console.log(error);
+      var lastCourseOFAllCoursesArray = this.allCoursesForLoadMore[this.allCoursesForLoadMore.length - 1];
+      var lastIndexOfLastCourse = this.coursesArray.indexOf(lastCourse);
+      var spliceCourses = this.allCoursesForLoadMore.slice(lastIndexOfLastCourse + 1, lastIndexOfLastCourse + 1 + 5);
+      spliceCourses.forEach(function (value, index) {
+        _this2.coursesArray.push(spliceCourses[index]);
       });
+      console.log(lastCourse.id, 'lastCourse.id', lastCourseOFAllCoursesArray.id, 'lastCourseOFAllCoursesArray.id');
+
+      if (this.coursesArray[this.coursesArray.length - 1].id == lastCourseOFAllCoursesArray.id) {
+        this.hoverMoreCoursesButton = false;
+      }
     },
     showBlockIntro: function showBlockIntro(index) {
       this.coursesArray[index].hoverBlockIntro = true;
@@ -3623,13 +3614,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var _this = this;
 
     //Server for local
-    // var socket = io.connect("http://localhost:3000");
-    // Server for HEROKU
-    var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {
-      secure: true,
-      port: '3000',
-      transports: ['websocket']
-    });
+    var socket = io.connect("http://localhost:3000"); // Server for HEROKU
+    // var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {secure: true, port: '3000',transports : ['websocket'] });
+
     this.getAuthUser();
 
     if (localStorage.getItem('myself') != 1) {
@@ -3734,13 +3721,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, 1000);
     },
     onMessageSubmit: function onMessageSubmit(message) {
-      this.messages.push(message); // const socket = io.connect("http://localhost:3000");
+      this.messages.push(message);
+      var socket = io.connect("http://localhost:3000"); // var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {secure: true, port: '3000',transports : ['websocket'] });
 
-      var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {
-        secure: true,
-        port: '3000',
-        transports: ['websocket']
-      });
       var senderMessage = {
         'content': message['content'],
         'myself': false,
