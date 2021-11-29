@@ -33,19 +33,20 @@ return [
     'google' => [
         'client_id' => '450986371291-gg0tn2ma941id9d9ud3duehcimjmuhis.apps.googleusercontent.com',
         'client_secret' => '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',
-        'redirect' => 'https://alison-app-main.herokuapp.com/callback/google',
+        'redirect' => 'https://alison-application.herokuapp.com/callback/google',
     ],
 
     'facebook' => [
         'client_id' => '1203357340173808',
         'client_secret' => '666e226fcf5c47362ac29f19b71718b9',
-        'redirect' => 'https://alison-app-main.herokuapp.com/callback/facebook',
+        'redirect' => 'https://alison-application.herokuapp.com/callback/facebook',
     ],
 
     'linkedin' => [
         'client_id' => '77q9k92xpgmu64',
         'client_secret' => 'J7xgpyX09Z53qotj',
-        'redirect' => 'https://alison-app-main.herokuapp.com/callback/linkedin'
+        'redirect' => 'https://alison-application.herokuapp.com/callback/linkedin'
     ],
 ];
 
+    

@@ -50,13 +50,12 @@
 <script>
 
 export default ({
-    
+
     data() {
         return {
             coursesArray : [],
             hoverMoreCoursesButton : true,
-            currentCourseType : null,
-            categoryOrCourseId : null,
+            allCoursesForLoadMore : [],
         }
     },
 
@@ -68,8 +67,9 @@ export default ({
         else if(window.courseTypeId){
             this.getCourses(`courstype/id/${window.courseTypeId}/courses`)
         }
-        else { 
+        else {
             this.getCourses()
+            // this.showFirstFiveCourses()
         }
     },
 
@@ -82,74 +82,60 @@ export default ({
         async getCourses(type) {
             this.hoverMoreCoursesButton = true
             let url = '';
-            
+
             if(type == 'popular') {
-                
                 url = '/api/get/most-popular/courses';
-                this.currentCourseType = "mostPopluar"
             }
             else if(type == `category/${window.categoryId}/courses`){
-
                 url = `/api/get/category/${window.categoryId}/courses`
-                this.currentCourseType = "coursesByCategory"
-                this.categoryOrCourseId = window.categoryId
             }
             else if(type == `courstype/id/${window.courseTypeId}/courses`){
-
                 url = `/api/get/courstype/id/${window.courseTypeId}/courses`
-                this.currentCourseType = "coursesByType"
-                this.categoryOrCourseId = window.courseTypeId
             }
             else {
-                url = '/api/get/courses';     
-                this.currentCourseType = "allCourses"
+                url = '/api/get/courses';
             }
 
             await this.axios.get(url)
                 .then(response => {
-                    let courses = response.data.courses;
-                    
-                    this.coursesArray = courses.splice(0,5);
-            
+                    this.allCoursesForLoadMore = response.data.courses
+                    this.showFirstFiveCourses(this.allCoursesForLoadMore)
+
+                    if( this.coursesArray.length <= 4){
+                        this.hoverMoreCoursesButton = false
+                    }
+
                     this.coursesArray.forEach((value, index) => {
                         this.$set(this.coursesArray[index], 'hoverBlockIntro', false)
                     });
+
                 })
                 .catch(error => {
                     console.log(error)
                 })
         },
 
+        showFirstFiveCourses(allCourses){
+            this.coursesArray = allCourses.slice(0,5);
+        },
+
         loadMoreCourses(){
-            
-            let lastCourseId = this.coursesArray[this.coursesArray.length - 1].id;
-            var lastCourse = this.coursesArray[this.coursesArray.length - 1];
-            var lastCourseIndex = this.coursesArray.indexOf(lastCourse);
+            let lastCourse = this.coursesArray[this.coursesArray.length - 1];
+            var lastCourseOFAllCoursesArray = this.allCoursesForLoadMore[this.allCoursesForLoadMore.length - 1];
+            let lastIndexOfLastCourse = this.coursesArray.indexOf(lastCourse)
+            let spliceCourses = this.allCoursesForLoadMore.slice(lastIndexOfLastCourse + 1, lastIndexOfLastCourse + 1 + 5 );
 
-            if ( this.categoryOrCourseId != null ){
-                var categoryOrCourseId = this.categoryOrCourseId
+            spliceCourses.forEach((value, index) => {
+                this.coursesArray.push(spliceCourses[index])
+            });
+
+            this.coursesArray.forEach((value, index) => {
+                this.$set(this.coursesArray[index], 'hoverBlockIntro', false)
+            });
+
+            if( this.coursesArray[this.coursesArray.length - 1].id == lastCourseOFAllCoursesArray.id ){
+                this.hoverMoreCoursesButton = false
             }
-
-            this.axios.post('/api/load/more/courses', { lastCourseId, categoryOrCourseId , currentCourseType: this.currentCourseType })
-                .then(response => {
-                    
-                    let spliceCourses = response.data.moreCourses.splice(lastCourseIndex + 1, 5);
-                    console.log(spliceCourses, 'splice');
-                    console.log(lastCourseIndex);
-
-                    spliceCourses.forEach((value, index) => {
-                        this.coursesArray.push(spliceCourses[index])
-                    });
-
-                    if( response.data.dbLastCourseId == this.coursesArray[this.coursesArray.length - 1].id){
-                        this.hoverMoreCoursesButton = false
-                    }
-                    console.log(this.coursesArray, 'all courses')
-
-                })
-                .catch( error => {
-                    console.log(error)
-                })
         },
 
         showBlockIntro(index){

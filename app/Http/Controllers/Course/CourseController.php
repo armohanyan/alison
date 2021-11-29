@@ -35,14 +35,13 @@ class CourseController extends Controller
     public function getCourses() {
 
         $courses = Course::with('Category', 'CourseType')
-            ->limit(5)
             ->get();
 
         return response()->json([
-            'courses'  => $courses
+            'courses'  => $courses  
         ], 200);
 
-    }
+    }   
 
     // Get most popular courses for filtering.
     // Get courses, their category and course type, collect that and push into a new array.
@@ -80,35 +79,5 @@ class CourseController extends Controller
         ], 200);
     }
 
-    public function loadMoreCourses(Request $request){
-        $course = new Course();
-
-        if($request->currentCourseType == 'mostPopluar' ){
-
-            $courses = $course->getMostPopularCourses();
-            $dbLastCourseId = $courses->last()['id']; 
-        }
-        else if( $request->currentCourseType == 'coursesByCategory'){
-
-            $courses = $course->getCoursesCategoryOrType('category', $request->categoryOrCourseId );
-            $dbLastCourseId = $courses->last()['id']; 
-        }
-        else if($request->currentCourseType == 'coursesByType'){
-
-            $courses = $course->getCoursesCategoryOrType('course-type', $request->categoryOrCourseId );
-            $dbLastCourseId = $courses->last()['id']; 
-        }
-        else {
-
-            $dbLastCourseId = Course::orderBy('id', 'desc')->first()->id;
-    
-            $courses = Course::with('Category', 'CourseType')
-                ->get();
-        }
-
-        return response()->json([
-            'moreCourses'  => $courses,
-            'dbLastCourseId' => $dbLastCourseId,
-        ], 200);
-    }
 }
+    

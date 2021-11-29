@@ -3144,8 +3144,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       coursesArray: [],
       hoverMoreCoursesButton: true,
-      currentCourseType: null,
-      categoryOrCourseId: null
+      allCoursesForLoadMore: []
     };
   },
   mounted: function mounted() {
@@ -3154,7 +3153,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     } else if (window.courseTypeId) {
       this.getCourses("courstype/id/".concat(window.courseTypeId, "/courses"));
     } else {
-      this.getCourses();
+      this.getCourses(); // this.showFirstFiveCourses()
     }
   },
   methods: {
@@ -3175,24 +3174,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 if (type == 'popular') {
                   url = '/api/get/most-popular/courses';
-                  _this.currentCourseType = "mostPopluar";
                 } else if (type == "category/".concat(window.categoryId, "/courses")) {
                   url = "/api/get/category/".concat(window.categoryId, "/courses");
-                  _this.currentCourseType = "coursesByCategory";
-                  _this.categoryOrCourseId = window.categoryId;
                 } else if (type == "courstype/id/".concat(window.courseTypeId, "/courses")) {
                   url = "/api/get/courstype/id/".concat(window.courseTypeId, "/courses");
-                  _this.currentCourseType = "coursesByType";
-                  _this.categoryOrCourseId = window.courseTypeId;
                 } else {
                   url = '/api/get/courses';
-                  _this.currentCourseType = "allCourses";
                 }
 
                 _context.next = 5;
                 return _this.axios.get(url).then(function (response) {
-                  var courses = response.data.courses;
-                  _this.coursesArray = courses.splice(0, 5);
+                  _this.allCoursesForLoadMore = response.data.courses;
+
+                  _this.showFirstFiveCourses(_this.allCoursesForLoadMore);
+
+                  if (_this.coursesArray.length <= 4) {
+                    _this.hoverMoreCoursesButton = false;
+                  }
 
                   _this.coursesArray.forEach(function (value, index) {
                     _this.$set(_this.coursesArray[index], 'hoverBlockIntro', false);
@@ -3209,37 +3207,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
+    showFirstFiveCourses: function showFirstFiveCourses(allCourses) {
+      this.coursesArray = allCourses.slice(0, 5);
+    },
     loadMoreCourses: function loadMoreCourses() {
       var _this2 = this;
 
-      var lastCourseId = this.coursesArray[this.coursesArray.length - 1].id;
       var lastCourse = this.coursesArray[this.coursesArray.length - 1];
-      var lastCourseIndex = this.coursesArray.indexOf(lastCourse);
-
-      if (this.categoryOrCourseId != null) {
-        var categoryOrCourseId = this.categoryOrCourseId;
-      }
-
-      this.axios.post('/api/load/more/courses', {
-        lastCourseId: lastCourseId,
-        categoryOrCourseId: categoryOrCourseId,
-        currentCourseType: this.currentCourseType
-      }).then(function (response) {
-        var spliceCourses = response.data.moreCourses.splice(lastCourseIndex + 1, 5);
-        console.log(spliceCourses, 'splice');
-        console.log(lastCourseIndex);
-        spliceCourses.forEach(function (value, index) {
-          _this2.coursesArray.push(spliceCourses[index]);
-        });
-
-        if (response.data.dbLastCourseId == _this2.coursesArray[_this2.coursesArray.length - 1].id) {
-          _this2.hoverMoreCoursesButton = false;
-        }
-
-        console.log(_this2.coursesArray, 'all courses');
-      })["catch"](function (error) {
-        console.log(error);
+      var lastCourseOFAllCoursesArray = this.allCoursesForLoadMore[this.allCoursesForLoadMore.length - 1];
+      var lastIndexOfLastCourse = this.coursesArray.indexOf(lastCourse);
+      var spliceCourses = this.allCoursesForLoadMore.slice(lastIndexOfLastCourse + 1, lastIndexOfLastCourse + 1 + 5);
+      spliceCourses.forEach(function (value, index) {
+        _this2.coursesArray.push(spliceCourses[index]);
       });
+      this.coursesArray.forEach(function (value, index) {
+        _this2.$set(_this2.coursesArray[index], 'hoverBlockIntro', false);
+      });
+
+      if (this.coursesArray[this.coursesArray.length - 1].id == lastCourseOFAllCoursesArray.id) {
+        this.hoverMoreCoursesButton = false;
+      }
     },
     showBlockIntro: function showBlockIntro(index) {
       this.coursesArray[index].hoverBlockIntro = true;
@@ -3549,6 +3536,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3619,13 +3607,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var _this = this;
 
     //Server for local
-    // var socket = io.connect("http://localhost:3000");
-    // Server for HEROKU
-    var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {
-      secure: true,
-      port: '3000',
-      transports: ['websocket']
-    });
+    var socket = io.connect("http://localhost:3000"); // Server for HEROKU
+    // var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {secure: true, port: '3000',transports : ['websocket'] });
+
     this.getAuthUser();
 
     if (localStorage.getItem('myself') != 1) {
@@ -3660,6 +3644,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (response.data.authUser != null) {
                     localStorage.setItem('myself', response.data.authUser.id);
                     _this2.myself = response.data.authUser;
+                    _this2.isAuthUserAdmin = true;
                   }
                 });
 
@@ -3730,13 +3715,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, 1000);
     },
     onMessageSubmit: function onMessageSubmit(message) {
-      this.messages.push(message); // const socket = io.connect("http://localhost:3000");
+      this.messages.push(message);
+      var socket = io.connect("http://localhost:3000"); // var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {secure: true, port: '3000',transports : ['websocket'] });
 
-      var socket = io.connect("https://tranquil-badlands-87155.herokuapp.com/", {
-        secure: true,
-        port: '3000',
-        transports: ['websocket']
-      });
       var senderMessage = {
         'content': message['content'],
         'myself': false,
@@ -27321,7 +27302,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.category-list[data-v-307316de]{\n    height: 130px;\n    position: absolute;\n    display: none;\n    width: 100%;\n    background-color:#f7f7f7;\n    box-shadow: 0 4px 5px 0 rgb(0 0 0 / 75%);\n    padding-top:10px ;\n    text-align: center;\n    z-index:2;\n    top: 64px;\n}\n.ul-category-list[data-v-307316de]{\n    max-width: 95%;\n    justify-content: center;\n    list-style-type: disc;\n    display: flex;\n    flex-wrap:wrap;\n}\n.ul-category-list > li[data-v-307316de]{\n    margin-left:15px ;\n    max-width: 15%;\n}\n.ul-category-list > li[data-v-307316de] :hover {\n    color: #566d7f;\n}\n.sm-link[data-v-307316de]{\n    background-color: #e9edf1;\n    display: inline-block;\n    color: #566d7f;\n    width: 130px;\n    height: 114px;\n    vertical-align: middle;\n    padding-top: 9px;\n    border-bottom: 7px solid #fff;\n}\n\n/* li > * {\n    pointer-events: none;\n} */\n.sm-link[data-v-307316de] :hover{\n    display: inline-block;\n    color: #566d7f;\n}\n.sm-link i[data-v-307316de] {\n    font-size: 35px;\n    opacity: 0.7;\n    font-weight: 100;\n    margin-bottom: 7px;\n    display: inline-block;\n}\n\n/*.fa-desktop{*/\n/*    border-bottom : none !important*/\n/*}*/\n/*.category-name{*/\n/*    border-bottom : none !important*/\n/*}*/\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.category-list[data-v-307316de]{\n    height: 130px;\n    position: absolute;\n    display: none;\n    width: 100%;\n    background-color:#f7f7f7;\n    box-shadow: 0 4px 5px 0 rgb(0 0 0 / 75%);\n    padding-top:10px ;\n    text-align: center;\n    z-index:2;\n    top: 64px;\n}\n.ul-category-list[data-v-307316de]{\n    max-width: 95%;\n    justify-content: center;\n    list-style-type: disc;\n    display: flex;\n    flex-wrap:wrap;\n}\n.ul-category-list > li[data-v-307316de]{\n    margin-left:15px ;\n    max-width: 15%;\n}\n.ul-category-list > li[data-v-307316de] :hover {\n    color: #566d7f;\n}\n.sm-link[data-v-307316de]{\n    background-color: #e9edf1;\n    display: inline-block;\n    color: #566d7f;\n    width: 130px;\n    height: 114px;\n    vertical-align: middle;\n    padding-top: 9px;\n    border-bottom: 7px solid #fff;\n}\n\n/* li > * {\n    pointer-events: none;\n} */\n.sm-link[data-v-307316de] :hover{\n    display: inline-block;\n    color: #566d7f;\n}\n.sm-link i[data-v-307316de] {\n    font-size: 35px;\n    opacity: 0.7;\n    font-weight: 100;\n    margin-bottom: 7px;\n    display: inline-block;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -27441,7 +27422,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.button-notfication[data-v-1f97621c] {       \n    position: absolute;\n    bottom: 6px;\n    right: 10px;\n}\n.icon-button[data-v-1f97621c] {\n    position: relative;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    width: 50px;\n    height: 50px;\n    color: #333333;\n    background: #dddddd;\n    border: none;\n    outline: none;\n    border-radius: 50%;\n}\n.icon-button[data-v-1f97621c]:hover {\n     cursor: pointer;\n}\n.icon-button[data-v-1f97621c]:active {\n     background: #cccccc;\n}\n.icon-button__badge[data-v-1f97621c] {\n    position: absolute;\n    top: -10px;\n    right: -10px;\n    width: 25px;\n    height: 25px;\n    background: red;\n    color: #ffffff;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    border-radius: 50%;\n}\n#chat-inner[data-v-1f97621c] {\n    position: absolute;\n    top: -5px;\n    right:10px;\n    height:100%\n}\n.quick-chat-container[data-v-1f97621c]{\n    max-width: 310px;\n    min-width: 310px;\n}\n.quick-chat-container .container-message-manager .message-input[data-v-1f97621c]{ \n    overflow:auto;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.button-notfication[data-v-1f97621c] {\n    position: absolute;\n    bottom: 6px;\n    right: 10px;\n}\n.icon-button[data-v-1f97621c] {\n    position: relative;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    width: 50px;\n    height: 50px;\n    color: #333333;\n    background: #dddddd;\n    border: none;\n    outline: none;\n    border-radius: 50%;\n}\n.icon-button[data-v-1f97621c]:hover {\n     cursor: pointer;\n}\n.icon-button[data-v-1f97621c]:active {\n     background: #cccccc;\n}\n.icon-button__badge[data-v-1f97621c] {\n    position: absolute;\n    top: -10px;\n    right: -10px;\n    width: 25px;\n    height: 25px;\n    background: red;\n    color: #ffffff;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    border-radius: 50%;\n}\n#chat-inner[data-v-1f97621c] {\n    position: fixed;\n    bottom: 0;\n    right:10px;\n    height:335px;\n}\n.quick-chat-container[data-v-1f97621c]{\n    max-width: 310px;\n    min-width: 310px;\n}\n.quick-chat-container .container-message-manager .message-input[data-v-1f97621c]{\n    overflow:auto;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -54832,25 +54813,29 @@ var render = function () {
           })
         : _vm._e(),
       _vm._v(" "),
-      _vm.hoverNotificationButton
-        ? _c("div", { staticClass: "button-notfication" }, [
-            _c(
-              "button",
-              {
-                staticClass: "icon-button",
-                attrs: { type: "button" },
-                on: { click: _vm.hoverNotification },
-              },
-              [
-                _vm._m(0),
-                _vm._v(" "),
-                _vm.countMessage > 0
-                  ? _c("span", { staticClass: "icon-button__badge" }, [
-                      _vm._v(_vm._s(_vm.countMessage)),
-                    ])
-                  : _vm._e(),
-              ]
-            ),
+      _vm.isAuthUserAdmin
+        ? _c("div", { staticClass: "isAuthUser" }, [
+            _vm.hoverNotificationButton
+              ? _c("div", { staticClass: "button-notfication" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "icon-button",
+                      attrs: { type: "button" },
+                      on: { click: _vm.hoverNotification },
+                    },
+                    [
+                      _vm._m(0),
+                      _vm._v(" "),
+                      _vm.countMessage > 0
+                        ? _c("span", { staticClass: "icon-button__badge" }, [
+                            _vm._v(_vm._s(_vm.countMessage)),
+                          ])
+                        : _vm._e(),
+                    ]
+                  ),
+                ])
+              : _vm._e(),
           ])
         : _vm._e(),
     ],
